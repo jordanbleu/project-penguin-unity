@@ -1,6 +1,7 @@
 using Source.Extensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Source.Behaviors
 {
@@ -10,7 +11,7 @@ namespace Source.Behaviors
         private bool _isLeftBlaster = false;
         
         [SerializeField]
-        private GameObject bulletToSpawn;
+        private GameObject bulletPrefab;
 
         [SerializeField]
         [Tooltip("Line this up with where the sprite's gun barrels are")]
@@ -23,11 +24,11 @@ namespace Source.Behaviors
 
             if (_isLeftBlaster)
             {
-                Instantiate(bulletToSpawn).At(position.x - spread, position.y);
+                Instantiate(bulletPrefab).At(position.x - spread, position.y);
             }
             else
             {
-                Instantiate(bulletToSpawn).At(position.x + spread, position.y);
+                Instantiate(bulletPrefab).At(position.x + spread, position.y);
             }
 
         }

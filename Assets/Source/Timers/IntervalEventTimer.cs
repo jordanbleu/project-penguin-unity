@@ -1,0 +1,40 @@
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace Source.Timers
+{
+    /// <summary>
+    /// Triggers a unity event over and over on a fixed interval.
+    /// </summary>
+    public class IntervalEventTimer : MonoBehaviour
+    {
+        [SerializeField] private float intervalSeconds = 1;
+        [SerializeField] private UnityEvent onIntervalReached = new();
+        
+
+        private float _currentTime = 0f;
+        
+        private void Update()
+        {
+            
+            _currentTime +=  Time.deltaTime;
+
+            if (_currentTime >= intervalSeconds)
+            {
+                onIntervalReached?.Invoke();
+                _currentTime = 0;
+
+            }
+        }
+
+        public void SetInterval(float seconds)
+        {
+            intervalSeconds = seconds;
+        }
+
+        public void AddEventListener(UnityAction action) =>
+            onIntervalReached.AddListener(action);
+
+
+    }
+}

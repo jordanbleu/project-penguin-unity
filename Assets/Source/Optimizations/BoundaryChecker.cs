@@ -15,6 +15,9 @@ namespace Source.Optimizations
         [SerializeField] 
         [Tooltip("Width / height of the boundary box")]
         private Vector2 boundarySize = new Vector2(10, 10);
+
+        [SerializeField] [Tooltip("If true, will flip to the opposite side of the boundaries if out of bounds (enemy behavior)")]
+        private bool flipToOtherSide = false;
         
         [SerializeField]
         private UnityEvent onOutOfBounds = new();
@@ -26,29 +29,51 @@ namespace Source.Optimizations
             var y = position.y;
             
             var minY = boundaryPosition.y - boundarySize.y;
+            var maxY = boundaryPosition.y;
+            
             if (y < minY)
             {
+                if (flipToOtherSide)
+                {
+                    transform.position = new Vector2(x, maxY);
+                }
+
                 onOutOfBounds?.Invoke();
                 return;
             }
 
-            var maxY = boundaryPosition.y;
             if (y > maxY)
             {
+                if (flipToOtherSide)
+                {
+                    transform.position = new Vector2(x, minY);
+                }
+
                 onOutOfBounds?.Invoke();
                 return;
             }
 
             var minX = boundaryPosition.x;
+            var maxX = boundarySize.x + boundaryPosition.x;
             if (x < minX)
             {
+                
+                if (flipToOtherSide)
+                {
+                    transform.position = new Vector2(maxX, y);
+                }
+
+                
                 onOutOfBounds?.Invoke();
                 return;
             }
 
-            var maxX = boundarySize.x + boundaryPosition.x;
             if (x > maxX)
             {
+                if (flipToOtherSide)
+                {
+                    transform.position = new Vector2(minX, y);
+                }
                 onOutOfBounds?.Invoke();
                 return;
             }

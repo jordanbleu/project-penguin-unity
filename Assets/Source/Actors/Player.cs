@@ -3,7 +3,6 @@ using Source.Behaviors;
 using Source.Extensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Source.Actors
 {
@@ -42,7 +41,6 @@ namespace Source.Actors
 
         private void OnShoot(InputValue inputValue)
         {
-            cameraImpulseSource.GenerateImpulse(0.25f);
             blaster.Shoot();
         }
 
