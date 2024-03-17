@@ -1,7 +1,5 @@
 using Source.Extensions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace Source.Behaviors
 {
@@ -15,7 +13,7 @@ namespace Source.Behaviors
 
         [SerializeField]
         [Tooltip("Line this up with where the sprite's gun barrels are")]
-        private float spread = 2f;
+        private float spread = 0.5f;
         
         public void Shoot()
         {

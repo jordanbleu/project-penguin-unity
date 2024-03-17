@@ -1,0 +1,84 @@
+using System;
+using Cinemachine;
+using Source.Behaviors;
+using Source.Constants;
+using Source.Extensions;
+using Source.Interfaces;
+using Source.Projectiles;
+using UnityEngine;
+using UnityEngine.Serialization;
+
+namespace Source.Actors
+{
+    public class DiveBomb : MonoBehaviour, IAttackResponder, ICollideWithPlayerResponder
+    {
+        private const float CameraImpulseForce = 1f;
+
+        [SerializeField] private Attackable attackable;
+        [SerializeField] private float verticalMaxVelocity = 2f;
+        [SerializeField] private float horizontalMaxVelocity = 2f;
+        
+        [SerializeField] 
+        private Animator animator;
+        
+        [SerializeField] 
+        private CinemachineImpulseSource cameraImpulseSource;
+
+        [SerializeField] private Rigidbody2D rigidBody;
+        
+        private static readonly int DeathAnimatorTrigger = Animator.StringToHash("death");
+
+        private GameObject _player;
+
+        private void Start()
+        {
+            _player = GameObject.FindWithTag(Tags.Player);
+        }
+
+        private void Update()
+        {
+            var position = transform.position;
+            var playerPosition = _player.transform.position;
+
+            var xVelocity = 0f;
+
+            if (position.x.IsWithin(0.5f, playerPosition.x))
+            {
+                rigidBody.velocity = new Vector2(0f, -verticalMaxVelocity);
+                return;
+            }
+
+            if (position.x < playerPosition.x)
+            {
+                xVelocity = horizontalMaxVelocity;
+            }
+            else
+            {
+                xVelocity = -horizontalMaxVelocity;
+            }
+
+            rigidBody.velocity = new Vector2(xVelocity, -verticalMaxVelocity);
+        }
+
+        public void AttackedByBullet(GameObject bullet)
+        {
+            bullet.GetComponent<PlayerBullet>().HitSomething();
+            attackable.Die();
+        }
+
+        public void AttackedByLaser(GameObject laser) =>
+            attackable.Die();
+
+        public void OnDeath()
+        {
+            cameraImpulseSource.GenerateImpulse(CameraImpulseForce);
+            animator.SetTrigger(DeathAnimatorTrigger);
+        }
+
+        public void CollideWithPlayer(Player playerComponent)
+        {
+            playerComponent.TakeDamage(15);
+            attackable.Die();
+        }
+    }
+}

@@ -1,30 +1,33 @@
-using System;
+using Source.Interfaces;
 using Source.Projectiles;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Source.Behaviors
 {
     /// <summary>
     /// Used for objects that can be destroyed by the player
     /// </summary>
-    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(IAttackResponder))]
     public class Attackable : MonoBehaviour
     {
-        private bool triggeredDeathEvent = false;
+        private bool _triggeredDeathEvent = false;
         [SerializeField] private int health = 10;
-        [SerializeField] private UnityEvent onHitByPlayerBullet = new();
-        [SerializeField] private UnityEvent onHitByPlayerLaser = new();
-        [SerializeField] private UnityEvent onDead = new();
+
+        private IAttackResponder _responder;
+
+        private void Start()
+        {
+            _responder = GetComponent<IAttackResponder>();
+        }
 
         public void Damage(int baseDamage)
         {
             health -= baseDamage;
 
-            if (!triggeredDeathEvent && health <= 0)
+            if (!_triggeredDeathEvent && health <= 0)
             {
-                triggeredDeathEvent = true;
-                onDead?.Invoke();
+                _triggeredDeathEvent = true;
+                _responder.OnDeath();
             }
         }
 
@@ -38,21 +41,20 @@ namespace Source.Behaviors
             HandleCollidedGameObject(other.gameObject);
         }
 
-        private void HandleCollidedGameObject(GameObject collidingObject)
+        private void HandleCollidedGameObject(GameObject other)
         {
-            var tag = collidingObject.tag;
-            
-            switch (tag)
+            switch (other.tag)
             {
                 case "player-bullet":
-                    onHitByPlayerBullet?.Invoke();
-                    collidingObject.GetComponent<PlayerBullet>().HitSomething();
+                    _responder.AttackedByBullet(other);
                     break;
                 case "player-laser":
-                    onHitByPlayerLaser?.Invoke();
+                    _responder.AttackedByLaser(other);
                     break;
             }
-            
         }
+
+        public void Die() => Damage(health);
     }
+    
 }

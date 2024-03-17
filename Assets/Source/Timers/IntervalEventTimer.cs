@@ -32,6 +32,14 @@ namespace Source.Timers
             intervalSeconds = seconds;
         }
 
+        /// <summary>
+        /// Sets the interval to a random value up to the max interval
+        /// </summary>
+        public void PreWarm()
+        {
+            _currentTime = UnityEngine.Random.Range(0, intervalSeconds);
+        }
+
         public void AddEventListener(UnityAction action) =>
             onIntervalReached.AddListener(action);
 
