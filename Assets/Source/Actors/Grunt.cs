@@ -52,7 +52,7 @@ namespace Source.Actors
             attackable.Damage(1);
             rigidBody2d.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
             cameraImpulseSource.GenerateImpulse(CameraImpulseForce);
-            bullet.GetComponent<PlayerBullet>().HitSomething();
+            bullet.GetComponent<Bullet>().HitSomething();
         }
 
         public void AttackedByLaser(GameObject laser)

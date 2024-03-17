@@ -62,12 +62,18 @@ namespace Source.Actors
 
         public void AttackedByBullet(GameObject bullet)
         {
-            bullet.GetComponent<PlayerBullet>().HitSomething();
+            bullet.GetComponent<Bullet>().HitSomething();
             attackable.Die();
         }
 
         public void AttackedByLaser(GameObject laser) =>
             attackable.Die();
+
+        public void PickRandomXPosition()
+        {
+            var position = transform.position;
+            transform.position = new Vector2(UnityEngine.Random.Range(-17, 17), position.y);
+        }
 
         public void OnDeath()
         {

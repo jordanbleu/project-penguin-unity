@@ -22,11 +22,11 @@ namespace Source.Behaviors
 
             if (_isLeftBlaster)
             {
-                Instantiate(bulletPrefab).At(position.x - spread, position.y);
+                Instantiate(bulletPrefab).At(position.x - spread, position.y+0.5f);
             }
             else
             {
-                Instantiate(bulletPrefab).At(position.x + spread, position.y);
+                Instantiate(bulletPrefab).At(position.x + spread, position.y+0.5f);
             }
 
         }

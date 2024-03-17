@@ -1,7 +1,9 @@
+using System;
 using Cinemachine;
 using Source.Behaviors;
 using Source.Extensions;
 using Source.Interfaces;
+using Source.Projectiles;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -57,6 +59,16 @@ namespace Source.Actors
             var collisionResponder = other.gameObject.GetComponent<ICollideWithPlayerResponder>();
 
             collisionResponder?.CollideWithPlayer(this);
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            var gameObj = other.gameObject;
+
+            if (gameObj.TryGetComponent<IEnemyProjectile>(out var enemyProjectile))
+            {
+                enemyProjectile.HitPlayer(this);
+            }
         }
 
         public void AddForceToPlayer(Vector2 force)

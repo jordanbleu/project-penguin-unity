@@ -11,12 +11,9 @@ namespace Source.Actors
 {
     
     /// <summary>
-    /// Animation opens and closes, enemy is only vulnerable
-    /// for certain frames.
-    ///
-    /// Bullets will ricochet
+    /// Basic catchall behavior for many enemy types.
     /// </summary>
-    public class DeathStar : MonoBehaviour, IAttackResponder, ICollideWithPlayerResponder
+    public class SimpleEnemy : MonoBehaviour, IAttackResponder, ICollideWithPlayerResponder
     {
         private const float ForceAgainstPlayer = 20f;
         private const float Speed = 2f;
@@ -27,8 +24,20 @@ namespace Source.Actors
         [SerializeField] private CinemachineImpulseSource impulseSource;
         [SerializeField] private Rigidbody2D rigidBody;
         [SerializeField] private Attackable attackable;
+
+        [SerializeField]
+        [Tooltip("How fast downward the enemy moves")]
+        private float speed = 2f;
         
-        private bool _isVulnerable = false;
+        [SerializeField] 
+        [Tooltip("When colliding with the player will apply a strong force against them")]
+        private bool repelPlayerOnCollide = true;
+        
+        [SerializeField]
+        [Tooltip("Damage to apply to the player on collide")]
+        private int playerCollisionDamage = 0;
+        
+        private bool _isVulnerable = true;
         private static readonly int DeathAnimatorTrigger = Animator.StringToHash("death");
 
         public void SetVulnerable() => 
@@ -39,7 +48,7 @@ namespace Source.Actors
 
         private void Start()
         {
-            rigidBody.velocity = new Vector2(0, -2);
+            rigidBody.velocity = new Vector2(0, -Speed);
         }
 
         private void FixedUpdate()
@@ -58,7 +67,7 @@ namespace Source.Actors
 
         public void AttackedByBullet(GameObject bullet)
         {
-            var bulletComponent = bullet.GetComponent<PlayerBullet>();
+            var bulletComponent = bullet.GetComponent<Bullet>();
             
             if (_isVulnerable)
             {
@@ -68,12 +77,9 @@ namespace Source.Actors
                 attackable.Damage(1);
                 return;
             }
-
-            var xVel = UnityEngine.Random.Range(-3, 3);
-            // else ricochet
+            
+            // enemy is shielded
             bulletComponent.Ricochet();
-
-
         }
 
         public void AttackedByLaser(GameObject laser)
@@ -88,9 +94,24 @@ namespace Source.Actors
 
         public void CollideWithPlayer(Player playerComponent)
         {
-            var xVelocity = RandomUtils.Choose(-ForceAgainstPlayer, ForceAgainstPlayer);
-            playerComponent.AddForceToPlayer(new Vector2(xVelocity, -10));
-            impulseSource.GenerateImpulseWithForce(3f);
+            if (repelPlayerOnCollide)
+            {
+                var xVelocity = RandomUtils.Choose(-ForceAgainstPlayer, ForceAgainstPlayer);
+                playerComponent.AddForceToPlayer(new Vector2(xVelocity, -10));
+                impulseSource.GenerateImpulseWithForce(3f);
+            }
+
+            if (playerCollisionDamage > 0f)
+            {
+                playerComponent.TakeDamage(playerCollisionDamage);
+            }
         }
+        
+        public void PickRandomXPosition()
+        {
+            var position = transform.position;
+            transform.position = new Vector2(UnityEngine.Random.Range(-17, 17), position.y);
+        }
+
     }
 }

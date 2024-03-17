@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Source.Projectiles
 {
-    public class PlayerBullet : MonoBehaviour
+    public class Bullet : MonoBehaviour
     {
         [SerializeField] private Animator animator;
         [SerializeField] private ConstantForce2D constantForce2D;
