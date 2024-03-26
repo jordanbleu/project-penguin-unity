@@ -11,7 +11,6 @@ namespace Source.Timers
         [SerializeField] private float intervalSeconds = 1;
         [SerializeField] private UnityEvent onIntervalReached = new();
         
-
         private float _currentTime = 0f;
         
         private void Update()
@@ -27,6 +26,10 @@ namespace Source.Timers
             }
         }
 
+        /// <summary>
+        /// Sets the timer's interval in seconds
+        /// </summary>
+        /// <param name="seconds"></param>
         public void SetInterval(float seconds)
         {
             intervalSeconds = seconds;
