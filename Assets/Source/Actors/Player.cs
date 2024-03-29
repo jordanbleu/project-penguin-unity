@@ -19,6 +19,10 @@ namespace Source.Actors
         [SerializeField]
         private float thrust = 120;
 
+        [SerializeField]
+        [Tooltip("How much thrust is applied when dashing ")]
+        private float dashThrust = 40;
+        
         [Tooltip("Player's current HP.")]
         [SerializeField]
         private int health = 100;
@@ -32,14 +36,19 @@ namespace Source.Actors
         [SerializeField] 
         private GameObject playerLaserPrefab;
 
+        [SerializeField]
+        private GameObject playerDashAnimationPrefab;
+        
         [SerializeField] 
         private CinemachineImpulseSource cameraImpulseSource;
 
-        [SerializeField] private Animator animator;
+        [SerializeField] 
+        private Animator animator;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
-
+        private int _lastDirection = 1;
+        
         private void FixedUpdate()
         {
             rigidBody.AddForce(_inputVelocity * thrust, ForceMode2D.Force);
@@ -87,6 +96,13 @@ namespace Source.Actors
         private void OnMove(InputValue inputValue)
         {
             var inputVector = inputValue.Get<Vector2>();
+            var xDirection = Math.Sign(inputVector.x);
+
+            if (xDirection != 0)
+            {
+                _lastDirection = xDirection;
+            }
+
             _inputVelocity = inputVector;
         }
 
@@ -100,6 +116,14 @@ namespace Source.Actors
             var position = transform.position;
             Instantiate(playerLaserPrefab).At(position.x, position.y + 8);
         }
+
+        private void OnDash(InputValue inputValue)
+        {
+            var position = transform.position;
+            Instantiate(playerDashAnimationPrefab).At(position);
+            rigidBody.AddForce(new(_lastDirection * dashThrust, 0), ForceMode2D.Impulse);
+        }
+
 
         #endregion
         

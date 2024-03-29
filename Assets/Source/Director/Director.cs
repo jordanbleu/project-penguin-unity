@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.PlayerLoop;
 
 namespace Source.Director
 {
@@ -17,49 +14,50 @@ namespace Source.Director
     /// </summary>
     public class Director : MonoBehaviour
     {
-        [SerializeField] [Tooltip("List of game objects, each containing one ISegment component.")]
-        private List<GameSegment> segmentList;
-
-        [SerializeField] [Tooltip("What to do when all segments are completed")]
+        [SerializeField] 
+        [Tooltip("List of game objects, each containing one component inheriting from `GameInstruction`.")]
+        private List<GameInstruction> gameplayInstructionList; 
+        
+        [SerializeField] 
+        [Tooltip("What to do when all segments are completed")]
         private UnityEvent onSegmentsCompleted = new();
 
-        private Queue<GameSegment> _segments;
-        private GameSegment _currentSegment;
+        private Queue<GameInstruction> _gameInstructions;
+        private GameInstruction _currentInstruction;
         
         private void Start()
         {
-            _segments = new Queue<GameSegment>(segmentList);
-            BeginNextSegment();
+            _gameInstructions = new Queue<GameInstruction>(gameplayInstructionList);
+            BeginNextInstruction();
         }
 
         private void Update()
         {
-            if (_currentSegment is null)
+            if (_currentInstruction is null)
                 return;
 
-            if (_currentSegment.IsSegmentComplete())
-                BeginNextSegment();
+            if (_currentInstruction.IsInstructionComplete())
+                BeginNextInstruction();
             
         }
 
-        private void BeginNextSegment()
+        private void BeginNextInstruction()
         {
-            if (_currentSegment is not null)
+            if (_currentInstruction is not null)
             {
-                _currentSegment.SegmentEnd();
-                _currentSegment.gameObject.SetActive(false);
+                _currentInstruction.InstructionEnd();
+                _currentInstruction.gameObject.SetActive(false);
             }
 
-            
-            if (!_segments.TryDequeue(out _currentSegment))
+            if (!_gameInstructions.TryDequeue(out _currentInstruction))
             {
-                _currentSegment = null;
+                _currentInstruction = null;
                 onSegmentsCompleted.Invoke();
                 return;
             }
 
-            _currentSegment.gameObject.SetActive(true);
-            _currentSegment.SegmentBegin();
+            _currentInstruction.gameObject.SetActive(true);
+            _currentInstruction.InstructionBegin();
             
         }
 

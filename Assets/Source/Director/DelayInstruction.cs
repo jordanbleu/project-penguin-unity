@@ -4,11 +4,11 @@ using UnityEngine;
 namespace Source.Director
 {
     [Tooltip("Considers itself complete when the attached timer completes")]
-    public class DelaySegment : GameSegment
+    public class DelayInstruction : GameInstruction
     {
         [SerializeField] private float seconds = 5f;
 
-        private bool _isComplete = false;
+        private bool _isComplete;
         private IntervalEventTimer _timer;
 
         private void Start()
@@ -24,7 +24,7 @@ namespace Source.Director
             _timer.enabled = false;
         }
         
-        public override bool IsSegmentComplete() => _isComplete;
+        public override bool IsInstructionComplete() => _isComplete;
 
     }
 }
