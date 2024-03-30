@@ -3,7 +3,8 @@ using Cinemachine;
 using Source.Behaviors;
 using Source.Extensions;
 using Source.Interfaces;
-using Source.Projectiles;
+using Source.Timers;
+using Source.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,9 @@ namespace Source.Actors
     {
         // how long after taking damage the player can take more damage
         private const float DamageCooldownMax = 2;
-        private float _collisionCooldownTime = 0f;
+        private const float HealthRegenRate = 2f;
+        private const float HealthRegenDelay = 8f;
+        private const float EnergyRegenRate = 0.5f;
         
         [Tooltip("How much thrust is applied when moving ship.")]
         [SerializeField]
@@ -26,6 +29,10 @@ namespace Source.Actors
         [Tooltip("Player's current HP.")]
         [SerializeField]
         private int health = 100;
+        
+        [Tooltip("Player's current energy.")]
+        [SerializeField]
+        private int energy = 100;
         
         [SerializeField]
         private DoubleBlaster blaster;
@@ -44,11 +51,74 @@ namespace Source.Actors
 
         [SerializeField] 
         private Animator animator;
+
+        [SerializeField]
+        private DisplayBar healthDiplayBar;
+        
+        [SerializeField]
+        private DisplayBar energyDiplayBar;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
         private int _lastDirection = 1;
-        
+
+        private float _currentHealthRegenDelay = 0f;
+        private float _collisionCooldownTime = 0f;
+
+        private void Start()
+        {
+            var healthRegenInterval = gameObject.AddComponent<IntervalEventTimer>();
+            healthRegenInterval.SetInterval(HealthRegenRate);
+            healthRegenInterval.AddEventListener(RegenHealth);
+
+            var energyRegenInterval = gameObject.AddComponent<IntervalEventTimer>();
+            energyRegenInterval.SetInterval(EnergyRegenRate);
+            energyRegenInterval.AddEventListener(RegenEnergy);
+        }
+
+        private void RegenEnergy()
+        {
+            if (energy == 100)
+                return;
+
+            if (energy >= 98)
+            {
+                energy = 100;
+            }
+            else
+            {
+                energy += 2;
+            }
+            RefreshHud();
+        }
+
+        // called on interval for health regen
+        private void RegenHealth()
+        {
+            if (_currentHealthRegenDelay > 0f)
+                return;
+            
+            if (health == 100)
+                return;
+            
+            if (health >= 97)
+            {
+                health = 100;
+            }
+            else
+            {
+                health += 3;
+            }
+
+            RefreshHud();
+        }
+
+        private void RefreshHud()
+        {
+            energyDiplayBar.SetValue(energy / 100f);
+            healthDiplayBar.SetValue(health / 100f);
+        }
+
         private void FixedUpdate()
         {
             rigidBody.AddForce(_inputVelocity * thrust, ForceMode2D.Force);
@@ -56,8 +126,14 @@ namespace Source.Actors
 
         private void Update()
         {
+            var dt = Time.deltaTime;
+            
             if (_collisionCooldownTime > 0f)
-                _collisionCooldownTime -= Time.deltaTime;
+                _collisionCooldownTime -= dt;
+
+            if (_currentHealthRegenDelay > 0f)
+                _currentHealthRegenDelay -= dt;
+
         }
 
         private void OnCollisionStay2D(Collision2D other)
@@ -85,10 +161,12 @@ namespace Source.Actors
         
         public void TakeDamage(int amount)
         {
+            _currentHealthRegenDelay = HealthRegenDelay;
             animator.SetTrigger(DamageAnimatorParam);
             cameraImpulseSource.GenerateImpulse(amount/5f);
             health -= amount;
             _collisionCooldownTime = DamageCooldownMax;
+            RefreshHud();
         }
 
         #region Input Events
@@ -113,15 +191,39 @@ namespace Source.Actors
 
         private void OnLaser(InputValue inputValue)
         {
+            var requiredEnergy = 30;
+
+            if (energy < requiredEnergy)
+            {
+                energyDiplayBar.Error();
+                return;
+            }
+
             var position = transform.position;
             Instantiate(playerLaserPrefab).At(position.x, position.y + 8);
+
+            energy -= requiredEnergy;
+
+            RefreshHud();
+
         }
 
         private void OnDash(InputValue inputValue)
         {
+            var requiredEnergy = 10;
+            
+            if (energy < requiredEnergy)
+            {
+                energyDiplayBar.Error();
+                return;
+            }
+            
             var position = transform.position;
             Instantiate(playerDashAnimationPrefab).At(position);
             rigidBody.AddForce(new(_lastDirection * dashThrust, 0), ForceMode2D.Impulse);
+
+            energy -= requiredEnergy;
+            RefreshHud();
         }
 
 

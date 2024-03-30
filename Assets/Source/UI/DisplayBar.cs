@@ -3,9 +3,41 @@ using UnityEngine.UI;
 
 namespace Source.UI
 {
-    public class DisplayBar
+    public class DisplayBar : MonoBehaviour
     {
+        private float _errorTweenOffset = 20f;
+        
         [SerializeField]
         private Image barImage;
+
+        public void SetValue(float value)
+        {
+            var obj = barImage.gameObject;
+            
+            if (value < 0)
+                value = 0;
+
+            if (LeanTween.isTweening(obj))
+            {
+                LeanTween.cancel(obj);
+            }
+
+            LeanTween.scaleY(barImage.gameObject, value, 1f)
+                .setEase(LeanTweenType.easeOutElastic);
+        }
+
+        public void Error()
+        {
+            var parent = barImage.gameObject.transform.parent.gameObject;
+
+            if (LeanTween.isTweening(parent))
+                return;
+            
+            var position = parent.transform.position;
+
+            LeanTween.moveX(parent, position.x + _errorTweenOffset, 0.5f)
+                .setEase(LeanTweenType.punch)
+                .setOnComplete(()=>LeanTween.moveX(parent, position.x, 0.5f));
+        }
     }
 }
