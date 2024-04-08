@@ -12,7 +12,8 @@ namespace Source.Timers
         [SerializeField] private UnityEvent onIntervalReached = new();
         
         private float _currentTime = 0f;
-        
+        public float CurrentTime => _currentTime;
+
         private void Update()
         {
             

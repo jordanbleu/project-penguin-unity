@@ -26,7 +26,7 @@ namespace Source.UI
                 .setEase(LeanTweenType.easeOutQuad);
         }
 
-        public void Error()
+        public void BounceDown()
         {
             var parent = barImage.gameObject.transform.parent.gameObject;
 
@@ -35,9 +35,23 @@ namespace Source.UI
             
             var position = parent.transform.position;
 
-            LeanTween.moveX(parent, position.x + _errorTweenOffset, 0.5f)
+            LeanTween.moveY(parent, position.y + _errorTweenOffset, 0.5f)
                 .setEase(LeanTweenType.punch)
-                .setOnComplete(()=>LeanTween.moveX(parent, position.x, 0.5f));
+                .setOnComplete(()=>LeanTween.moveY(parent, position.y, 0.5f));
+        }
+        
+        public void BounceUp()
+        {
+            var parent = barImage.gameObject.transform.parent.gameObject;
+
+            if (LeanTween.isTweening(parent))
+                return;
+            
+            var position = parent.transform.position;
+
+            LeanTween.moveY(parent, position.y - _errorTweenOffset, 0.5f)
+                .setEase(LeanTweenType.punch)
+                .setOnComplete(()=>LeanTween.moveY(parent, position.y, 0.5f));
         }
     }
 }

@@ -74,6 +74,11 @@ namespace Source.Actors
             throw new NotImplementedException();
         }
 
+        public void HitByMineExplosion(GameObject explosion)
+        {
+            throw new NotImplementedException();
+        }
+
         public void PickRandomXPosition()
         {
             var position = transform.position;

@@ -92,6 +92,17 @@ namespace Source.Actors
             attackable.Damage(10);
         }
 
+        public void HitByMineExplosion(GameObject explosion)
+        {
+            Instantiate(damageEffectPrefab, gameObject.transform);
+            attackable.Damage(5);
+            
+            var xForce = UnityEngine.Random.Range(-8f, 8f);
+            var yForce = UnityEngine.Random.Range(-8f, -5f);
+
+            rigidBody.AddForce(new(xForce, yForce), ForceMode2D.Impulse);
+        }
+
         public void OnDeath()
         {
             rigidBody.velocity = Vector2.zero;

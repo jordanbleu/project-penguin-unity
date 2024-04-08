@@ -49,6 +49,9 @@ namespace Source.Actors
 
         [SerializeField]
         private GameObject playerMissilePrefab;
+
+        [SerializeField]
+        private GameObject playerMinePrefab;
         
         [SerializeField]
         private GameObject shieldAborbEffectPrefab;
@@ -185,6 +188,7 @@ namespace Source.Actors
                 return true;
             }
 
+            healthDiplayBar.BounceUp();
             _currentHealthRegenDelay = HealthRegenDelay;
             animator.SetTrigger(DamageAnimatorParam);
             cameraImpulseSource.GenerateImpulse(amount/5f);
@@ -204,7 +208,7 @@ namespace Source.Actors
         {
             if (energy < amount)
             {
-                energyDiplayBar.Error();
+                energyDiplayBar.BounceUp();
                 return false;
             }
 
@@ -277,6 +281,16 @@ namespace Source.Actors
                 return;
 
             Instantiate(playerMissilePrefab).At(transform.position);
+        }
+
+        private void OnMine(InputValue inputValue)
+        {
+            var requiredEnergy = 30;
+
+            if (!TryReduceEnergy(requiredEnergy))
+                return;
+
+            Instantiate(playerMinePrefab).At(transform.position);
         }
 
 
