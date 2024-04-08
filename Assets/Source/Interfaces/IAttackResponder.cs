@@ -11,6 +11,7 @@ namespace Source.Interfaces
     {
         void AttackedByBullet(GameObject bullet);
         void AttackedByLaser(GameObject laser);
+        void HitByMissileExplosion(GameObject explosion);
         void OnDeath();
     }
 }

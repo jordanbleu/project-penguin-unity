@@ -1,5 +1,4 @@
 using Source.Interfaces;
-using Source.Projectiles;
 using UnityEngine;
 
 namespace Source.Behaviors

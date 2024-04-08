@@ -4,7 +4,7 @@ using Source.Behaviors;
 using Source.Constants;
 using Source.Extensions;
 using Source.Interfaces;
-using Source.Projectiles;
+using Source.Weapons;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -68,6 +68,11 @@ namespace Source.Actors
 
         public void AttackedByLaser(GameObject laser) =>
             attackable.Die();
+
+        public void HitByMissileExplosion(GameObject explosion)
+        {
+            throw new NotImplementedException();
+        }
 
         public void PickRandomXPosition()
         {

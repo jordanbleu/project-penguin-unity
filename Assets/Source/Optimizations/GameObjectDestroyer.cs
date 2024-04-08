@@ -14,5 +14,10 @@ namespace Source.Optimizations
             GameObject.Destroy(gameObject);
         }
 
+        public void DeactivateSelf()
+        {
+            gameObject.SetActive(false);
+        }
+
     }
 }

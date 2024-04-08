@@ -5,6 +5,7 @@ using Source.Extensions;
 using Source.Interfaces;
 using Source.Timers;
 using Source.UI;
+using Source.Weapons;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,6 +46,12 @@ namespace Source.Actors
 
         [SerializeField]
         private GameObject playerDashAnimationPrefab;
+
+        [SerializeField]
+        private GameObject playerMissilePrefab;
+        
+        [SerializeField]
+        private GameObject shieldAborbEffectPrefab;
         
         [SerializeField] 
         private CinemachineImpulseSource cameraImpulseSource;
@@ -57,14 +64,19 @@ namespace Source.Actors
         
         [SerializeField]
         private DisplayBar energyDiplayBar;
+
+        [SerializeField]
+        private PlayerShield shield;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
         private int _lastDirection = 1;
 
         private float _currentHealthRegenDelay = 0f;
-        private float _collisionCooldownTime = 0f;
+        private float _damageCooldownTime = 0f;
 
+        public bool ShieldProtectionEnabled { get; set; }
+        
         private void Start()
         {
             var healthRegenInterval = gameObject.AddComponent<IntervalEventTimer>();
@@ -87,7 +99,7 @@ namespace Source.Actors
             }
             else
             {
-                energy += 2;
+                energy += 4;
             }
             RefreshHud();
         }
@@ -128,8 +140,8 @@ namespace Source.Actors
         {
             var dt = Time.deltaTime;
             
-            if (_collisionCooldownTime > 0f)
-                _collisionCooldownTime -= dt;
+            if (_damageCooldownTime > 0f)
+                _damageCooldownTime -= dt;
 
             if (_currentHealthRegenDelay > 0f)
                 _currentHealthRegenDelay -= dt;
@@ -138,9 +150,6 @@ namespace Source.Actors
 
         private void OnCollisionStay2D(Collision2D other)
         {
-            if (_collisionCooldownTime > 0f)
-                return;
-
             var collisionResponder = other.gameObject.GetComponent<ICollideWithPlayerResponder>();
 
             collisionResponder?.CollideWithPlayer(this);
@@ -150,23 +159,58 @@ namespace Source.Actors
         {
             var gameObj = other.gameObject;
 
-            if (gameObj.TryGetComponent<IEnemyProjectile>(out var enemyProjectile))
-            {
-                enemyProjectile.HitPlayer(this);
-            }
+            if (!gameObj.TryGetComponent<IEnemyProjectile>(out var enemyProjectile)) 
+                return;
+
+            enemyProjectile.HitPlayer(this);
         }
 
         public void AddForceToPlayer(Vector2 force)
             => rigidBody.AddForce(force, ForceMode2D.Impulse);
         
-        public void TakeDamage(int amount)
+        public bool TakeDamage(int amount)
         {
+            if (_damageCooldownTime > 0)
+                return false;
+            
+            if (ShieldProtectionEnabled)
+            {
+                // spawn an absorb effect somewhere around the player
+                var position = transform.position;
+                var ox = position.x + UnityEngine.Random.Range(-0.5f, 0.5f);
+                var oy = position.y + UnityEngine.Random.Range(-0.5f, 0.5f);
+
+                _damageCooldownTime = DamageCooldownMax;
+                Instantiate(shieldAborbEffectPrefab).At(ox, oy);
+                return true;
+            }
+
             _currentHealthRegenDelay = HealthRegenDelay;
             animator.SetTrigger(DamageAnimatorParam);
             cameraImpulseSource.GenerateImpulse(amount/5f);
             health -= amount;
-            _collisionCooldownTime = DamageCooldownMax;
+            _damageCooldownTime = DamageCooldownMax;
             RefreshHud();
+            return true;
+        }
+
+        /// <summary>
+        /// If the player has enough energy, reduced it and refreshes the hud.
+        /// else, does the energy bar error animation and return false.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        private bool TryReduceEnergy(int amount)
+        {
+            if (energy < amount)
+            {
+                energyDiplayBar.Error();
+                return false;
+            }
+
+            energy -= amount;
+            RefreshHud();
+            return true;
         }
 
         #region Input Events
@@ -193,37 +237,46 @@ namespace Source.Actors
         {
             var requiredEnergy = 30;
 
-            if (energy < requiredEnergy)
-            {
-                energyDiplayBar.Error();
+            if (!TryReduceEnergy(requiredEnergy))
                 return;
-            }
 
             var position = transform.position;
             Instantiate(playerLaserPrefab).At(position.x, position.y + 8);
-
-            energy -= requiredEnergy;
-
-            RefreshHud();
-
         }
 
         private void OnDash(InputValue inputValue)
         {
             var requiredEnergy = 10;
             
-            if (energy < requiredEnergy)
-            {
-                energyDiplayBar.Error();
+            if (!TryReduceEnergy(requiredEnergy))
                 return;
-            }
             
             var position = transform.position;
             Instantiate(playerDashAnimationPrefab).At(position);
             rigidBody.AddForce(new(_lastDirection * dashThrust, 0), ForceMode2D.Impulse);
+        }
 
-            energy -= requiredEnergy;
-            RefreshHud();
+        private void OnShield(InputValue inputValue)
+        {
+            if (shield.gameObject.activeInHierarchy)
+                return;
+
+            var requiredEnergy = 20;
+
+            if (!TryReduceEnergy(requiredEnergy))
+                return;
+            
+            shield.gameObject.SetActive(true);
+        }
+
+        private void OnMissile(InputValue inputValue)
+        {
+            var requiredEnergy = 30;
+
+            if (!TryReduceEnergy(requiredEnergy))
+                return;
+
+            Instantiate(playerMissilePrefab).At(transform.position);
         }
 
 

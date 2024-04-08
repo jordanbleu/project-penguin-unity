@@ -2,13 +2,13 @@ using System;
 using Cinemachine;
 using Source.Behaviors;
 using Source.Interfaces;
-using Source.Projectiles;
 using Source.Timers;
+using Source.Weapons;
 using UnityEngine;
 
 namespace Source.Actors
 {
-    public class Grunt : MonoBehaviour, IAttackResponder, ICollideWithPlayerResponder
+    public class Grunt : MonoBehaviour, ICollideWithPlayerResponder, IAttackResponder
     {
         private const float CameraImpulseForce = 1f;
         private static readonly int DeathAnimatorTrigger = Animator.StringToHash("death");
@@ -63,6 +63,11 @@ namespace Source.Actors
             rigidBody2d.AddForce(new Vector2(xForce, 5), ForceMode2D.Impulse);
             
             // camera impulse not needed since the laser already does one.
+        }
+
+        public void HitByMissileExplosion(GameObject explosion)
+        {
+            throw new NotImplementedException();
         }
 
         public void OnDeath()

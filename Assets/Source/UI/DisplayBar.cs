@@ -22,8 +22,8 @@ namespace Source.UI
                 LeanTween.cancel(obj);
             }
 
-            LeanTween.scaleY(barImage.gameObject, value, 1f)
-                .setEase(LeanTweenType.easeOutElastic);
+            LeanTween.scaleY(barImage.gameObject, value, 0.25f)
+                .setEase(LeanTweenType.easeOutQuad);
         }
 
         public void Error()

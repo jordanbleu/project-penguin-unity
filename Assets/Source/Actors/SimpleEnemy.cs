@@ -3,8 +3,8 @@ using Cinemachine;
 using Source.Behaviors;
 using Source.Extensions;
 using Source.Interfaces;
-using Source.Projectiles;
 using Source.Utilities;
+using Source.Weapons;
 using UnityEngine;
 
 namespace Source.Actors
@@ -84,6 +84,12 @@ namespace Source.Actors
 
         public void AttackedByLaser(GameObject laser)
         {
+        }
+
+        public void HitByMissileExplosion(GameObject explosion)
+        {
+            Instantiate(damageEffectPrefab, gameObject.transform);
+            attackable.Damage(10);
         }
 
         public void OnDeath()

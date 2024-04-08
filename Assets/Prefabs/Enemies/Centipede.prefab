@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 9091213302455916709}
   - component: {fileID: 2255253238728028655}
   - component: {fileID: 124929795875586974}
+  - component: {fileID: 993870380679141414}
   m_Layer: 9
   m_Name: Centipede
   m_TagString: Untagged
@@ -268,6 +269,18 @@ MonoBehaviour:
   randomizeInterval: 0
   bulletPrefab: {fileID: 246940042024443775, guid: 1dd90087100e14c79875cd5a05527efa, type: 3}
   positionOffset: {x: 0, y: -2}
+--- !u!114 &993870380679141414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608593437903202699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4f88e709c84f76a337aa4a59c3893e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3787822906796139049
 GameObject:
   m_ObjectHideFlags: 0

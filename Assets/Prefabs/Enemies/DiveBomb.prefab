@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3300510317040572828}
   - component: {fileID: 2016399671203432773}
   - component: {fileID: 891858848323933964}
+  - component: {fileID: 7797027399568525994}
   m_Layer: 0
   m_Name: DiveBomb
   m_TagString: enemy-divebomb
@@ -250,6 +251,18 @@ MonoBehaviour:
   onOutOfBounds:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7797027399568525994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135027665245813045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4f88e709c84f76a337aa4a59c3893e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8257425101822814934
 GameObject:
   m_ObjectHideFlags: 0
