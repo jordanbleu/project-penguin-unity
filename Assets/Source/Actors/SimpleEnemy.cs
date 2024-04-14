@@ -16,8 +16,7 @@ namespace Source.Actors
     public class SimpleEnemy : MonoBehaviour, IAttackResponder, ICollideWithPlayerResponder
     {
         private const float ForceAgainstPlayer = 20f;
-        private const float Speed = 2f;
-        private const float Acceleration = 0.1f;
+        private const float Acceleration = 0.5f;
         
         [SerializeField] private Animator animator;
         [SerializeField] private GameObject damageEffectPrefab;
@@ -48,7 +47,7 @@ namespace Source.Actors
 
         private void Start()
         {
-            rigidBody.velocity = new Vector2(0, -Speed);
+            rigidBody.velocity = new Vector2(0, speed);
         }
 
         private void FixedUpdate()
@@ -56,9 +55,9 @@ namespace Source.Actors
             // if speed is knocked off course, accelerate back to speed.
             var currentVelocity = rigidBody.velocity;
             
-            if (currentVelocity.y.IsWithin(Acceleration, Speed)) return;
+            if (currentVelocity.y.IsWithin(Acceleration, speed)) return;
 
-            var nextYValue = currentVelocity.y.Stabilize(Acceleration, -Speed);
+            var nextYValue = currentVelocity.y.Stabilize(Acceleration, speed);
             var nextXValue = currentVelocity.x.Stabilize(Acceleration, 0);
 
             rigidBody.velocity = new Vector2(nextXValue, nextYValue);

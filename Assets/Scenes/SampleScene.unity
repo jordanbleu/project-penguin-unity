@@ -862,7 +862,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.010465663, y: -1.6626997, z: -10}
+  m_LocalPosition: {x: -0.010440046, y: -1.6626997, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2278,6 +2278,7 @@ MonoBehaviour:
   playerDashAnimationPrefab: {fileID: 5873556493672899699, guid: 6882fe2031b28429488097fe4f0b5f92, type: 3}
   playerMissilePrefab: {fileID: 4438734272570597685, guid: b9894dafd9fca4e0c82faadcaedbff94, type: 3}
   playerMinePrefab: {fileID: 5712850858173384633, guid: 6b8231d2a6a4c450da34a175e70903fd, type: 3}
+  forcefieldPrefab: {fileID: 2635724902989441420, guid: fb5d378d5c7fb4598ab5c7898e3bbb19, type: 3}
   shieldAborbEffectPrefab: {fileID: 5306925799245126350, guid: 0d6a9d888179246d499d3114dd9b79b3, type: 3}
   cameraImpulseSource: {fileID: 1562546723}
   animator: {fileID: 1562546724}
@@ -3531,6 +3532,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 307996454641955588, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
+      propertyPath: boundarySize.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 307996454641955588, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
+      propertyPath: boundaryPosition.y
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 608593437903202699, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
       propertyPath: m_Name
       value: Centipede
@@ -3538,6 +3547,10 @@ PrefabInstance:
     - target: {fileID: 608593437903202699, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 684600167618175613, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
+      propertyPath: speed
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 2299874306903175665, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3578,6 +3591,10 @@ PrefabInstance:
     - target: {fileID: 2299874306903175665, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7514261979626863860, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
+      propertyPath: m_Mass
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

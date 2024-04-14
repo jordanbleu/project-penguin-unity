@@ -52,6 +52,9 @@ namespace Source.Actors
 
         [SerializeField]
         private GameObject playerMinePrefab;
+
+        [SerializeField]
+        private GameObject forcefieldPrefab;
         
         [SerializeField]
         private GameObject shieldAborbEffectPrefab;
@@ -293,6 +296,16 @@ namespace Source.Actors
             Instantiate(playerMinePrefab).At(transform.position);
         }
 
+        private void OnForcefield(InputValue inputValue)
+        {
+            var requiredEnergy = 50;
+
+            if (!TryReduceEnergy(requiredEnergy))
+                return;
+            var position = transform.position;
+            var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
+            Instantiate(forcefieldPrefab).At(adjustedPosition);
+        }
 
         #endregion
         

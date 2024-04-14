@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Emp",
+                    "name": "Forcefield",
                     "type": "Button",
                     "id": "d1813463-c158-4be4-8f62-53d7f3b2abeb",
                     "expectedControlType": "Button",
@@ -284,7 +284,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Emp",
+                    "action": "Forcefield",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
