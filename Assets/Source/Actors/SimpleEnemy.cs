@@ -55,13 +55,12 @@ namespace Source.Actors
             // if speed is knocked off course, accelerate back to speed.
             var currentVelocity = rigidBody.velocity;
             
-            if (currentVelocity.y.IsWithin(Acceleration, speed)) return;
+            if (currentVelocity.y.IsWithin(Acceleration, speed) && currentVelocity.x.IsWithin(Acceleration, 0)) return;
 
             var nextYValue = currentVelocity.y.Stabilize(Acceleration, speed);
             var nextXValue = currentVelocity.x.Stabilize(Acceleration, 0);
 
             rigidBody.velocity = new Vector2(nextXValue, nextYValue);
-
         }
 
         public void AttackedByBullet(GameObject bullet)
