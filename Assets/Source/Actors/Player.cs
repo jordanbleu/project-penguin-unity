@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using Source.Behaviors;
+using Source.Dialogue;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Timers;
@@ -73,6 +74,9 @@ namespace Source.Actors
 
         [SerializeField]
         private PlayerShield shield;
+
+        [SerializeField]
+        private TextTyper textTyper;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
@@ -305,6 +309,15 @@ namespace Source.Actors
             var position = transform.position;
             var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
             Instantiate(forcefieldPrefab).At(adjustedPosition);
+        }
+
+        private void OnMenuEnter(InputValue inputValue)
+        {
+            if (textTyper is null || !textTyper.isActiveAndEnabled)
+                return;
+
+            textTyper.CycleDialogue();
+
         }
 
         #endregion
