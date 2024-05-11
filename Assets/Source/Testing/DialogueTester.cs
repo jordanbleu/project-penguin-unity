@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using Source.Dialogue;
 using Source.UI;
 using UnityEngine;
 
@@ -11,7 +8,7 @@ namespace Source.Testing
         [SerializeField]
         private InGameDialoguePresenter w;
         
-        private void OnEnable()
+        private void Start()
         {
             w.PresentDialogue("example");
         }

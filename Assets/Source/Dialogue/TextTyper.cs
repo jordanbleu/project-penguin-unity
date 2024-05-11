@@ -48,7 +48,7 @@ namespace Source.Dialogue
         
         private void Update()
         {
-            if (_currentAction is TypeCharAction)
+            if (IsTypingLetters())
             {
                 var deltaTime = Time.deltaTime;
                 _typeElapsedTime += deltaTime;
@@ -76,13 +76,15 @@ namespace Source.Dialogue
             
             textMesh.SetText(_displayText.ToString());
         }
+        
+        public bool IsTypingLetters() => _currentAction is TypeCharAction;
 
         public bool IsTyping()
         {
             return _currentAction is not null;
         }
 
-        public void CycleDialogue()
+        public void CycleDialogue() //todo fix bug with thing ending early.
         {
             if (IsTyping())
             {
@@ -126,7 +128,6 @@ namespace Source.Dialogue
 
         private void ParseNextLine()
         {
-            onDialogueLineBegin?.Invoke();
             _displayText.Clear();
             
             if (!_dataLines.TryDequeue(out var nextLine))
@@ -168,6 +169,9 @@ namespace Source.Dialogue
             var dialogueLine = nextLineParts[2];
             
             _currentActionQueue = DialogueActionFactory.ParseAndGenerateActionQueue(dialogueLine);
+            
+            onDialogueLineBegin?.Invoke();
+
         }
     }
 

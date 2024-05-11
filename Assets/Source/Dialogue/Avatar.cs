@@ -7,7 +7,7 @@ namespace Source.Dialogue
     {
         None = 0,
         Cyber = 1,
-                
+        Socket = 2,
     }
     
     /*

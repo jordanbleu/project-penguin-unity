@@ -29,7 +29,12 @@ namespace Source.UI
             typer.OnDialogueLineEnd.AddListener(DoneSpeaking);
             dialogueAnimator.gameObject.SetActive(false);
         }
-        
+
+        private void Update()
+        {
+            dialogueAnimator.SetBool(IsSpeakingAnimatorParameter, typer.IsTypingLetters());
+        }
+
         /// <summary>
         /// Starts the animation to begin animating dialogue
         /// </summary>

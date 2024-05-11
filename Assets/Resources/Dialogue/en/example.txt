@@ -2,7 +2,5 @@
 # any line starting with # is ignored.
 
 Cyber|asa|[shake]Look out![delay,0.5] There's a thing!
-Cyber|ssdf|What...[delay,1] thing?
-Cyber|test|I live in a giant bucket.
+Socket|test|I live in a giant bucket.
 Cyber|sdaf|[shake]FUYOOOOH!
-Cyber|sdaf|Goodbye.
