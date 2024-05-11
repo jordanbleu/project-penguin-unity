@@ -9,6 +9,7 @@ using Source.UI;
 using Source.Weapons;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Source.Actors
 {
@@ -76,7 +77,7 @@ namespace Source.Actors
         private PlayerShield shield;
 
         [SerializeField]
-        private TextTyper textTyper;
+        private DialogueTyper dialogueTyper;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
@@ -313,10 +314,10 @@ namespace Source.Actors
 
         private void OnMenuEnter(InputValue inputValue)
         {
-            if (textTyper is null || !textTyper.isActiveAndEnabled)
+            if (dialogueTyper is null || !dialogueTyper.isActiveAndEnabled)
                 return;
 
-            textTyper.CycleDialogue();
+            dialogueTyper.UserCycleDialogue();
 
         }
 

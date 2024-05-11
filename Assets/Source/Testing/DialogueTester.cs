@@ -8,9 +8,9 @@ namespace Source.Testing
         [SerializeField]
         private InGameDialoguePresenter w;
         
-        private void Start()
+        private void OnEnable()
         {
-            w.PresentDialogue("example");
+            w.PresentDialogueFromFile("example");
         }
     }
 }

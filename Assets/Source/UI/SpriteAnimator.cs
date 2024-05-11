@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,9 @@ namespace Source.UI
         {
             if (!_isPlaying)
                 return;
+
+            if (!frames.Any())
+                return;
             
             _elapsedTime += Time.deltaTime;
 
@@ -40,7 +44,7 @@ namespace Source.UI
 
             _imageIndex += 1;
 
-            if (_imageIndex > frames.Length)
+            if (_imageIndex >= frames.Length)
             {
                 _imageIndex = 0;
             }
@@ -59,7 +63,20 @@ namespace Source.UI
 
         public void Reset()
         {
+            if (!frames.Any())
+                return;
+            
             _imageIndex = 0;
+            uiImage.sprite = frames[0];
         }
+
+        public void SwapFrames(Sprite[] newFrames)
+        {
+            Stop();
+            frames = newFrames;
+        }
+
+        public void SetFrameDelay(float seconds) => secondsPerFrame = seconds;
+
     }
 }
