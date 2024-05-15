@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Source.Dialogue
@@ -14,11 +15,12 @@ namespace Source.Dialogue
 
             var speed = DefaultTypeSpeed;
 
-            if (lineParts.Length > 3)
+            
+            if (lineParts.Length > 3 && !float.TryParse(lineParts[3], out speed))
             {
-                speed = float.Parse(lineParts[3]);
+                throw new FormatException($"Unable to parse '{lineParts[3]}' as a float");
             }
-
+            
             var preEvents = new string[] { };
             
             if (lineParts.Length > 4)

@@ -22,6 +22,9 @@ namespace Source.UI
         [SerializeField]
         private SpriteAnimator avatarAnimator;
 
+        [SerializeField]
+        private GameObject doneTypingIndicator;
+
         private Dictionary<string, Sprite[]> _avatarSpriteMappings;
         
         private string _avatarId;
@@ -31,12 +34,13 @@ namespace Source.UI
             dialogueTyper.OnDialogueComplete.AddListener(OnCompleted);
             dialogueTyper.OnLineBegin.AddListener(OnLineBegin);
             dialogueTyper.OnLineComplete.AddListener(OnLineEnd);
-
+            doneTypingIndicator.SetActive(false);
             _avatarSpriteMappings = GetComponent<AvatarSpriteMapping>().ToDictionary();
         }
 
         public void PresentDialogueFromFile(string filePath)
         {
+            doneTypingIndicator.SetActive(false);
             LeanTween.moveLocalY(gameObject, OnScreenY, AnimationSeconds)
                 .setEase(LeanTweenType.easeInOutBack);
             
@@ -81,6 +85,7 @@ namespace Source.UI
 
         private void OnLineBegin()
         {
+            doneTypingIndicator.SetActive(false);
             var avatarId = dialogueTyper.AvatarId ?? "";
 
             // update the avatar if needed
@@ -100,6 +105,7 @@ namespace Source.UI
 
         private void OnLineEnd()
         {
+            doneTypingIndicator.SetActive(true);
             // the first frame is always the 'idle' non-speaking frame
             avatarAnimator.Stop();
         }
