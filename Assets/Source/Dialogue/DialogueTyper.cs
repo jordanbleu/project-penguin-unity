@@ -26,6 +26,8 @@ namespace Source.Dialogue
         public UnityEvent OnLineBegin { get; private set; } = new();
         public UnityEvent OnDialogueComplete { get; private set; } = new();
         
+        public UnityEvent OnDialogueBegin { get; private set; } = new();
+        
         private Queue<DialogueLine> _queue = new();
         private DialogueLine _currentLine;
         private int _charIndex = 0;
@@ -106,6 +108,7 @@ namespace Source.Dialogue
 
         public void Present(List<DialogueLine> lines)
         {
+            OnDialogueBegin?.Invoke();
             gameObject.SetActive(true);
             _queue = new Queue<DialogueLine>(lines);
             DequeueNextLine();

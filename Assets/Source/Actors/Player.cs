@@ -85,7 +85,8 @@ namespace Source.Actors
 
         private float _currentHealthRegenDelay = 0f;
         private float _damageCooldownTime = 0f;
-
+        private bool _isWeaponsLocked = false;
+        
         public bool ShieldProtectionEnabled { get; set; }
         
         private void Start()
@@ -97,7 +98,12 @@ namespace Source.Actors
             var energyRegenInterval = gameObject.AddComponent<IntervalEventTimer>();
             energyRegenInterval.SetInterval(EnergyRegenRate);
             energyRegenInterval.AddEventListener(RegenEnergy);
+            
+            dialogueTyper.OnDialogueBegin.AddListener(() => _isWeaponsLocked = true);
+            dialogueTyper.OnDialogueComplete.AddListener(() => _isWeaponsLocked = false);
         }
+        
+        
 
         private void RegenEnergy()
         {
@@ -242,11 +248,16 @@ namespace Source.Actors
 
         private void OnShoot(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
             blaster.Shoot();
         }
 
         private void OnLaser(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 30;
 
             if (!TryReduceEnergy(requiredEnergy))
@@ -270,6 +281,9 @@ namespace Source.Actors
 
         private void OnShield(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             if (shield.gameObject.activeInHierarchy)
                 return;
 
@@ -283,6 +297,9 @@ namespace Source.Actors
 
         private void OnMissile(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 30;
 
             if (!TryReduceEnergy(requiredEnergy))
@@ -293,6 +310,9 @@ namespace Source.Actors
 
         private void OnMine(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 30;
 
             if (!TryReduceEnergy(requiredEnergy))
@@ -300,9 +320,18 @@ namespace Source.Actors
 
             Instantiate(playerMinePrefab).At(transform.position);
         }
-
+        
         private void OnForcefield(InputValue inputValue)
         {
+            if (dialogueTyper is not null && dialogueTyper.isActiveAndEnabled)
+            {
+                dialogueTyper.UserCycleDialogue();
+                return;
+            }
+            
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 50;
 
             if (!TryReduceEnergy(requiredEnergy))
@@ -312,6 +341,8 @@ namespace Source.Actors
             Instantiate(forcefieldPrefab).At(adjustedPosition);
         }
 
+        
+        
         private void OnMenuEnter(InputValue inputValue)
         {
             if (dialogueTyper is null || !dialogueTyper.isActiveAndEnabled)

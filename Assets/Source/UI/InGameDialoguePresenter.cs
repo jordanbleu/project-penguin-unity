@@ -44,7 +44,7 @@ namespace Source.UI
             LeanTween.moveLocalY(gameObject, OnScreenY, AnimationSeconds)
                 .setEase(LeanTweenType.easeInOutBack);
             
-            // todo: show some sort of cool loading thing 
+            // begin asynchronously loading the dialogue, then present 
             StartCoroutine(PresentDialogueInternal(filePath));
         }
 
@@ -71,6 +71,9 @@ namespace Source.UI
         {
             dialogueTyper.Present(dialogueLines);
         }
+        
+        
+        
 
         /// <summary>
         /// Dialogue presentation is over
