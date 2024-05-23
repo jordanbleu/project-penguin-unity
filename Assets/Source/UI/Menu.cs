@@ -1,4 +1,5 @@
 using System;
+using Source.Extensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,9 +14,17 @@ namespace Source.UI
         // how many items to display per page
         private const int PageSize = 5;
         
+        // positioning
+        private const float OffScreenPosition = -200f;
+        private const float OnScreenPosition = 0f;
+        
         // positioning variables
         private const float MenuItemTopPosition = 50;
         private const float MenuItemSpacing = 25;
+        
+        // Animation times
+        private const float MenuAnimationTime = 1f;
+        
         
         [SerializeField]
         private GameObject menuItemPrefab;
@@ -30,13 +39,16 @@ namespace Source.UI
         
         [SerializeField]
         private TMP_FontAsset fontAsset;
+
+        [SerializeField]
+        private UnityEvent onGoBack = new();
         
         // this is the selectors position on screen, so would be anywhere from 0 to pageSize
         private int _selectorPosition = 0;
         
         // this is the items that the menu is currently offset by.
         private int _currentPageOffset = 0;
-        
+        private bool _ready = false;
         private TextMeshProUGUI[] _menuItems;
         
         private void Start()
@@ -45,7 +57,7 @@ namespace Source.UI
             
             for (var i=0;i<PageSize;i++)
             {
-                var menuItem = Instantiate(menuItemPrefab, transform);
+                var menuItem = Instantiate(menuItemPrefab, transform).WithName("MenuItem" + i); 
                 menuItem.transform.localPosition = new Vector3(0, MenuItemTopPosition - (i * MenuItemSpacing), 0);
                 _textMeshes[i] = menuItem.GetComponentInChildren<TextMeshProUGUI>();
             }
@@ -54,11 +66,49 @@ namespace Source.UI
             RefreshMenuItems();
         }
 
+        private void OnEnable()
+        {
+            transform.localPosition = new Vector3(0, OffScreenPosition, 0);
+
+            // animate menu in
+            LeanTween.moveLocalY(gameObject, OnScreenPosition, MenuAnimationTime)
+                .setEase(LeanTweenType.easeInOutBack)
+                .setOnComplete(Ready);
+        }
+        
+        private void Ready()
+        {
+            _ready = true;
+        }
+
         // applies proper styles to the selected item and unstyles the rest
         private void RefreshMenuItems()
         {
-            selector.transform.localPosition = new(0, MenuItemTopPosition - _selectorPosition*MenuItemSpacing,0);
-            
+            if (LeanTween.isTweening(selector))
+            {
+                LeanTween.cancel(selector);
+            }
+
+            var oldY = selector.transform.localPosition.y;
+            var newY = MenuItemTopPosition - _selectorPosition * MenuItemSpacing;
+
+            if ((int)newY != (int)oldY)
+            {
+                LeanTween.moveLocalY(selector, newY, 0.5f).setEase(LeanTweenType.easeOutElastic);
+            }
+            else
+            {
+                // do a little bounce
+                
+                var bounceDirection = _selectorPosition == 0 ? 1 : -1;
+                
+                LeanTween.moveLocalY(selector, oldY + 3 * bounceDirection, 0.25f).setEase(LeanTweenType.easeOutElastic)
+                    .setOnComplete(() =>
+                        LeanTween.moveLocalY(selector, oldY, 0.25f));
+
+            }
+
+
             for (var i=0;i<PageSize;i++)
             {
                 if (i == _selectorPosition)
@@ -93,6 +143,9 @@ namespace Source.UI
         
         public void MoveCursorUp(InputAction.CallbackContext context)
         {
+            if (!_ready)
+                return;
+            
             // if the button is pressed.
             if (!context.started)
                 return;
@@ -114,6 +167,9 @@ namespace Source.UI
         
         public void MoveCursorDown(InputAction.CallbackContext context)
         {
+            if (!_ready)
+                return;
+            
             // if the button is pressed.
             if (!context.started)
                 return;
@@ -132,19 +188,37 @@ namespace Source.UI
             }
             RefreshMenuItems();
         }
-
+        
         public void MenuEnter(InputAction.CallbackContext context)
         {
+            if (!_ready)
+                return;
+            
             // if the button is pressed.
             if (!context.started)
                 return;
+
+            // selector does the squeeze animation 
+            var oldScaleY = selector.transform.localScale.y;
+            LeanTween.scaleY(selector, 0.8f, 0.1f).setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
+            
             
             menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected.Invoke();
+        }
+
+        public void DismissMenu()
+        {
+            _ready = false;
             
+            LeanTween.moveLocalY(gameObject, OffScreenPosition, MenuAnimationTime)
+                .setEase(LeanTweenType.easeInOutBack)
+                .setOnComplete(() => gameObject.SetActive(false));
         }
 
         public void MenuBack()
         {
+            onGoBack.Invoke();
+            DismissMenu();
         }
 
 

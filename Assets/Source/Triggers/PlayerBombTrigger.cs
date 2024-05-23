@@ -2,8 +2,5 @@ using UnityEngine;
 
 namespace Source.Triggers
 {
-    public class PlayerBombTrigger : MonoBehaviour
-    {
-        
-    }
+    public class PlayerBombTrigger : MonoBehaviour { }
 }

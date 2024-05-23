@@ -21,6 +21,12 @@ namespace Source.Extensions
             gameObject.transform.position = position;
             return gameObject;
         }
+        
+        public static GameObject WithName(this GameObject gameObject, string name)
+        {
+            gameObject.name = name;
+            return gameObject;
+        }
 
     }
 }

@@ -27,7 +27,8 @@ namespace Source.UI
 
         [SerializeField]
         private UnityEvent onIterationComplete = new();
-
+        public UnityEvent OnIterationComplete => onIterationComplete;
+        
         [SerializeField]
         private float preDelaySeconds = 0f;
 
