@@ -18,15 +18,17 @@ namespace Source.Optimizations
         private string _sceneId;
         private void Start()
         {
+            fadeToBlack.SetActive(false);
+            loadingScreen.SetActive(false);
+            
             var fadeToBlackSpriteAnimator = fadeToBlack.GetComponent<SpriteAnimator>();
             fadeToBlackSpriteAnimator.OnIterationComplete.AddListener(OnFadeToBlackComplete);
-            fadeToBlackSpriteAnimator.OnIterationComplete.AddListener(() => fadeToBlack.SetActive(false));
         }
         
         // begins fading to the loading screen
         public void BeginFadingToScene(string sceneId)
         {
-            gameObject.SetActive(true);
+            this.enabled = true;
             fadeToBlack.SetActive(true);
             _sceneId = sceneId;
         }
@@ -38,6 +40,8 @@ namespace Source.Optimizations
             loadingScreen.SetActive(true);
             
             StartCoroutine(BeginLoadingScene(_sceneId));
+
+            fadeToBlack.SetActive(false);
         }
         
         private IEnumerator BeginLoadingScene(string sceneName)

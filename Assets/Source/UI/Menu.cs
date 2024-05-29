@@ -217,6 +217,9 @@ namespace Source.UI
 
         public void MenuBack()
         {
+            if (!_ready)
+                return;
+            
             onGoBack.Invoke();
             DismissMenu();
         }
