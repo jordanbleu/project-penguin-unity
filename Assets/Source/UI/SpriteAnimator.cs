@@ -20,8 +20,13 @@ namespace Source.UI
         private Sprite[] frames;
 
         [SerializeField]
+        [Tooltip("The image to animate if in ui mode")]
         private Image uiImage;
 
+        [SerializeField]
+        [Tooltip("In sprite mode, will animate the attached sprite renderer instead of the UI image")]
+        private SpriteRenderer sprite;
+        
         [SerializeField]
         private float secondsPerFrame = 0.01f;
 
@@ -41,11 +46,29 @@ namespace Source.UI
 
         private void Start()
         {
+            if (sprite != null && uiImage != null)
+            {
+                Debug.LogWarning("Cannot have both a sprite renderer and a ui image.  Logic will fallback to the ui image.");
+            }
+            
             if (frames.Any())
             {
-                uiImage.sprite = frames[0];
+                SetFrame(0);
             }
         
+        }
+
+        private void SetFrame(int index)
+        {
+            if (uiImage != null)
+            {
+                uiImage.sprite = frames[index];
+                return;
+            }
+
+            sprite.sprite = frames[index];
+        
+            
         }
 
         private void Update()
@@ -77,7 +100,7 @@ namespace Source.UI
                 onIterationComplete.Invoke();
             }
 
-            uiImage.sprite = frames[_imageIndex];
+            SetFrame(_imageIndex);
         }
 
         public void Play() => _isPlaying = true;
@@ -95,7 +118,7 @@ namespace Source.UI
                 return;
             
             _imageIndex = 0;
-            uiImage.sprite = frames[0];
+            SetFrame(0);
         }
 
         public void SwapFrames(Sprite[] newFrames)

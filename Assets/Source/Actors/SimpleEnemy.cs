@@ -18,15 +18,30 @@ namespace Source.Actors
         private const float ForceAgainstPlayer = 20f;
         private const float Acceleration = 0.5f;
         
-        [SerializeField] private Animator animator;
-        [SerializeField] private GameObject damageEffectPrefab;
-        [SerializeField] private CinemachineImpulseSource impulseSource;
-        [SerializeField] private Rigidbody2D rigidBody;
-        [SerializeField] private Attackable attackable;
+        [SerializeField] 
+        private Animator animator;
+        
+        [SerializeField]
+        [Tooltip("If true, will use the damage effect prefab when hit by a bullet. " +
+                 " If false, will call the animator 'damage' trigger." +
+                 "To do neither, set to false and leave the prefab empty.")]
+        private bool useDamageEffectPrefab = true;
+        
+        [SerializeField] 
+        private GameObject damageEffectPrefab;
+        
+        [SerializeField] 
+        private CinemachineImpulseSource impulseSource;
+       
+        [SerializeField] 
+        private Rigidbody2D rigidBody;
+        
+        [SerializeField] 
+        private Attackable attackable;
 
         [SerializeField]
         [Tooltip("How fast downward the enemy moves")]
-        private float speed = 2f;
+        private float speed = -2f;
         
         [SerializeField] 
         [Tooltip("When colliding with the player will apply a strong force against them")]
@@ -36,9 +51,12 @@ namespace Source.Actors
         [Tooltip("Damage to apply to the player on collide")]
         private int playerCollisionDamage = 0;
         
+        
         private bool _isVulnerable = true;
         private static readonly int DeathAnimatorTrigger = Animator.StringToHash("death");
+        private static readonly int DamageAnimatorTrigger = Animator.StringToHash("damage");
 
+        
         public void SetVulnerable() => 
             _isVulnerable = true;
 
@@ -70,7 +88,7 @@ namespace Source.Actors
             if (_isVulnerable)
             {
                 impulseSource.GenerateImpulse();
-                var damageAnim = Instantiate(damageEffectPrefab, gameObject.transform);
+                ApplyDamageEffect();
                 bulletComponent.HitSomething();
                 attackable.Damage(1);
                 return;
@@ -82,17 +100,19 @@ namespace Source.Actors
 
         public void AttackedByLaser(GameObject laser)
         {
+            ApplyDamageEffect();
+            attackable.Damage(3);
         }
 
         public void HitByMissileExplosion(GameObject explosion)
         {
-            Instantiate(damageEffectPrefab, gameObject.transform);
+            ApplyDamageEffect();
             attackable.Damage(10);
         }
 
         public void HitByMineExplosion(GameObject explosion)
         {
-            Instantiate(damageEffectPrefab, gameObject.transform);
+            ApplyDamageEffect();
             attackable.Damage(5);
             
             var xForce = UnityEngine.Random.Range(-8f, 8f);
@@ -126,6 +146,21 @@ namespace Source.Actors
         {
             var position = transform.position;
             transform.position = new Vector2(UnityEngine.Random.Range(-17, 17), position.y);
+        }
+
+        private void ApplyDamageEffect()
+        {
+            if (useDamageEffectPrefab && damageEffectPrefab is null)
+                return;
+
+            if (!useDamageEffectPrefab)
+            {
+                animator.SetTrigger(DamageAnimatorTrigger);
+                return;
+            }
+            
+            Instantiate(damageEffectPrefab, gameObject.transform);
+
         }
 
     }

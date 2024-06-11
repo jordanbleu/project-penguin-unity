@@ -11,6 +11,9 @@ namespace Source.UI
     /// </summary>
     public class Toast : MonoBehaviour
     {
+        private const float TopOffscreenPosition = 300;
+        private const float BottomOffscreenPosition = -200;
+        
         [SerializeField]
         private float preDelaySeconds = 0f;
         
@@ -25,7 +28,13 @@ namespace Source.UI
 
         [SerializeField]
         private ToastStyle style = ToastStyle.Scale;
+
+        [SerializeField]
+        private LeanTweenType easeInStyle = LeanTweenType.linear;
         
+        [SerializeField]
+        private LeanTweenType easeOutStyle = LeanTweenType.linear;
+
         [SerializeField]
         private UnityEvent onToastComplete = new UnityEvent();
         
@@ -35,25 +44,29 @@ namespace Source.UI
         private bool _isDisplayed = false;
         private float _yPosition;
         private float _yOffscreenPosition;
+        
         private void OnEnable()
         {
-            
             _yPosition = transform.localPosition.y;
-            
             _yOffscreenPosition = _yPosition - 20;
 
             SetInitialPosition();
-
             BeginAnimateIn();
         }
 
         private void SetInitialPosition()
         {
             var localPos = transform.localPosition;
-            
-            if (style == ToastStyle.Scroll)
+
+            if (style == ToastStyle.TranslateTopToTop)
             {
-                transform.localPosition = new Vector3(localPos.x, -150, localPos.z);
+                transform.localPosition = new Vector3(localPos.x, TopOffscreenPosition, localPos.z);
+                return;
+            }
+
+            if (style == ToastStyle.TranslateBottomToTop)
+            {
+                transform.localPosition = new Vector3(localPos.x, BottomOffscreenPosition, localPos.z);
                 return;
             }
 
@@ -63,33 +76,44 @@ namespace Source.UI
 
         private void BeginAnimateIn()
         {
-            if (style == ToastStyle.Scroll)
+            if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)
             {
-                LeanTween.moveLocalY(gameObject, _yPosition, animateInSeconds).setEaseOutCubic()
+                LeanTween.moveLocalY(gameObject, _yPosition, animateInSeconds)
+                    .setEase(easeInStyle)
                     .setDelay(preDelaySeconds)
                     .setOnComplete(OnAnimateInComplete);
                 return;
             }
             
             
-            LeanTween.moveLocalY(gameObject, _yPosition, animateInSeconds).setEaseOutCubic()
+            LeanTween.moveLocalY(gameObject, _yPosition, animateInSeconds)
+                .setEase(easeInStyle)
                 .setDelay(preDelaySeconds)
                 .setOnComplete(OnAnimateInComplete);
 
             LeanTween.scaleY(gameObject, 1, animateInSeconds)
                 .setDelay(preDelaySeconds)
-                .setEaseOutCubic();
+                .setEase(easeInStyle);
 
             LeanTween.scaleX(gameObject, 1, animateInSeconds / 2)
                 .setDelay(preDelaySeconds)
-                .setEaseOutCubic();
+                .setEase(easeInStyle);
         }
 
         private void Update()
         {
-            if (!_isDisplayed || _duration >= displaySeconds)
+            // if the duration is set to zero, trigger animate out immediately once animateIn is complete
+            if (_isDisplayed && displaySeconds == 0)
+            {
+                BeginAnimateOut();
+                return;
+            }
+
+            // if we're still animating in, wait for it to finish
+            if (!_isDisplayed)
                 return;
             
+            // begin counting the 'display time' (not animating in or out)
             _duration += Time.deltaTime;
             
             if (_duration >= displaySeconds)
@@ -100,17 +124,19 @@ namespace Source.UI
 
         private void BeginAnimateOut()
         {
-            if (style == ToastStyle.Scroll)
+            _isDisplayed = false;
+            
+            if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)
             {
-                LeanTween.moveLocalY(gameObject, 150, animateInSeconds).setEaseOutCubic()
+                LeanTween.moveLocalY(gameObject, 150, animateInSeconds).setEase(easeOutStyle)
                     .setOnComplete(OnAnimateOutComplete);
                 return;
             }
             
-            LeanTween.moveLocalY(gameObject, _yOffscreenPosition, animateOutSeconds).setEaseOutCubic()
+            LeanTween.moveLocalY(gameObject, _yOffscreenPosition, animateOutSeconds).setEase(easeOutStyle)
                 .setOnComplete(OnAnimateOutComplete);
-            LeanTween.scaleY(gameObject, 0, animateInSeconds).setEaseOutCubic();
-            LeanTween.scaleX(gameObject, 0, animateInSeconds / 2).setEaseOutCubic();
+            LeanTween.scaleY(gameObject, 0, animateInSeconds).setEase(easeOutStyle);
+            LeanTween.scaleX(gameObject, 0, animateInSeconds / 2).setEase(easeOutStyle);
         }
 
         private void OnAnimateOutComplete()
@@ -127,7 +153,8 @@ namespace Source.UI
         public enum ToastStyle
         {
             Scale,
-            Scroll
+            TranslateBottomToTop,
+            TranslateTopToTop
         }
     }
 }

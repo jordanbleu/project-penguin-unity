@@ -14,11 +14,20 @@ namespace Source.Actors
         private static readonly int DeathAnimatorTrigger = Animator.StringToHash("death");
         private GameObject _player;
         
-        [SerializeField] private float burstVelocity = 5f;
-        [SerializeField] private Animator animator;
-        [SerializeField] private Rigidbody2D rigidBody2d;
-        [SerializeField] private CinemachineImpulseSource cameraImpulseSource;
-        [SerializeField] private Attackable attackable;
+        [SerializeField]
+        private float burstVelocity = 5f;
+        
+        [SerializeField]
+        private Animator animator;
+        
+        [SerializeField]
+        private Rigidbody2D rigidBody2d;
+        
+        [SerializeField]
+        private CinemachineImpulseSource cameraImpulseSource;
+        
+        [SerializeField]
+        private Attackable attackable;
 
         private void Start()
         {

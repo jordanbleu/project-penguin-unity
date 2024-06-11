@@ -207,15 +207,24 @@ AnimationClip:
       - serializedVersion: 3
         time: 1.75
         value: -137.6
-        inSlope: 111.98183
-        outSlope: 111.98183
+        inSlope: 25.318697
+        outSlope: 25.318697
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 2.5
-        value: -69.2
+        time: 2.1833334
+        value: -128
+        inSlope: 30.720018
+        outSlope: 30.720018
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: -84.5
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -289,7 +298,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 2.5166667
+    m_StopTime: 3.0166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -495,15 +504,24 @@ AnimationClip:
       - serializedVersion: 3
         time: 1.75
         value: -137.6
-        inSlope: 111.98183
-        outSlope: 111.98183
+        inSlope: 25.318697
+        outSlope: 25.318697
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 2.5
-        value: -69.2
+        time: 2.1833334
+        value: -128
+        inSlope: 30.720018
+        outSlope: 30.720018
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: -84.5
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -550,14 +568,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 2.5
+  - time: 3
     functionName: TriggerEvent
     data: complete
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 2.5166667
+  - time: 3.0166667
     functionName: DestroySelf
     data: 
     objectReferenceParameter: {fileID: 0}

@@ -42,16 +42,17 @@ namespace Source.Optimizations
                 return;
             }
 
-            if (y > maxY)
-            {
-                if (flipToOtherSide)
-                {
-                    transform.position = new Vector2(x, minY);
-                }
-
-                onOutOfBounds?.Invoke();
-                return;
-            }
+            // todo: unsure if we need this, this checks if the object is out of bounds on the top
+            // if (y > maxY)
+            // {
+            //     if (flipToOtherSide)
+            //     {
+            //         transform.position = new Vector2(x, minY);
+            //     }
+            //
+            //     onOutOfBounds?.Invoke();
+            //     return;
+            // }
 
             var minX = boundaryPosition.x;
             var maxX = boundarySize.x + boundaryPosition.x;

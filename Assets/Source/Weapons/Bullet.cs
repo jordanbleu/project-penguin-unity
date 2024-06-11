@@ -1,11 +1,15 @@
+using System;
+using Source.Physics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Source.Weapons
 {
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private Animator animator;
-        [SerializeField] private ConstantForce2D constantForce2D;
+        [FormerlySerializedAs("constantForce2D")]
+        [SerializeField] private StaticVelocity staticVelocity;
         [SerializeField] private Collider2D attachedCollider;
         [SerializeField] private Rigidbody2D rigidBody;
         
@@ -13,10 +17,18 @@ namespace Source.Weapons
 
         public void Ricochet()
         {
-            var randomXVel = UnityEngine.Random.Range(-6, 6);
-            rigidBody.velocity = new Vector2(randomXVel, -(rigidBody.velocity.y*5));
-            constantForce2D.relativeForce = Vector2.zero;
-            constantForce2D.force = Vector2.zero;
+            // if you add a static rotation component to the bullet it will enable when the bullet ricochets   
+            if (gameObject.TryGetComponent<StaticRotation>(out var staticRotation))
+            {
+                staticRotation.enabled = true;
+            }
+            
+            var randomXVel = UnityEngine.Random.Range(-12, 12);
+
+            var absYVel = Math.Abs(staticVelocity.Velocity.y);
+            
+            staticVelocity.Velocity =  new Vector2(randomXVel, -(absYVel*1));
+            rigidBody.velocity =  new Vector2(randomXVel, -(absYVel*1));
             attachedCollider.enabled = false;
         }
         
@@ -26,7 +38,7 @@ namespace Source.Weapons
             rigidBody.velocity = Vector2.zero;
             attachedCollider.enabled = false;
             animator.SetTrigger(DestroyTrigger);
-            constantForce2D.relativeForce = Vector2.zero;
+            staticVelocity.Velocity = Vector2.zero;
         }
 
     }

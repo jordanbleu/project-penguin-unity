@@ -98,6 +98,16 @@ namespace Source.Graphics
             var h = rect.height / ppu;
             return new Vector2(w, h);
         }
+        
+        public void SetYSpeed(float speed)
+        {
+            autoScrollSpeed.y = speed;
+        }
+        
+        public void SetXSpeed(float speed)
+        {
+            autoScrollSpeed.x = speed;
+        }
 
     }
 }
