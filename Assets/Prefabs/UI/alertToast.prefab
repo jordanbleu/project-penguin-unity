@@ -59,6 +59,7 @@ MonoBehaviour:
   onToastComplete:
     m_PersistentCalls:
       m_Calls: []
+  destroyOnComplete: 1
 --- !u!1 &6325764185256176649
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,8 +134,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278558367
-  m_fontColor: {r: 0.6226415, g: 0.618746, b: 0.02055893, a: 1}
+    rgba: 4278650797
+  m_fontColor: {r: 0.6792453, g: 0.028835932, b: 0.028835872, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

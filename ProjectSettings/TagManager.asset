@@ -8,6 +8,8 @@ TagManager:
   - player-laser
   - enemy-grunt
   - enemy-divebomb
+  - hud
+  - canvas
   layers:
   - Default
   - TransparentFX

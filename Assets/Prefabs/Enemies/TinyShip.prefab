@@ -121,8 +121,8 @@ MonoBehaviour:
   rigidBody: {fileID: 879885899303868076}
   attackable: {fileID: 2101555203322495063}
   speed: -2
-  repelPlayerOnCollide: 1
-  playerCollisionDamage: 0
+  repelPlayerOnCollide: 0
+  playerCollisionDamage: 2
 --- !u!95 &7650492487039300539
 Animator:
   serializedVersion: 5

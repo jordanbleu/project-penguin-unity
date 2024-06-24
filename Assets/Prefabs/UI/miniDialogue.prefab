@@ -92,6 +92,7 @@ MonoBehaviour:
   - {fileID: 380459453, guid: 28a3373fcfe8646e99df6d977609b8fd, type: 3}
   - {fileID: -1482369275, guid: 28a3373fcfe8646e99df6d977609b8fd, type: 3}
   uiImage: {fileID: 1044351811868998886}
+  sprite: {fileID: 0}
   secondsPerFrame: 0.5
   onIterationComplete:
     m_PersistentCalls:
@@ -457,6 +458,7 @@ MonoBehaviour:
   - {fileID: 380459453, guid: 28a3373fcfe8646e99df6d977609b8fd, type: 3}
   - {fileID: -1482369275, guid: 28a3373fcfe8646e99df6d977609b8fd, type: 3}
   uiImage: {fileID: 1583945847755692605}
+  sprite: {fileID: 0}
   secondsPerFrame: 0.5
   onIterationComplete:
     m_PersistentCalls:
@@ -554,6 +556,7 @@ MonoBehaviour:
   - {fileID: 380459453, guid: 28a3373fcfe8646e99df6d977609b8fd, type: 3}
   - {fileID: -1482369275, guid: 28a3373fcfe8646e99df6d977609b8fd, type: 3}
   uiImage: {fileID: 2920375345103800966}
+  sprite: {fileID: 0}
   secondsPerFrame: 0.5
   onIterationComplete:
     m_PersistentCalls:
@@ -615,6 +618,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2379506ed3b420a9d0279bc290bfa4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upArrow: {fileID: 6053993614844259450}
+  downArrow: {fileID: 6659746343443248706}
+  leftArrow: {fileID: 3619888619783174820}
+  rightArrow: {fileID: 722101428722836391}
   preDelaySeconds: 0
   animateInSeconds: 1
   displaySeconds: 5
@@ -625,6 +632,8 @@ MonoBehaviour:
   onToastComplete:
     m_PersistentCalls:
       m_Calls: []
+  destroyOnComplete: 1
+  followObject: {fileID: 0}
 --- !u!1 &6659746343443248706
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,6 +726,7 @@ MonoBehaviour:
   - {fileID: 380459453, guid: 28a3373fcfe8646e99df6d977609b8fd, type: 3}
   - {fileID: -1482369275, guid: 28a3373fcfe8646e99df6d977609b8fd, type: 3}
   uiImage: {fileID: 242712779949824901}
+  sprite: {fileID: 0}
   secondsPerFrame: 0.5
   onIterationComplete:
     m_PersistentCalls:

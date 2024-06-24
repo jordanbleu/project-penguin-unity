@@ -1,8 +1,8 @@
 using System;
-using System.Security.Cryptography;
+using Source.Constants;
+using Source.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Source.UI
 {
@@ -13,6 +13,13 @@ namespace Source.UI
     {
         private const float TopOffscreenPosition = 300;
         private const float BottomOffscreenPosition = -200;
+
+        [SerializeField]
+        private GameObject upArrow;
+        
+        [SerializeField]
+        private GameObject downArrow;
+        
         
         [SerializeField]
         private float preDelaySeconds = 0f;
@@ -38,17 +45,26 @@ namespace Source.UI
         [SerializeField]
         private UnityEvent onToastComplete = new UnityEvent();
         
+        [SerializeField]
+        [Tooltip("Setting to false will keep the toast alive once it completes.  Make sure to add a listener to onToastComplete if you do this, or weird things will happen!")]
+        private bool destroyOnComplete = true;
+        
         private float _duration = 0f;
 
         // this just means that it is not animating in or out
         private bool _isDisplayed = false;
-        private float _yPosition;
         private float _yOffscreenPosition;
+
+        private Camera _mainCamera;
+        private Canvas _canvas;
+
+        private Vector2 _initialPosition;
         
+
         private void OnEnable()
         {
-            _yPosition = transform.localPosition.y;
-            _yOffscreenPosition = _yPosition - 20;
+            _initialPosition = transform.localPosition;
+            _yOffscreenPosition = _initialPosition.y - 20;
 
             SetInitialPosition();
             BeginAnimateIn();
@@ -76,17 +92,17 @@ namespace Source.UI
 
         private void BeginAnimateIn()
         {
+            var yPosition = _initialPosition.y;
             if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)
             {
-                LeanTween.moveLocalY(gameObject, _yPosition, animateInSeconds)
+                LeanTween.moveLocalY(gameObject, yPosition, animateInSeconds)
                     .setEase(easeInStyle)
                     .setDelay(preDelaySeconds)
                     .setOnComplete(OnAnimateInComplete);
                 return;
             }
             
-            
-            LeanTween.moveLocalY(gameObject, _yPosition, animateInSeconds)
+            LeanTween.moveLocalY(gameObject, yPosition, animateInSeconds)
                 .setEase(easeInStyle)
                 .setDelay(preDelaySeconds)
                 .setOnComplete(OnAnimateInComplete);
@@ -120,10 +136,14 @@ namespace Source.UI
             {
                 BeginAnimateOut();
             }
+            
         }
+        
 
         private void BeginAnimateOut()
         {
+            onToastComplete.Invoke();
+
             _isDisplayed = false;
             
             if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)
@@ -141,13 +161,14 @@ namespace Source.UI
 
         private void OnAnimateOutComplete()
         {
-            onToastComplete.Invoke();
-            Destroy(gameObject);
+            if (destroyOnComplete)
+                Destroy(gameObject);
         }
 
         private void OnAnimateInComplete()
         {
             _isDisplayed = true;
+            
         }
 
         public enum ToastStyle

@@ -12,7 +12,7 @@ namespace Source.Actors
         private Vector2 _seekPosition;
 
         private float _leadTimer = 0f;
-        private float _leadTimeSeconds = 1f;
+        private float _leadTimeSeconds = 2f;
         
         private void Start()
         {

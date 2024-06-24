@@ -29,7 +29,7 @@ namespace Source.Director
         {
             foreach (var attackable in attackables)
             {
-                if (attackable.WasDestroyed)
+                if (attackable.WasDestroyed || attackable == null || attackable.gameObject == null)
                     continue;
                 // if we find an object that is still alive, return false
                 return false;
