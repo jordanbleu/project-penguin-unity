@@ -1,12 +1,14 @@
 using System;
 using Cinemachine;
 using Source.Behaviors;
+using Source.Dialogue;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Timers;
 using Source.UI;
 using Source.Weapons;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace Source.Actors
@@ -14,7 +16,7 @@ namespace Source.Actors
     public class Player : MonoBehaviour
     {
         // how long after taking damage the player can take more damage
-        private const float DamageCooldownMax = 2;
+        private const float DamageCooldownMax = 1;
         private const float HealthRegenRate = 2f;
         private const float HealthRegenDelay = 8f;
         private const float EnergyRegenRate = 0.5f;
@@ -73,6 +75,9 @@ namespace Source.Actors
 
         [SerializeField]
         private PlayerShield shield;
+
+        [SerializeField]
+        private DialogueTyper dialogueTyper;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
@@ -80,7 +85,27 @@ namespace Source.Actors
 
         private float _currentHealthRegenDelay = 0f;
         private float _damageCooldownTime = 0f;
+        private bool _isWeaponsLocked = false;
 
+        private UnityEvent onUserInputEnter = new();
+        
+        /// <summary>
+        /// Triggers when the player presses the Menu Enter button.
+        ///
+        /// Please please please follow up with "RemoveUserInputEnterListener" when you're done with this listener.
+        /// </summary>
+        /// <param name="action"></param>
+        public void AddMenuEnterEventListener(UnityAction action)
+            => onUserInputEnter.AddListener(action);
+        
+        /// <summary>
+        /// Cleans up a registered event listener
+        /// </summary>
+        /// <param name="action"></param>
+        public void RemoveMenuEnterEventListener(UnityAction action)
+            => onUserInputEnter.RemoveListener(action);
+        
+        
         public bool ShieldProtectionEnabled { get; set; }
         
         private void Start()
@@ -92,7 +117,12 @@ namespace Source.Actors
             var energyRegenInterval = gameObject.AddComponent<IntervalEventTimer>();
             energyRegenInterval.SetInterval(EnergyRegenRate);
             energyRegenInterval.AddEventListener(RegenEnergy);
+            
+            dialogueTyper.OnDialogueBegin.AddListener(() => _isWeaponsLocked = true);
+            dialogueTyper.OnDialogueComplete.AddListener(() => _isWeaponsLocked = false);
         }
+        
+        
 
         private void RegenEnergy()
         {
@@ -237,11 +267,16 @@ namespace Source.Actors
 
         private void OnShoot(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
             blaster.Shoot();
         }
 
         private void OnLaser(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 30;
 
             if (!TryReduceEnergy(requiredEnergy))
@@ -265,6 +300,9 @@ namespace Source.Actors
 
         private void OnShield(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             if (shield.gameObject.activeInHierarchy)
                 return;
 
@@ -278,6 +316,9 @@ namespace Source.Actors
 
         private void OnMissile(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 30;
 
             if (!TryReduceEnergy(requiredEnergy))
@@ -288,6 +329,9 @@ namespace Source.Actors
 
         private void OnMine(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 30;
 
             if (!TryReduceEnergy(requiredEnergy))
@@ -295,9 +339,18 @@ namespace Source.Actors
 
             Instantiate(playerMinePrefab).At(transform.position);
         }
-
+        
         private void OnForcefield(InputValue inputValue)
         {
+            if (dialogueTyper is not null && dialogueTyper.isActiveAndEnabled)
+            {
+                dialogueTyper.UserCycleDialogue();
+                return;
+            }
+            
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 50;
 
             if (!TryReduceEnergy(requiredEnergy))
@@ -305,6 +358,22 @@ namespace Source.Actors
             var position = transform.position;
             var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
             Instantiate(forcefieldPrefab).At(adjustedPosition);
+        }
+
+        
+        
+        private void OnMenuEnter(InputValue inputValue)
+        {
+            onUserInputEnter?.Invoke();
+            
+            // the logic below should maybe one day be consolidated into the event handling pattern
+            // i will probably never do that.
+            
+            if (dialogueTyper is null || !dialogueTyper.isActiveAndEnabled)
+                return;
+
+            dialogueTyper.UserCycleDialogue();
+
         }
 
         #endregion

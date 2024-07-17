@@ -35,10 +35,10 @@ namespace Source.Behaviors
             HandleCollidedGameObject(other.gameObject);
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            HandleCollidedGameObject(other.gameObject);
-        }
+        // private void OnTriggerEnter2D(Collider2D other)
+        // {
+        //     //HandleCollidedGameObject(other.gameObject);
+        // }
 
         private void HandleCollidedGameObject(GameObject other)
         {
@@ -56,6 +56,8 @@ namespace Source.Behaviors
         public void Die() => Damage(health);
         
         public bool WasDestroyed => _triggeredDeathEvent;
+
+        public int Health => health;
     }
     
 }

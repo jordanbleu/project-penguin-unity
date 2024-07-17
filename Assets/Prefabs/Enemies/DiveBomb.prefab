@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 2016399671203432773}
   - component: {fileID: 891858848323933964}
   - component: {fileID: 7797027399568525994}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DiveBomb
   m_TagString: enemy-divebomb
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7585484189516102909}
   - component: {fileID: 8464800817601551197}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

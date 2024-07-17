@@ -141,7 +141,7 @@ MonoBehaviour:
   impulseSource: {fileID: 729752303029082235}
   rigidBody: {fileID: 8734417362148405466}
   attackable: {fileID: 1614610233835225539}
-  speed: 2
+  speed: -2
   repelPlayerOnCollide: 1
   playerCollisionDamage: 0
 --- !u!114 &4708142812698447073

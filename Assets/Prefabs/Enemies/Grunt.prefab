@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 591540567919506553}
   - component: {fileID: 2022165897650988901}
   - component: {fileID: 3980103509082304862}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Grunt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4795f8b6c6db4853b50713634d5bd39a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burstVelocity: 10
+  burstVelocity: 5
   animator: {fileID: 1280952540284764636}
   rigidBody2d: {fileID: 2450127666595458972}
   cameraImpulseSource: {fileID: 591540567919506553}
@@ -294,7 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4917028366507876157}
   - component: {fileID: 6152985836055173104}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

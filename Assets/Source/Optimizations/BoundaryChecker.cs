@@ -44,11 +44,11 @@ namespace Source.Optimizations
 
             if (y > maxY)
             {
-                if (flipToOtherSide)
-                {
-                    transform.position = new Vector2(x, minY);
-                }
-
+                // if (flipToOtherSide)
+                // {
+                //     transform.position = new Vector2(x, minY);
+                // }
+                //
                 onOutOfBounds?.Invoke();
                 return;
             }
