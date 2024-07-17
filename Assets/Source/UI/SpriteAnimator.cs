@@ -37,6 +37,9 @@ namespace Source.UI
         [SerializeField]
         private float preDelaySeconds = 0f;
 
+        [SerializeField]
+        private LoopMode loopMode = LoopMode.Loop;
+        
         private float _preDelayCounter = 0f;
         
         private int _imageIndex = 0;
@@ -96,8 +99,16 @@ namespace Source.UI
 
             if (_imageIndex >= frames.Length)
             {
-                _imageIndex = 0;
+                
                 onIterationComplete.Invoke();
+                
+                if (loopMode == LoopMode.Once)
+                {
+                    _isPlaying = false;
+                    return;
+                } 
+
+                _imageIndex = 0;
             }
 
             SetFrame(_imageIndex);
@@ -129,5 +140,11 @@ namespace Source.UI
 
         public void SetFrameDelay(float seconds) => secondsPerFrame = seconds;
 
+        public enum LoopMode
+        {
+            Loop = 0,
+            Once = 1,
+            
+        }
     }
 }

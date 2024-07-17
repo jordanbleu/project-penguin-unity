@@ -8,15 +8,15 @@ using Source.Timers;
 using Source.UI;
 using Source.Weapons;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Source.Actors
 {
     public class Player : MonoBehaviour
     {
         // how long after taking damage the player can take more damage
-        private const float DamageCooldownMax = 2;
+        private const float DamageCooldownMax = 1;
         private const float HealthRegenRate = 2f;
         private const float HealthRegenDelay = 8f;
         private const float EnergyRegenRate = 0.5f;
@@ -86,6 +86,25 @@ namespace Source.Actors
         private float _currentHealthRegenDelay = 0f;
         private float _damageCooldownTime = 0f;
         private bool _isWeaponsLocked = false;
+
+        private UnityEvent onUserInputEnter = new();
+        
+        /// <summary>
+        /// Triggers when the player presses the Menu Enter button.
+        ///
+        /// Please please please follow up with "RemoveUserInputEnterListener" when you're done with this listener.
+        /// </summary>
+        /// <param name="action"></param>
+        public void AddMenuEnterEventListener(UnityAction action)
+            => onUserInputEnter.AddListener(action);
+        
+        /// <summary>
+        /// Cleans up a registered event listener
+        /// </summary>
+        /// <param name="action"></param>
+        public void RemoveMenuEnterEventListener(UnityAction action)
+            => onUserInputEnter.RemoveListener(action);
+        
         
         public bool ShieldProtectionEnabled { get; set; }
         
@@ -345,6 +364,11 @@ namespace Source.Actors
         
         private void OnMenuEnter(InputValue inputValue)
         {
+            onUserInputEnter?.Invoke();
+            
+            // the logic below should maybe one day be consolidated into the event handling pattern
+            // i will probably never do that.
+            
             if (dialogueTyper is null || !dialogueTyper.isActiveAndEnabled)
                 return;
 

@@ -5,6 +5,6 @@ namespace Source.Constants
 
         public const string Player = nameof(Player);
         public const string Canvas = "canvas";
-
+    
     }
 }

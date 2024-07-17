@@ -1,6 +1,5 @@
-using System;
+using Source.Actors;
 using Source.Constants;
-using Source.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,13 +12,6 @@ namespace Source.UI
     {
         private const float TopOffscreenPosition = 300;
         private const float BottomOffscreenPosition = -200;
-
-        [SerializeField]
-        private GameObject upArrow;
-        
-        [SerializeField]
-        private GameObject downArrow;
-        
         
         [SerializeField]
         private float preDelaySeconds = 0f;
@@ -34,6 +26,10 @@ namespace Source.UI
         private float animateOutSeconds = 1f;
 
         [SerializeField]
+        [Tooltip("Controls the flow of the toast animation, and whether it can be dismissed or not.")]
+        private PresentationMode presentationMode = PresentationMode.Unskippable;
+        
+        [SerializeField]
         private ToastStyle style = ToastStyle.Scale;
 
         [SerializeField]
@@ -43,11 +39,17 @@ namespace Source.UI
         private LeanTweenType easeOutStyle = LeanTweenType.linear;
 
         [SerializeField]
+        private UnityEvent onAnimateInCompleted = new UnityEvent();
+
+        [SerializeField]
         private UnityEvent onToastComplete = new UnityEvent();
         
         [SerializeField]
         [Tooltip("Setting to false will keep the toast alive once it completes.  Make sure to add a listener to onToastComplete if you do this, or weird things will happen!")]
         private bool destroyOnComplete = true;
+
+        [SerializeField]
+        private GameObject pressEnterIndicator;
         
         private float _duration = 0f;
 
@@ -59,15 +61,48 @@ namespace Source.UI
         private Canvas _canvas;
 
         private Vector2 _initialPosition;
-        
+
+        private bool _isDismissed = false;
+
+        private Player _player;
 
         private void OnEnable()
         {
             _initialPosition = transform.localPosition;
             _yOffscreenPosition = _initialPosition.y - 20;
 
+            var player = GameObject.FindGameObjectWithTag(Tags.Player);
+            
+            if (player.TryGetComponent<Player>(out _player))
+            {
+                _player.AddMenuEnterEventListener(Dismiss);
+            }
+            
             SetInitialPosition();
             BeginAnimateIn();
+        }
+
+        private void Dismiss()
+        {
+            if (!isActiveAndEnabled)
+                return;
+            
+            if (!_isDisplayed)
+                return;
+
+            if (pressEnterIndicator.activeSelf)
+            {
+                var originalY = pressEnterIndicator.transform.localPosition.y;
+                LeanTween
+                    .moveLocalY(pressEnterIndicator, originalY -4, 0.05f)
+                    .setEase(LeanTweenType.easeOutExpo)
+                    .setOnComplete(() => LeanTween
+                        .moveLocalY(pressEnterIndicator, originalY, 0.15f)
+                        .setOnComplete(() => pressEnterIndicator.SetActive(false)));
+            }
+        
+            
+            _isDismissed = true;
         }
 
         private void SetInitialPosition()
@@ -116,10 +151,26 @@ namespace Source.UI
                 .setEase(easeInStyle);
         }
 
+        private bool ShouldBeginAnimatingOut()
+        {
+            var displayTimeFinished = displaySeconds == 0 || _duration >= displaySeconds;
+            
+            switch (presentationMode)
+            {
+                case PresentationMode.Wait:
+                    return _isDismissed;
+                case PresentationMode.Skippable:
+                    return displayTimeFinished || _isDismissed;
+                case PresentationMode.Unskippable:
+                default:
+                    return displayTimeFinished;
+            }
+        }
+
         private void Update()
         {
             // if the duration is set to zero, trigger animate out immediately once animateIn is complete
-            if (_isDisplayed && displaySeconds == 0)
+            if (_isDisplayed && ShouldBeginAnimatingOut())
             {
                 BeginAnimateOut();
                 return;
@@ -131,12 +182,6 @@ namespace Source.UI
             
             // begin counting the 'display time' (not animating in or out)
             _duration += Time.deltaTime;
-            
-            if (_duration >= displaySeconds)
-            {
-                BeginAnimateOut();
-            }
-            
         }
         
 
@@ -161,12 +206,21 @@ namespace Source.UI
 
         private void OnAnimateOutComplete()
         {
+            if (_player != null)
+            {
+                _player.RemoveMenuEnterEventListener(Dismiss);
+            }
+            
             if (destroyOnComplete)
                 Destroy(gameObject);
         }
 
         private void OnAnimateInComplete()
         {
+            // show the 'press enter' arrow if it makes sense
+            pressEnterIndicator.SetActive(!_isDismissed && (presentationMode is PresentationMode.Skippable or PresentationMode.Wait));
+            
+            onAnimateInCompleted?.Invoke();
             _isDisplayed = true;
             
         }
@@ -176,6 +230,17 @@ namespace Source.UI
             Scale,
             TranslateBottomToTop,
             TranslateTopToTop
+        }
+
+        public enum PresentationMode
+        {
+            [Tooltip("The toast displays for the specified time, ignoring user input to skip.  Example: minor Alerts, dialogue during gameplay")]
+            Unskippable =0,
+            [Tooltip("The toast displays for the specified time but can be skipped by user input. Skipping is only allowed during the display phase. Example: Major Alerts")]
+            Skippable=1,
+            [Tooltip("The toast animates in, then waits forever until the user dismisses it.  Then it animates out.  Example: longer dialogue ")]
+            Wait=2,
+            
         }
     }
 }

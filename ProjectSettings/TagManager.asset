@@ -10,6 +10,7 @@ TagManager:
   - enemy-divebomb
   - hud
   - canvas
+  - player-speaking-indicator
   layers:
   - Default
   - TransparentFX
@@ -47,9 +48,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ActorOverlay
+    uniqueID: 2661061661
+    locked: 0
   - name: UI
     uniqueID: 2213628697
     locked: 0
-  - name: ActorOverlay
-    uniqueID: 2661061661
+  - name: UIText
+    uniqueID: 4288804091
     locked: 0

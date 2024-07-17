@@ -17,7 +17,7 @@ namespace Source.Actors
     public class RangedAttacker : MonoBehaviour, IAttackResponder
     {
         // how far left / right the player can be before the enemy will move to them.
-        private const float ThresholdBeforeMoving = 1f;
+        private const float ThresholdBeforeMoving = 3f;
         
         private bool _isVulnerable = true;
         private static readonly int DeathAnimatorTrigger = Animator.StringToHash("death");
@@ -28,7 +28,7 @@ namespace Source.Actors
         private IntervalEventTimer _thinkTimer;
 
         [SerializeField]
-        private float thinkTime = 2f;
+        private float thinkTime = 1f;
         
         [SerializeField]
         private GameObject bulletPrefab;
@@ -41,13 +41,24 @@ namespace Source.Actors
 
         [SerializeField]
         private Animator animator;
+
+        [SerializeField]
+        [Tooltip("Offset from the enemy's position to spawn the bullet at.")]
+        private Vector2 shootPositionOffset;
+
+        [SerializeField]
+        [Tooltip("Basically, the movement speed kinda")]
+        private float maxDistanceDelta = 0.15f;
         
         private void Start()
         {
             _player = GameObject.FindWithTag("Player");
+            
             _thinkTimer = gameObject.AddComponent<IntervalEventTimer>();
             _thinkTimer.SetInterval(thinkTime);
             _thinkTimer.AddEventListener(AIUpdate);
+
+            _seekPosition = new(_player.transform.position.x, UnityEngine.Random.Range(3, 10));
         }
         
         /// <summary>
@@ -60,18 +71,23 @@ namespace Source.Actors
             
             if (Math.Abs(playerPosition.x - myPosition.x) > ThresholdBeforeMoving)
             {
-                _seekPosition = playerPosition;
+                var halfThresh = ThresholdBeforeMoving / 2;
+                _seekPosition = new(playerPosition.x + UnityEngine.Random.Range(-halfThresh,halfThresh), UnityEngine.Random.Range(3, 10));
             }
             else
             {
-                Instantiate(bulletPrefab, myPosition, Quaternion.identity);    
+                // shoot 
+                Instantiate(bulletPrefab, myPosition + (Vector3)shootPositionOffset, Quaternion.identity);    
             }
         }
         
         private void FixedUpdate()
         {
+            if (attackable.WasDestroyed)
+                return;
+            
             var myPosition= transform.position;
-            transform.position = Vector2.MoveTowards(myPosition, new(_seekPosition.x, myPosition.y), 0.1f);
+            transform.position = Vector2.MoveTowards(myPosition, _seekPosition, maxDistanceDelta);
         }
         
         public void SetVulnerable() => 
@@ -131,6 +147,12 @@ namespace Source.Actors
         public void OnDeath()
         {
             animator.SetTrigger(DeathAnimatorTrigger);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position + (Vector3)shootPositionOffset, 0.2f);
         }
     }
 }

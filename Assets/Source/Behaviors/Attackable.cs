@@ -56,6 +56,8 @@ namespace Source.Behaviors
         public void Die() => Damage(health);
         
         public bool WasDestroyed => _triggeredDeathEvent;
+
+        public int Health => health;
     }
     
 }

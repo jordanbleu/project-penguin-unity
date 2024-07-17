@@ -296,13 +296,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a498cd73bb44e74a6a7b622ad1abeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundaryPosition: {x: -25, y: 20}
-  boundarySize: {x: 50, y: 40}
+  boundaryPosition: {x: -25, y: 56.3}
+  boundarySize: {x: 50, y: 74.2}
   flipToOtherSide: 0
   onOutOfBounds:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2708700805885710976}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Source.Optimizations.GameObjectDestroyer, Penguin
         m_MethodName: DestroySelf
         m_Mode: 1
