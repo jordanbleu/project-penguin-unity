@@ -14,8 +14,11 @@ namespace Source.Behaviors
 
         private IAttackResponder _responder;
 
+        private int _maxHealth;
+        
         private void Start()
         {
+            _maxHealth = health;
             _responder = GetComponent<IAttackResponder>();
         }
 
@@ -58,6 +61,8 @@ namespace Source.Behaviors
         public bool WasDestroyed => _triggeredDeathEvent;
 
         public int Health => health;
+
+        public int MaxHealth => _maxHealth;
     }
     
 }

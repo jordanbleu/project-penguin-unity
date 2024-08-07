@@ -13,9 +13,11 @@ namespace Source.Actors
 
         private float _leadTimer = 0f;
         private float _leadTimeSeconds = 2f;
-        
+
+        private float _defaultSpeed;
         private void Start()
         {
+            _defaultSpeed = speed;
             _seekPosition = transform.position;
         }
 
@@ -54,7 +56,10 @@ namespace Source.Actors
             _leadTimer = 0f;
             _seekPosition = new Vector2(x, transform.position.y);
         }
-        
-        
+
+        public void SetSpeed(float newSpeed) => speed = newSpeed;
+
+        public void DefaultSpeed() => speed = _defaultSpeed;
+
     }
 }

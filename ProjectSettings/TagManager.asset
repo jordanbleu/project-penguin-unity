@@ -11,6 +11,8 @@ TagManager:
   - hud
   - canvas
   - player-speaking-indicator
+  - ui-healthbar
+  - ui-energybar
   layers:
   - Default
   - TransparentFX

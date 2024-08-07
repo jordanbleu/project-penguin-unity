@@ -20,7 +20,7 @@ namespace Source.Actors
         private const float HealthRegenRate = 2f;
         private const float HealthRegenDelay = 8f;
         private const float EnergyRegenRate = 0.5f;
-        
+
         [Tooltip("How much thrust is applied when moving ship.")]
         [SerializeField]
         private float thrust = 120;
@@ -85,7 +85,13 @@ namespace Source.Actors
 
         private float _currentHealthRegenDelay = 0f;
         private float _damageCooldownTime = 0f;
+        
+        // if true the player can't shoot
         private bool _isWeaponsLocked = false;
+        // if true the player can't move 
+        private bool _isMovementLocked = false;
+        // if true the player will move itself to the center position for dialogue 
+        private bool _isDialogueModeEnabled = false;
 
         private UnityEvent onUserInputEnter = new();
         
@@ -118,8 +124,8 @@ namespace Source.Actors
             energyRegenInterval.SetInterval(EnergyRegenRate);
             energyRegenInterval.AddEventListener(RegenEnergy);
             
-            dialogueTyper.OnDialogueBegin.AddListener(() => _isWeaponsLocked = true);
-            dialogueTyper.OnDialogueComplete.AddListener(() => _isWeaponsLocked = false);
+            dialogueTyper.OnDialogueBegin.AddListener(() => SetDialogueMode(true));
+            dialogueTyper.OnDialogueComplete.AddListener(() => SetDialogueMode(false));
         }
         
         
@@ -182,12 +188,22 @@ namespace Source.Actors
             if (_currentHealthRegenDelay > 0f)
                 _currentHealthRegenDelay -= dt;
 
+            if (_isDialogueModeEnabled)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(0, -6), 4* dt);
+            }
+
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            var collisionResponder = other.gameObject.GetComponent<ICollideWithPlayerResponder>();
+            collisionResponder?.CollideWithPlayer(this);
         }
 
         private void OnCollisionStay2D(Collision2D other)
         {
             var collisionResponder = other.gameObject.GetComponent<ICollideWithPlayerResponder>();
-
             collisionResponder?.CollideWithPlayer(this);
         }
 
@@ -230,6 +246,13 @@ namespace Source.Actors
             RefreshHud();
             return true;
         }
+        
+        public void SetDialogueMode(bool enabled)
+        {
+            _isDialogueModeEnabled = enabled;
+            _isWeaponsLocked = enabled;
+            _isMovementLocked = enabled;
+        }
 
         /// <summary>
         /// If the player has enough energy, reduced it and refreshes the hud.
@@ -254,6 +277,12 @@ namespace Source.Actors
 
         private void OnMove(InputValue inputValue)
         {
+            if (_isMovementLocked)
+            {
+                _inputVelocity = Vector2.zero;
+                return;
+            }
+
             var inputVector = inputValue.Get<Vector2>();
             var xDirection = Math.Sign(inputVector.x);
 
@@ -288,6 +317,9 @@ namespace Source.Actors
 
         private void OnDash(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 10;
             
             if (!TryReduceEnergy(requiredEnergy))
