@@ -17,7 +17,6 @@ namespace Source.Actors
     /// </summary>
     public class CursedNeuron : MonoBehaviour, IAttackResponder
     {
-        
         [SerializeField]
         private GameObject damageEffectPrefab;
         
@@ -54,9 +53,20 @@ namespace Source.Actors
         [SerializeField]
         private GameObject wound4;
 
-        
         [SerializeField]
         private ShowHide[] hudItems;
+
+        [SerializeField]
+        private GameObject enemyWave1;
+        private bool wave1Spawned = false;
+        
+        [SerializeField]
+        private GameObject enemyWave2;
+        private bool wave2Spawned = false;
+        
+        [SerializeField]
+        private GameObject enemyWave3;
+        private bool wave3Spawned = false;
         
         private Animator _animator;
         
@@ -239,7 +249,7 @@ namespace Source.Actors
 
             var pos = transform.position;
             Instantiate(damageEffectPrefab).At(pos.x + Random.Range(-1, 1), pos.y + Random.Range(-1, 1));
-            _attackable.Damage(10); // todo: adjust this later ,this is just for testing
+            _attackable.Damage(2);
             bulletComp.HitSomething();
             impulseSource.GenerateImpulse();
             
@@ -249,9 +259,10 @@ namespace Source.Actors
             
             // show wounds maybe 
             var hp = _attackable.Health;
-            
+
             if (hp < 80)
                 wound1.SetActive(true);
+            
             if (hp < 60)
                 wound2.SetActive(true);
             if (hp < 40)
@@ -264,6 +275,20 @@ namespace Source.Actors
 
         public void BeginBattle()
         {
+            var health = _attackable.Health;
+            
+            // after phase 1 dialogue spawn first wave
+            if (!wave1Spawned && health <= 75)
+            {
+                enemyWave1.SetActive(true);
+            }
+            
+            // after phase 2 dialogue spawn first wave
+            if (!wave2Spawned && health <= 50)
+            {
+                enemyWave2.SetActive(true);
+            }
+
             ResetNoAttackTimer();
             
             foreach (var node in nodes)
@@ -277,12 +302,21 @@ namespace Source.Actors
             ShowHud();
         }
 
+        private void KillAllEnemies(GameObject wave)
+        {
+            foreach (var attackable in wave.GetComponentsInChildren<Attackable>())
+            {
+                attackable.Die();
+            }
+        }
+
         private void UpdateState()
         {
             var hp = _attackable.Health;
             
             if (hp <= 0)
             {
+                
                 _state = State.Dying;
                 _enableLaser = false;
                 _enableMovement = false;
@@ -292,15 +326,27 @@ namespace Source.Actors
                     node.gameObject.SetActive(false);
                 }
 
+                KillAllEnemies(enemyWave3);
+                KillAllEnemies(enemyWave2);
+
                 _player.SetDialogueMode(true);
                 deathDialogue.SetActive(true);
                 
                 return;
             }
             
+            if (!wave3Spawned && hp <= 30)
+            {
+                enemyWave3.SetActive(true);
+                wave3Spawned = true;
+            }
+            
             // enable laser 
             if (!phase2DialogueTriggered && hp <= 50)
             {
+                // make sure we don't die during the dialogue lol
+                KillAllEnemies(enemyWave1);
+                
                 // disable node shooting (will be re-enabled when dialogue completes)
                 foreach (var node in nodes)
                 {

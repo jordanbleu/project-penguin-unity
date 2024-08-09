@@ -8,7 +8,7 @@ namespace Source.Weapons
     {
         public void CollideWithPlayer(Player playerComponent)
         {
-            playerComponent.TakeDamage(5);
+            playerComponent.TakeDamage(20);
         }
     }
 }
