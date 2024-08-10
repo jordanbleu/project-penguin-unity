@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  baseScoreValue: 250
 --- !u!95 &6225269982403126319
 Animator:
   serializedVersion: 5

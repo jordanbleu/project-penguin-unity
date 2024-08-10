@@ -2,6 +2,7 @@ using System;
 using Cinemachine;
 using Source.Behaviors;
 using Source.Constants;
+using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Weapons;
@@ -63,6 +64,7 @@ namespace Source.Actors
         public void AttackedByBullet(GameObject bullet)
         {
             bullet.GetComponent<Bullet>().HitSomething();
+            Stats.TrackBulletHit();
             attackable.Die();
         }
 

@@ -1,4 +1,5 @@
 using System;
+using Source.Data;
 using Source.Interfaces;
 using Source.Physics;
 using UnityEngine;
@@ -32,7 +33,11 @@ namespace Source.Weapons
             rigidBody.velocity =  new Vector2(randomXVel, -(absYVel*1));
             attachedCollider.enabled = false;
         }
-        
+
+        public void ResetPlayerBulletCombo()
+        {
+            Stats.ResetBulletsFiredCombo();
+        }
 
         public void HitSomething()
         {

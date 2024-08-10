@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using Source.Behaviors;
+using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Utilities;
@@ -87,6 +88,7 @@ namespace Source.Actors
             
             if (_isVulnerable)
             {
+                Stats.TrackBulletHit();
                 impulseSource.GenerateImpulse();
                 ApplyDamageEffect();
                 bulletComponent.HitSomething();

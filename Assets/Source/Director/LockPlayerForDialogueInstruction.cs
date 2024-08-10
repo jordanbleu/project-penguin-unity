@@ -14,6 +14,10 @@ namespace Source.Director
         [SerializeField]
         [Tooltip("Optional - Health bar to hide")]
         private ShowHide energyBar;
+
+        [Tooltip("Optional - Score display to hide")]
+        [SerializeField]
+        private ShowHide score;
         
         public override void InstructionBegin()
         {
@@ -36,6 +40,12 @@ namespace Source.Director
             {
                 energyBarComponent.Hide();
             }
+            
+            if (score != null && score.TryGetComponent<ShowHide>(out var scoreComponent))
+            {
+                scoreComponent.Hide();
+            }
+   
             
             base.InstructionBegin();
         }

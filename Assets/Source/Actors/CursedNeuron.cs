@@ -2,6 +2,7 @@ using System;
 using Cinemachine;
 using Source.Behaviors;
 using Source.Constants;
+using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Mathematics;
@@ -270,6 +271,7 @@ namespace Source.Actors
             if (hp < 30)
                 wound4.SetActive(true);
 
+            Stats.TrackBulletHit();
             UpdateState();
         }
 

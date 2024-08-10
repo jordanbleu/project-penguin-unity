@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using Source.Constants;
+using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Timers;
@@ -130,6 +131,7 @@ namespace Source.Actors
                 return;
             }
 
+            Stats.TrackBulletHit();
             b.HitSomething();
 
             _hits--;

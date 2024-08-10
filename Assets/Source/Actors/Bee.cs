@@ -1,5 +1,6 @@
 
 using Source.Behaviors;
+using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Mathematics;
@@ -140,6 +141,7 @@ namespace Source.Actors
 
         public void AttackedByBullet(GameObject attackingBullet)
         {
+            Stats.TrackBulletHit();
             attackingBullet.GetComponent<Bullet>().HitSomething();
             _rigidBody.AddForce(new(0,5), ForceMode2D.Impulse);
             Die();

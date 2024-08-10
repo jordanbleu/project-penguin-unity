@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using Source.Behaviors;
+using Source.Data;
 using Source.Dialogue;
 using Source.Extensions;
 using Source.Interfaces;
@@ -234,8 +235,11 @@ namespace Source.Actors
 
                 _damageCooldownTime = DamageCooldownMax;
                 Instantiate(shieldAborbEffectPrefab).At(ox, oy);
+                Stats.TrackDamageBlockedByShield(amount);
                 return true;
             }
+
+            Stats.TrackDamageTaken(amount);
 
             healthDiplayBar.BounceUp();
             _currentHealthRegenDelay = HealthRegenDelay;
@@ -298,6 +302,8 @@ namespace Source.Actors
         {
             if (_isWeaponsLocked)
                 return;
+
+            Stats.TrackBulletFired();
             blaster.Shoot();
         }
 
@@ -311,6 +317,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
+            Stats.TrackLaser();
             var position = transform.position;
             Instantiate(playerLaserPrefab).At(position.x, position.y + 8);
         }
@@ -324,7 +331,8 @@ namespace Source.Actors
             
             if (!TryReduceEnergy(requiredEnergy))
                 return;
-            
+
+            Stats.TrackPlayerDash();
             var position = transform.position;
             Instantiate(playerDashAnimationPrefab).At(position);
             rigidBody.AddForce(new(_lastDirection * dashThrust, 0), ForceMode2D.Impulse);
@@ -342,7 +350,7 @@ namespace Source.Actors
 
             if (!TryReduceEnergy(requiredEnergy))
                 return;
-            
+            Stats.TrackShield();
             shield.gameObject.SetActive(true);
         }
 
@@ -356,6 +364,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
+            Stats.TrackMissile();
             Instantiate(playerMissilePrefab).At(transform.position);
         }
 
@@ -369,6 +378,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
+            Stats.TrackMine();
             Instantiate(playerMinePrefab).At(transform.position);
         }
         
@@ -387,6 +397,8 @@ namespace Source.Actors
 
             if (!TryReduceEnergy(requiredEnergy))
                 return;
+            
+            Stats.TrackForceField();
             var position = transform.position;
             var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
             Instantiate(forcefieldPrefab).At(adjustedPosition);

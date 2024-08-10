@@ -1,4 +1,5 @@
 using Source.Actors;
+using Source.Data;
 using Source.Interfaces;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ namespace Source.Weapons
         public void AttackedByBullet(GameObject attackingBullet)
         {
             bullet.HitSomething();
+            Stats.TrackBulletHit();
             attackingBullet.GetComponent<Bullet>().HitSomething();
         }
 

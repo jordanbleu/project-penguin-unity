@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  baseScoreValue: 100
 --- !u!114 &2584072341561499569
 MonoBehaviour:
   m_ObjectHideFlags: 0

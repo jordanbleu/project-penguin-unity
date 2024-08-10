@@ -15,6 +15,10 @@ namespace Source.Director
         [Tooltip("Optional - Health bar to show")]
         private ShowHide energyBar;
         
+        [Tooltip("Optional - Score display to hide")]
+        [SerializeField]
+        private ShowHide score;
+        
         public override void InstructionBegin()
         {
             var player = GameObject.FindWithTag(Tags.Player);
@@ -33,6 +37,11 @@ namespace Source.Director
             if (energyBar != null && energyBar.TryGetComponent<ShowHide>(out var energyBarComponent))
             {
                 energyBarComponent.Show();
+            }
+            
+            if (score != null && score.TryGetComponent<ShowHide>(out var scoreComponent))
+            {
+                scoreComponent.Show();
             }
             
             player.GetComponent<Player>().SetDialogueMode(false);
