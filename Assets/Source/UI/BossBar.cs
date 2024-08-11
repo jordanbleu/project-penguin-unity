@@ -15,7 +15,13 @@ namespace Source.UI
 
         private void Update()
         {
+            // Happens when the gameobject is inactive.
+            if (attackable.MaxHealth == 0)
+                return;
+            
             var percent = (float)attackable.Health / attackable.MaxHealth;
+            
+            
             bar.SetValue(percent);
         }
     }

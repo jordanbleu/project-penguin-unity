@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Source.UI
@@ -11,40 +10,32 @@ namespace Source.UI
     public class ShowHide : MonoBehaviour
     {
         [SerializeField]
-        private Vector2 offScreenPositionOffset = Vector2.zero;
+        private OffScreenPosition offScreenPosition = OffScreenPosition.Bottom;
+
+        [SerializeField]
+        private bool show = true;
 
         [SerializeField]
         private float animationSeconds = 1f;
         
-        [SerializeField]
-        private bool startActive;
-        
-        private Vector2 _onScreenPosition;
-        private Vector2 _offScreenPosition;
+        private Vector2 _startPosition;
+
         private void Start()
         {
-            
-            _onScreenPosition = transform.localPosition;
-            _offScreenPosition = _onScreenPosition + offScreenPositionOffset;
+            _startPosition = (Vector2)transform.localPosition;
 
-            if (startActive)
-            {
-                gameObject.SetActive(true);
-            }
+            if (show)
+                Show();
             else
-            {
-                transform.localPosition = _offScreenPosition;
-                gameObject.SetActive(false);
-            }
+                Hide();
         }
 
         public void Show()
         {
-            gameObject.SetActive(true);
             if (LeanTween.isTweening(gameObject))
                 LeanTween.cancel(gameObject);
 
-            LeanTween.moveLocal(gameObject, _onScreenPosition, animationSeconds)
+            LeanTween.moveLocal(gameObject, _startPosition, animationSeconds)
                 .setEase(LeanTweenType.easeOutBack);
         }
 
@@ -52,24 +43,35 @@ namespace Source.UI
         {
             if (LeanTween.isTweening(gameObject))
                 LeanTween.cancel(gameObject);
-            
-            LeanTween.moveLocal(gameObject, _offScreenPosition, animationSeconds)
-                .setEase(LeanTweenType.easeInBack)
-                .setOnComplete(() => gameObject.SetActive(false));
+
+            LeanTween.moveLocal(gameObject, GetOffScreen(), animationSeconds)
+                .setEase(LeanTweenType.easeInBack);
         }
 
-        private void OnDrawGizmosSelected()
+        private Vector2 GetOffScreen()
         {
-            Gizmos.color = Color.red;
-            
-            // Convert local position to world position
-            Vector3 worldPosition = transform.position;
+            switch (offScreenPosition)
+            {
+                case OffScreenPosition.Bottom:
+                    return new(_startPosition.x, _startPosition.y -50);
+                case OffScreenPosition.Top:
+                    return new(_startPosition.x, _startPosition.y + 50);
+                case OffScreenPosition.Left:
+                    return new(_startPosition.x -50, _startPosition.y);
+                case OffScreenPosition.Right:
+                    return new Vector2(_startPosition.x + 50, _startPosition.y);
+            }
 
-            // Convert local position + offScreenPositionOffset to world position
-            Vector3 offsetWorldPosition = transform.TransformPoint(offScreenPositionOffset);
-
-            // Draw a line from worldPosition to offsetWorldPosition
-            Gizmos.DrawLine(worldPosition, offsetWorldPosition);
+            return Vector2.zero;
+        }
+        
+        
+        public enum OffScreenPosition
+        {
+            Top,
+            Bottom,
+            Left,
+            Right
         }
     }
 }

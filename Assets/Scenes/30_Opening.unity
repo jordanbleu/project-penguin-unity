@@ -5939,23 +5939,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1581364425}
+      objectReference: {fileID: 1525019246}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetComplete
+      value: SetActive
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Source.Director.WaitForExternalTriggerInstruction, Penguin
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
@@ -7824,7 +7824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6659746343443248706, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
@@ -9010,7 +9010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
-      value: ' ...where did you go?'
+      value: Where have you <i>actually</i> been?
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16320,7 +16320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
-      value: They told me this could happen...
+      value: We can't go back...
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_fontStyle
@@ -16379,11 +16379,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: f065f36d5f248401faa937c8288bf41d, type: 3}
     - target: {fileID: 5259467999780926003, guid: fe2990efe2931405d881674590be3ff8, type: 3}
       propertyPath: m_Name
-      value: fadeIn - todo disable
+      value: initialFadeIn
       objectReference: {fileID: 0}
     - target: {fileID: 5259467999780926003, guid: fe2990efe2931405d881674590be3ff8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6338914087813374525, guid: fe2990efe2931405d881674590be3ff8, type: 3}
       propertyPath: m_Pivot.x
@@ -20211,7 +20211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
@@ -26390,6 +26390,126 @@ RectTransform:
   m_AnchoredPosition: {x: 120, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &773038346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 773038347}
+  - component: {fileID: 773038348}
+  m_Layer: 0
+  m_Name: disable player, hide hud, show fade in
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &773038347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773038346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5047347542827112679}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &773038348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773038346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c1c7f5394f417480998094c4dd7f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 1
+  eventsToTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1951152378}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1567513621}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2114825422}
+        m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6546194773383989439}
+        m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4175962818847922659}
+        m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1288188203}
+        m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &774453035
 GameObject:
   m_ObjectHideFlags: 0
@@ -26607,7 +26727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
-      value: These ships are way nicer than our rusted shit-boxes.
+      value: These ships are way nicer than the shit-boxes back home.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -27298,7 +27418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
-      value: You're not gonna shoot them..are you?
+      value: Something weird's going on, we should head back.
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_fontStyle
@@ -34888,6 +35008,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1288188203}
+        m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1567513621}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -40055,11 +40187,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8843910553517088633, guid: ebf072ca97f6b4975b5a7ab7dc2d3027, type: 3}
       propertyPath: autoScrollSpeed.y
-      value: -0.02
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 9172475010602398552, guid: ebf072ca97f6b4975b5a7ab7dc2d3027, type: 3}
       propertyPath: autoScrollSpeed.y
-      value: -0.04
+      value: -0.02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -48763,9 +48895,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c27354453264b13bebd1735a72c8779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offScreenPositionOffset: {x: 0, y: 25}
+  offScreenPosition: 0
+  show: 0
   animationSeconds: 1
-  startActive: 1
 --- !u!114 &1288188204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49014,6 +49146,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318404820}
   m_CullTransparentMesh: 1
+--- !u!1 &1323720154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1323720155}
+  - component: {fileID: 1323720156}
+  m_Layer: 0
+  m_Name: cleanup npcs (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1323720155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323720154}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5047347542827112679}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1323720156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323720154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c1c7f5394f417480998094c4dd7f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 1
+  eventsToTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 809430568}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1326961540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50687,13 +50879,14 @@ MonoBehaviour:
   onDismissed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 218803479}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 218803481}
+        m_TargetAssemblyTypeName: Source.Director.WaitForExternalTriggerInstruction,
+          Penguin
+        m_MethodName: SetComplete
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -64166,6 +64359,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520954733}
   m_CullTransparentMesh: 1
+--- !u!1 &1525019246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6083869670091931889, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
+  m_PrefabInstance: {fileID: 168180315}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1526099516
 GameObject:
   m_ObjectHideFlags: 0
@@ -66577,6 +66775,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 4175962818847922659}
+        m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1288188203}
         m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
         m_MethodName: Hide
         m_Mode: 1
@@ -70101,11 +70311,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
-      value: Dammit...
+      value: They warned me about this...
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_fontStyle
-      value: 0
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
+      propertyPath: m_fontColor.a
+      value: 0.12941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 570425343
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -75193,7 +75411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1862121963
 Transform:
   m_ObjectHideFlags: 0
@@ -84338,6 +84556,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1888926356827521555, guid: 4cd7630263a3046b2ae5a09123c8d966, type: 3}
   m_PrefabInstance: {fileID: 1948678498}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1951152378 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5259467999780926003, guid: fe2990efe2931405d881674590be3ff8, type: 3}
+  m_PrefabInstance: {fileID: 515312761}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1954529274
 GameObject:
   m_ObjectHideFlags: 0
@@ -84710,52 +84933,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966635466}
   m_CullTransparentMesh: 1
---- !u!1 &1967686815
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1967686816}
-  - component: {fileID: 1967686817}
-  m_Layer: 0
-  m_Name: delete this
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1967686816
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967686815}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5047347542827112679}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1967686817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967686815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3e80a900eab4482850c7b151e67410e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isEnabled: 1
-  seconds: 6
 --- !u!1 &1970130487
 GameObject:
   m_ObjectHideFlags: 0
@@ -89098,7 +89275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
-      value: I told you...vacation.
+      value: I told you I was on vacation.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -89657,9 +89834,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c27354453264b13bebd1735a72c8779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offScreenPositionOffset: {x: 41, y: 0}
+  offScreenPosition: 3
+  show: 0
   animationSeconds: 1
-  startActive: 0
 --- !u!1 &2118672938
 GameObject:
   m_ObjectHideFlags: 0
@@ -90419,23 +90596,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1804687622}
+      objectReference: {fileID: 452411581}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: SetComplete
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: Source.Director.WaitForExternalTriggerInstruction, Penguin
       objectReference: {fileID: 0}
     - target: {fileID: 20062936365597203, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
@@ -90549,7 +90726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
-      value: What do I do?
+      value: ...not this time
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_fontStyle
@@ -90600,7 +90777,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.043853875
+      value: 0.04376206
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.y
@@ -92547,7 +92724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375923705766138934, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
       propertyPath: m_text
-      value: Welcome back, boss!
+      value: Welcome back to paradise, boss!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -92833,9 +93010,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c27354453264b13bebd1735a72c8779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offScreenPositionOffset: {x: -25, y: 0}
-  animationSeconds: 1.5
-  startActive: 1
+  offScreenPosition: 2
+  show: 0
+  animationSeconds: 1
 --- !u!114 &4337324040416695098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93171,16 +93348,16 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 515312762}
   - {fileID: 511964404}
   - {fileID: 7156894585218801671}
   - {fileID: 460719251}
   - {fileID: 2621616937997445327}
   - {fileID: 742212235}
   - {fileID: 2133395471}
-  - {fileID: 1726744868}
   - {fileID: 512902603}
   - {fileID: 1400573182}
+  - {fileID: 1726744868}
+  - {fileID: 515312762}
   - {fileID: 40740334}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -93202,6 +93379,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 773038347}
   - {fileID: 1450559574294100239}
   - {fileID: 1000573675}
   - {fileID: 2000232529}
@@ -93289,11 +93467,11 @@ Transform:
   - {fileID: 86048940}
   - {fileID: 1105188173}
   - {fileID: 2079830406}
+  - {fileID: 1702030825}
   - {fileID: 1712009227}
   - {fileID: 1636835469}
   - {fileID: 1788337918}
   - {fileID: 640378472}
-  - {fileID: 1702030825}
   - {fileID: 1358822884}
   - {fileID: 9634027}
   - {fileID: 326887769}
@@ -93337,6 +93515,7 @@ Transform:
   - {fileID: 669518118}
   - {fileID: 820758208}
   - {fileID: 165444155}
+  - {fileID: 1323720155}
   - {fileID: 1589428092}
   - {fileID: 571432826}
   - {fileID: 1667939453}
@@ -93364,7 +93543,6 @@ Transform:
   - {fileID: 522597963}
   - {fileID: 314585930}
   - {fileID: 1616856935}
-  - {fileID: 1967686816}
   - {fileID: 1070794841}
   - {fileID: 697751679}
   - {fileID: 1763203147}
@@ -93710,7 +93888,7 @@ MonoBehaviour:
           m_StringArgument: DONE
           m_BoolArgument: 0
         m_CallState: 2
-  startAtElement: 165
+  startAtElement: 136
 --- !u!1 &6415154532018689981
 GameObject:
   m_ObjectHideFlags: 0
@@ -93767,9 +93945,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c27354453264b13bebd1735a72c8779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offScreenPositionOffset: {x: -25, y: 0}
+  offScreenPosition: 2
+  show: 0
   animationSeconds: 1
-  startActive: 1
 --- !u!222 &6740099051948015228
 CanvasRenderer:
   m_ObjectHideFlags: 0

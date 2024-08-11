@@ -47,7 +47,6 @@ namespace Source.UI
         private void OnEnable()
         {
             var currentStats = Stats.Current;
-            currentStats.EndDt = DateTime.Now; // todo: do this better
             
             shotsFiredStat.SetText("Shots Fired:\n" + currentStats.BulletsFired);
             accuracyStat.SetText("Accuracy:\n" + FormatAccuracy(Stats.CalculateShotAccuracy()));
