@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Source.Constants;
 
 namespace Source.Data
 {
@@ -50,7 +51,15 @@ namespace Source.Data
             
             Current.TotalDashes++;
         }
-        
+
+        public static void TrackDeath()
+        {
+            if (Current is null)
+                return;
+
+            Current.Deaths++;
+        }
+
         public static void TrackLaser()
         {
             if (Current is null)
@@ -245,6 +254,8 @@ namespace Source.Data
         public int Deaths { get; set; }
 
         public string SceneName { get; set; }
+
+        public int LivesRemaining { get; set; } = GameplayConstants.TotalLives;
     }
 
 

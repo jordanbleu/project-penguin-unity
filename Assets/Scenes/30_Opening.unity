@@ -30903,7 +30903,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &897260978
 Transform:
   m_ObjectHideFlags: 0
@@ -34484,6 +34484,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4075044096929987444, guid: 510e42eb4bcae40ce89cab1604bc9e81, type: 3}
+      propertyPath: livesDisplay
+      value: 
+      objectReference: {fileID: 2130311054}
     - target: {fileID: 4075044096929987444, guid: 510e42eb4bcae40ce89cab1604bc9e81, type: 3}
       propertyPath: dialogueTyper
       value: 
@@ -48896,7 +48900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offScreenPosition: 0
-  show: 0
+  show: 1
   animationSeconds: 1
 --- !u!114 &1288188204
 MonoBehaviour:
@@ -89835,7 +89839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offScreenPosition: 3
-  show: 0
+  show: 1
   animationSeconds: 1
 --- !u!1 &2118672938
 GameObject:
@@ -90767,6 +90771,55 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6083869670091931889, guid: 4bdea9db9006848418d7e53158e21c0e, type: 3}
   m_PrefabInstance: {fileID: 2129558074}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2130311052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2130311053}
+  - component: {fileID: 2130311054}
+  m_Layer: 5
+  m_Name: livesDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2130311053
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130311052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 511831987039003446}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -220, y: 18}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2130311054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130311052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b6970d987944afa954234a865dede9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifeDisplayItemPrefab: {fileID: 557434969365062408, guid: a51490821ff5f4196904390f2efbb279, type: 3}
 --- !u!1001 &2132417254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90777,11 +90830,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.04376206
+      value: 0.04369413
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4902301
+      value: 1.4902401
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.z
@@ -91943,6 +91996,7 @@ RectTransform:
   m_Children:
   - {fileID: 633395957269218312}
   - {fileID: 9001687399582294447}
+  - {fileID: 2130311053}
   m_Father: {fileID: 7156894585218801671}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -93011,7 +93065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offScreenPosition: 2
-  show: 0
+  show: 1
   animationSeconds: 1
 --- !u!114 &4337324040416695098
 MonoBehaviour:
@@ -93888,7 +93942,7 @@ MonoBehaviour:
           m_StringArgument: DONE
           m_BoolArgument: 0
         m_CallState: 2
-  startAtElement: 136
+  startAtElement: 0
 --- !u!1 &6415154532018689981
 GameObject:
   m_ObjectHideFlags: 0
@@ -93946,7 +94000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offScreenPosition: 2
-  show: 0
+  show: 1
   animationSeconds: 1
 --- !u!222 &6740099051948015228
 CanvasRenderer:
@@ -94440,7 +94494,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9001687399582294447
 RectTransform:
   m_ObjectHideFlags: 0
