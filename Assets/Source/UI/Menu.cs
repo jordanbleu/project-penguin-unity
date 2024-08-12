@@ -168,6 +168,7 @@ namespace Source.UI
                     RefreshPage();
                 }
             }
+            menuItemData[_currentPageOffset + _selectorPosition].onItemHighlighted?.Invoke();
             RefreshMenuItems();
         }
         
@@ -194,6 +195,8 @@ namespace Source.UI
                     RefreshPage();
                 }
             }
+            menuItemData[_currentPageOffset + _selectorPosition].onItemHighlighted?.Invoke();
+
             RefreshMenuItems();
         }
         
@@ -210,8 +213,7 @@ namespace Source.UI
             var oldScaleY = selector.transform.localScale.y;
             LeanTween.scaleY(selector, 0.8f, 0.1f).setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
             
-            
-            menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected.Invoke();
+            menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected?.Invoke();
         }
 
         public void DismissMenu()
@@ -244,6 +246,9 @@ namespace Source.UI
 
             [SerializeField]
             public UnityEvent OnItemSelected;
+
+            [SerializeField]
+            public UnityEvent onItemHighlighted;
 
             [SerializeField]
             public bool IsEnabled = true;

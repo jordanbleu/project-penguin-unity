@@ -95,7 +95,7 @@ namespace Source.Actors
 
         public void CollideWithPlayer(Player playerComponent)
         {
-            playerComponent.TakeDamage(15);
+            playerComponent.TakeDamage(5);
             attackable.Die();
         }
     }

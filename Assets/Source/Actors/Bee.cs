@@ -171,7 +171,6 @@ namespace Source.Actors
         public void CollideWithPlayer(Player playerComponent)
         {
             playerComponent.TakeDamage(10);
-            
             Die();
         }
 

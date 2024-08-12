@@ -31,13 +31,13 @@ namespace Source.Director
         
         private Queue<GameInstruction> _gameInstructions;
         private GameInstruction _currentInstruction;
+        private bool firstUpdate = true;
         
         private void Start()
         {
             InitStats();
             var gameplayInstructionList = FindGampeplayInstructions();
             _gameInstructions = new Queue<GameInstruction>(gameplayInstructionList.Skip(startAtElement));
-            BeginNextInstruction();
         }
 
         private void InitStats()
@@ -98,6 +98,16 @@ namespace Source.Director
         
         private void Update()
         {
+            // this is done in update so we can ensure every other
+            // game object has had their 'start' method run.
+            // Otherwise the game behaves unpredictably because 
+            // other objects might run 'start' while the director is doing stuff.
+            if (firstUpdate)
+            {
+                BeginNextInstruction();
+                firstUpdate = false;
+            }
+
             if (_currentInstruction is null)
                 return;
 

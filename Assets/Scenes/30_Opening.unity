@@ -26466,31 +26466,7 @@ MonoBehaviour:
   eventsToTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1951152378}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1567513621}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2114825422}
+      - m_Target: {fileID: 6546194773383989439}
         m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
         m_MethodName: Hide
         m_Mode: 1
@@ -26502,7 +26478,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6546194773383989439}
+      - m_Target: {fileID: 2114825422}
         m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
         m_MethodName: Hide
         m_Mode: 1
@@ -26530,6 +26506,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: Source.UI.ShowHide, Penguin
         m_MethodName: Hide
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1951152378}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1567513621}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -30939,7 +30939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &897260978
 Transform:
   m_ObjectHideFlags: 0
@@ -92754,16 +92754,20 @@ PrefabInstance:
       value: colorOverlay
       objectReference: {fileID: 0}
     - target: {fileID: 8590792317810152694, guid: 3577198bcedf9433d99e02343e93d251, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590792317810152694, guid: 3577198bcedf9433d99e02343e93d251, type: 3}
       propertyPath: m_Color.b
-      value: 0.076762185
+      value: 0.13038269
       objectReference: {fileID: 0}
     - target: {fileID: 8590792317810152694, guid: 3577198bcedf9433d99e02343e93d251, type: 3}
       propertyPath: m_Color.g
-      value: 0.12337076
+      value: 0.12259702
       objectReference: {fileID: 0}
     - target: {fileID: 8590792317810152694, guid: 3577198bcedf9433d99e02343e93d251, type: 3}
       propertyPath: m_Color.r
-      value: 0.14150941
+      value: 0.1792453
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -94720,7 +94724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &9001687399582294447
 RectTransform:
   m_ObjectHideFlags: 0
