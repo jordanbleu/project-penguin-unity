@@ -268,7 +268,7 @@ namespace Source.Actors
                 return;
             }
 
-            sceneLoader.BeginFadingToScene(Scenes.DeathScene);
+            sceneLoader.BeginFadingToScene(Scenes.GameOver);
         }
 
         /// <summary>
