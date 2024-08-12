@@ -50,7 +50,7 @@ namespace Source.Actors
         
         [SerializeField]
         [Tooltip("Damage to apply to the player on collide")]
-        private int playerCollisionDamage = 0;
+        private int playerCollisionDamage = 10;
         
         
         private bool _isVulnerable = true;

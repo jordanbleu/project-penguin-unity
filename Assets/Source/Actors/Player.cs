@@ -1,10 +1,12 @@
 using System;
 using Cinemachine;
 using Source.Behaviors;
+using Source.Constants;
 using Source.Data;
 using Source.Dialogue;
 using Source.Extensions;
 using Source.Interfaces;
+using Source.Optimizations;
 using Source.Timers;
 using Source.UI;
 using Source.Weapons;
@@ -82,6 +84,10 @@ namespace Source.Actors
 
         [SerializeField]
         private LivesDisplay livesDisplay;
+
+        [SerializeField]
+        [Tooltip("Needed for going to the death scene.")]
+        private SceneLoader sceneLoader;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
@@ -262,8 +268,7 @@ namespace Source.Actors
                 return;
             }
 
-            // todo: go to game over scene.
-            Debug.Log("Game over");
+            sceneLoader.BeginFadingToScene(Scenes.DeathScene);
         }
 
         /// <summary>

@@ -122,7 +122,7 @@ MonoBehaviour:
   attackable: {fileID: 2101555203322495063}
   speed: -2
   repelPlayerOnCollide: 0
-  playerCollisionDamage: 2
+  playerCollisionDamage: 10
 --- !u!95 &7650492487039300539
 Animator:
   serializedVersion: 5
