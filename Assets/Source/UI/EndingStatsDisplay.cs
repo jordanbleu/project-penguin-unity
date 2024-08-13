@@ -48,11 +48,11 @@ namespace Source.UI
         {
             var currentStats = Stats.Current;
             
-            shotsFiredStat.SetText("Shots Fired:\n" + currentStats.BulletsFired);
+            shotsFiredStat.SetText("Shots\nFired:\n" + currentStats.BulletsFired);
             accuracyStat.SetText("Accuracy:\n" + FormatAccuracy(Stats.CalculateShotAccuracy()));
-            biggestComboStat.SetText("Biggest Combo:\n" + currentStats.BiggestCombo);
-            damageTakenStat.SetText("Damage Taken:\n" + currentStats.DamageTaken);
-            damageDealtStat.SetText("Damage Dealt:\n" + currentStats.DamageDealt);
+            biggestComboStat.SetText("Biggest\nCombo:\n" + currentStats.BiggestCombo);
+            damageTakenStat.SetText("Damage\nTaken:\n" + currentStats.DamageTaken);
+            damageDealtStat.SetText("Damage\nDealt:\n" + currentStats.DamageDealt);
             playTimeStat.SetText("Play Time:\n" + FormatPlayTime(currentStats.EndDt - currentStats.StartDt));
             deathsStat.SetText("Deaths:\n" + currentStats.Deaths);
             rankStat.SetText("Rank:\n" + RankCalculator.CalculateRank(currentStats.Deaths, currentStats.BulletsFired, currentStats.BulletsHit, currentStats.DamageTaken).ToDisplayString());

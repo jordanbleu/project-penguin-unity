@@ -210,6 +210,43 @@ namespace Source.Actors
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(0, -6), 4* dt);
             }
 
+            DoubleCheckForOutOfBounds();
+        }
+
+        /// <summary>
+        /// extra protection in case the player somehow gets forced out of bounds
+        ///
+        /// For example, without this method, if you push forward into enemies that are
+        /// pushing you out of bounds you glitch through the wall.
+        ///
+        /// This should still be combined with physics based rigidbody walls though.
+        /// </summary>
+        private void DoubleCheckForOutOfBounds()
+        {
+            var pos = transform.position;
+
+            var x = pos.x;
+            var y = pos.y;
+            
+            if (pos.y < -10)
+            {
+                y = -8;
+            } 
+            else if (pos.y > 12)
+            {
+                y = 11;
+            }
+
+            if (x > 20)
+            {
+                x = 17;
+            }
+            else if (x < -19)
+            {
+                x = -16;
+            }
+            
+            transform.position = new Vector2(x, y);
         }
 
         private void OnTriggerStay2D(Collider2D other)

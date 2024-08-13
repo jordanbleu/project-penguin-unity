@@ -30939,7 +30939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &897260978
 Transform:
   m_ObjectHideFlags: 0
@@ -77774,9 +77774,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1253595475446790121, guid: d4a3a49c2c62c42f0aca902fc9263f5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4077061499766511615, guid: d4a3a49c2c62c42f0aca902fc9263f5d, type: 3}
       propertyPath: m_LocalPosition.y
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4155063981527911354, guid: d4a3a49c2c62c42f0aca902fc9263f5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4715562924000522621, guid: d4a3a49c2c62c42f0aca902fc9263f5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6310884871629852274, guid: d4a3a49c2c62c42f0aca902fc9263f5d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77825,6 +77837,10 @@ PrefabInstance:
     - target: {fileID: 7536643132294610774, guid: d4a3a49c2c62c42f0aca902fc9263f5d, type: 3}
       propertyPath: m_Name
       value: PlayerBounds
+      objectReference: {fileID: 0}
+    - target: {fileID: 7806238566117611736, guid: d4a3a49c2c62c42f0aca902fc9263f5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -91055,11 +91071,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.043771356
+      value: 0.04375944
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4902301
+      value: 1.4902401
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.z
@@ -94172,7 +94188,7 @@ MonoBehaviour:
           m_StringArgument: DONE
           m_BoolArgument: 0
         m_CallState: 2
-  startAtElement: 0
+  startAtElement: 167
 --- !u!1 &6415154532018689981
 GameObject:
   m_ObjectHideFlags: 0

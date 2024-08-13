@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Source.Constants;
 using Source.Data;
 using UnityEngine;
 using UnityEngine.Events;
@@ -45,6 +46,7 @@ namespace Source.Director
             Stats.Current = new();
             Stats.Current.StartDt = System.DateTime.UtcNow;
             Stats.Current.SceneName = SceneManager.GetActiveScene().name;
+            Stats.Current.LivesRemaining = GameplayConstants.TotalLives;
         }
 
         
