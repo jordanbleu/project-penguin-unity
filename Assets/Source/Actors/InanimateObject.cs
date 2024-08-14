@@ -21,6 +21,9 @@ namespace Source.Actors
 
         [SerializeField]
         private GameObject particles;
+
+        [SerializeField]
+        private int damageToPlayerOnCollide = 50;
         
         public void AttackedByBullet(GameObject bullet)
         {
@@ -45,7 +48,7 @@ namespace Source.Actors
 
         public void CollideWithPlayer(Player playerComponent)
         {
-            playerComponent.TakeDamage(50);
+            playerComponent.TakeDamage(damageToPlayerOnCollide);
             impulseSource.GenerateImpulse();
             flashObject.gameObject.SetActive(true);
             flashObject.Reset();

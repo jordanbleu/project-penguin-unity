@@ -1,5 +1,8 @@
 using System;
 using Cinemachine;
+using Source.Constants;
+using Source.Data;
+using Source.Extensions;
 using Source.Interfaces;
 using Source.Timers;
 using Source.Weapons;
@@ -12,8 +15,9 @@ namespace Source.Actors
     /// </summary>
     public class CursedNeuronNode : MonoBehaviour, IAttackResponder
     {
-        private const float HealTime = 7f;
+        private const float HealTime = 10f;
         private const int MaxHits = 3;
+        private const float ShootWaitSeconds = 3f;
         
         private static readonly int Damage = Animator.StringToHash("damage");
         private static readonly int IsDisabled = Animator.StringToHash("is-disabled");
@@ -24,21 +28,45 @@ namespace Source.Actors
         private bool _isDisabled = false;
         private float _healTimer = 0f;
 
+        public bool EnableShooting { get; set; } = false;
+
+
         [SerializeField]
         private GameObject connector;
 
         [SerializeField]
+        private GameObject bulletPrefab;
+
+        [SerializeField]
         private CinemachineImpulseSource impulseSource;
 
+        private GameObject _player;
+
+        private float _shootTimer = 0f;
+        
+        private float _noAttackSeconds = 3f;
+
+        
         private void Start()
         {
             _animator = GetComponent<Animator>();
+            _player = GameObject.FindWithTag(Tags.Player);
         }
 
         private void Update()
         {
-            if (!_isDisabled) 
+            // gives the player a second to get ready
+            if (_noAttackSeconds > 0)
+            {
+                _noAttackSeconds -= Time.deltaTime;
                 return;
+            }
+            
+            if (!_isDisabled)
+            {
+                ShootAtPlayer();
+                return;
+            }
 
             _healTimer -= Time.deltaTime;
 
@@ -50,6 +78,45 @@ namespace Source.Actors
             }
 
             connector.SetActive(!_isDisabled);
+        }
+
+        public void ResetNoAttackTimer()
+        {
+            _noAttackSeconds = 3f;
+        }
+
+        private void ShootAtPlayer()
+        {
+            if (!EnableShooting)
+                return;
+            
+            var playerPosition = _player.transform.position;
+            var playerY = playerPosition.y;
+            var playerX = playerPosition.x;
+
+            var position = transform.position;
+            var x = position.x;
+            var y = position.y;
+
+            // cannot shoot what is above me
+            if (playerY > y)
+                return;
+
+            var min = x - 0.25;
+            var max = x + 0.25;
+
+            if (_shootTimer > 0f)
+            {
+                _shootTimer -= Time.deltaTime;
+                return;
+            }
+
+            
+            if (playerX > min && playerX < max)
+            {
+                Instantiate(bulletPrefab).At(x, y - 0.5f);
+                _shootTimer = ShootWaitSeconds;
+            }
         }
 
         public void AttackedByBullet(GameObject bullet)
@@ -64,6 +131,7 @@ namespace Source.Actors
                 return;
             }
 
+            Stats.TrackBulletHit();
             b.HitSomething();
 
             _hits--;

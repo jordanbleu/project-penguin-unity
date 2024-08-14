@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using Source.Behaviors;
+using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Utilities;
@@ -49,7 +50,7 @@ namespace Source.Actors
         
         [SerializeField]
         [Tooltip("Damage to apply to the player on collide")]
-        private int playerCollisionDamage = 0;
+        private int playerCollisionDamage = 10;
         
         
         private bool _isVulnerable = true;
@@ -87,6 +88,7 @@ namespace Source.Actors
             
             if (_isVulnerable)
             {
+                Stats.TrackBulletHit();
                 impulseSource.GenerateImpulse();
                 ApplyDamageEffect();
                 bulletComponent.HitSomething();

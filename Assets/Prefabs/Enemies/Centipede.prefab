@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3075361719542911775}
+  useDamageEffectPrefab: 1
   damageEffectPrefab: {fileID: 7882105086757108562, guid: db187bc38767e4478a2f53d1c80aedd0, type: 3}
   impulseSource: {fileID: 4137972518460508014}
   rigidBody: {fileID: 7514261979626863860}
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 8
+  baseScoreValue: 200
 --- !u!114 &4137972518460508014
 MonoBehaviour:
   m_ObjectHideFlags: 0

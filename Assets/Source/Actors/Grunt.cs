@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using Source.Behaviors;
+using Source.Data;
 using Source.Interfaces;
 using Source.Timers;
 using Source.Weapons;
@@ -60,6 +61,7 @@ namespace Source.Actors
         {
             attackable.Damage(1);
             rigidBody2d.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
+            Stats.TrackBulletHit();
             cameraImpulseSource.GenerateImpulse(CameraImpulseForce);
             bullet.GetComponent<Bullet>().HitSomething();
         }
@@ -67,7 +69,6 @@ namespace Source.Actors
         public void AttackedByLaser(GameObject laser)
         {
             attackable.Die();
-            
             var xForce = UnityEngine.Random.Range(-7, 7);
             rigidBody2d.AddForce(new Vector2(xForce, 5), ForceMode2D.Impulse);
             

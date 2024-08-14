@@ -192,6 +192,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   preDelaySeconds: 0
+  loopMode: 0
 --- !u!1 &4948620577116684149
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connector: {fileID: 4311329235637898086}
+  bulletPrefab: {fileID: 246940042024443775, guid: 1dd90087100e14c79875cd5a05527efa, type: 3}
   impulseSource: {fileID: 1437489596394721586}
 --- !u!114 &4236097470014549167
 MonoBehaviour:
@@ -393,4 +395,4 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: -1, y: 0, z: 0}
+  m_DefaultVelocity: {x: -0.5, y: 0, z: 0}

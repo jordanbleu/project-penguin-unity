@@ -39,10 +39,13 @@ namespace Source.UI
         private LeanTweenType easeOutStyle = LeanTweenType.linear;
 
         [SerializeField]
-        private UnityEvent onAnimateInCompleted = new UnityEvent();
+        private UnityEvent onAnimateInCompleted = new();
 
         [SerializeField]
-        private UnityEvent onToastComplete = new UnityEvent();
+        private UnityEvent onAnimationInBegin = new();
+        
+        [SerializeField]
+        private UnityEvent onToastComplete = new();
         
         [SerializeField]
         [Tooltip("Setting to false will keep the toast alive once it completes.  Make sure to add a listener to onToastComplete if you do this, or weird things will happen!")]
@@ -68,15 +71,26 @@ namespace Source.UI
 
         private void OnEnable()
         {
+            
+#if UNITY_EDITOR
+            if ((presentationMode is PresentationMode.Skippable or PresentationMode.Wait) && pressEnterIndicator == null)
+            {
+                Debug.LogWarning("CONVENTION VIOLATION -> skippable toasts need to display the 'pressEnterIndicator' somewhere.  Please fix this on the toast: " + name);
+            }
+#endif
             _initialPosition = transform.localPosition;
             _yOffscreenPosition = _initialPosition.y - 20;
 
             var player = GameObject.FindGameObjectWithTag(Tags.Player);
-            
-            if (player.TryGetComponent<Player>(out _player))
+
+            if (player != null)
             {
-                _player.AddMenuEnterEventListener(Dismiss);
+                if (player.TryGetComponent<Player>(out _player))
+                {
+                    _player.AddMenuEnterEventListener(Dismiss);
+                }
             }
+
             
             SetInitialPosition();
             BeginAnimateIn();
@@ -90,7 +104,7 @@ namespace Source.UI
             if (!_isDisplayed)
                 return;
 
-            if (pressEnterIndicator.activeSelf)
+            if (pressEnterIndicator != null && pressEnterIndicator.activeSelf)
             {
                 var originalY = pressEnterIndicator.transform.localPosition.y;
                 LeanTween
@@ -127,6 +141,7 @@ namespace Source.UI
 
         private void BeginAnimateIn()
         {
+            onAnimationInBegin?.Invoke();
             var yPosition = _initialPosition.y;
             if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)
             {
@@ -218,7 +233,8 @@ namespace Source.UI
         private void OnAnimateInComplete()
         {
             // show the 'press enter' arrow if it makes sense
-            pressEnterIndicator.SetActive(!_isDismissed && (presentationMode is PresentationMode.Skippable or PresentationMode.Wait));
+            if (pressEnterIndicator != null)
+                pressEnterIndicator.SetActive(!_isDismissed && (presentationMode is PresentationMode.Skippable or PresentationMode.Wait));
             
             onAnimateInCompleted?.Invoke();
             _isDisplayed = true;

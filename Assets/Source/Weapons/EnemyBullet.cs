@@ -1,4 +1,5 @@
 using Source.Actors;
+using Source.Data;
 using Source.Interfaces;
 using UnityEngine;
 
@@ -11,10 +12,13 @@ namespace Source.Weapons
     public class EnemyBullet : MonoBehaviour, IEnemyProjectile, IAttackResponder
     {
         [SerializeField]
+        private int damage = 10;
+        
+        [SerializeField]
         private Bullet bullet;
         public void HitPlayer(Player playerComponent)
         {
-            playerComponent.TakeDamage(5);
+            playerComponent.TakeDamage(damage);
             
             if (playerComponent.ShieldProtectionEnabled)
             {
@@ -29,6 +33,7 @@ namespace Source.Weapons
         public void AttackedByBullet(GameObject attackingBullet)
         {
             bullet.HitSomething();
+            Stats.TrackBulletHit();
             attackingBullet.GetComponent<Bullet>().HitSomething();
         }
 

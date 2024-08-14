@@ -204,6 +204,7 @@ MonoBehaviour:
   attackable: {fileID: 2012728832459021184}
   animator: {fileID: 871819488740610098}
   shootPositionOffset: {x: 0, y: -1.5}
+  maxDistanceDelta: 0.15
 --- !u!114 &5740141792611077348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  baseScoreValue: 200
 --- !u!95 &871819488740610098
 Animator:
   serializedVersion: 5

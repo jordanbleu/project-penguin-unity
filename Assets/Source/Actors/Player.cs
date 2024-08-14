@@ -1,9 +1,12 @@
 using System;
 using Cinemachine;
 using Source.Behaviors;
+using Source.Constants;
+using Source.Data;
 using Source.Dialogue;
 using Source.Extensions;
 using Source.Interfaces;
+using Source.Optimizations;
 using Source.Timers;
 using Source.UI;
 using Source.Weapons;
@@ -20,7 +23,7 @@ namespace Source.Actors
         private const float HealthRegenRate = 2f;
         private const float HealthRegenDelay = 8f;
         private const float EnergyRegenRate = 0.5f;
-        
+
         [Tooltip("How much thrust is applied when moving ship.")]
         [SerializeField]
         private float thrust = 120;
@@ -78,6 +81,13 @@ namespace Source.Actors
 
         [SerializeField]
         private DialogueTyper dialogueTyper;
+
+        [SerializeField]
+        private LivesDisplay livesDisplay;
+
+        [SerializeField]
+        [Tooltip("Needed for going to the death scene.")]
+        private SceneLoader sceneLoader;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
@@ -85,10 +95,20 @@ namespace Source.Actors
 
         private float _currentHealthRegenDelay = 0f;
         private float _damageCooldownTime = 0f;
-        private bool _isWeaponsLocked = false;
-
-        private UnityEvent onUserInputEnter = new();
         
+        // if true the player can't shoot
+        private bool _isWeaponsLocked = false;
+        // if true the player can't move 
+        private bool _isMovementLocked = false;
+        // if true the player will move itself to the center position for dialogue 
+        private bool _isDialogueModeEnabled = false;
+
+        private bool _healthRegenEnabled = true;
+        
+        private UnityEvent onUserInputEnter = new();
+        private static readonly int DieAnimatorParam = Animator.StringToHash("die");
+        private static readonly int HasMoreLivesAnimatorParam = Animator.StringToHash("hasMoreLives");
+
         /// <summary>
         /// Triggers when the player presses the Menu Enter button.
         ///
@@ -118,8 +138,8 @@ namespace Source.Actors
             energyRegenInterval.SetInterval(EnergyRegenRate);
             energyRegenInterval.AddEventListener(RegenEnergy);
             
-            dialogueTyper.OnDialogueBegin.AddListener(() => _isWeaponsLocked = true);
-            dialogueTyper.OnDialogueComplete.AddListener(() => _isWeaponsLocked = false);
+            dialogueTyper.OnDialogueBegin.AddListener(() => SetDialogueMode(true));
+            dialogueTyper.OnDialogueComplete.AddListener(() => SetDialogueMode(false));
         }
         
         
@@ -143,6 +163,9 @@ namespace Source.Actors
         // called on interval for health regen
         private void RegenHealth()
         {
+            if (!_healthRegenEnabled)
+                return; 
+            
             if (_currentHealthRegenDelay > 0f)
                 return;
             
@@ -182,12 +205,59 @@ namespace Source.Actors
             if (_currentHealthRegenDelay > 0f)
                 _currentHealthRegenDelay -= dt;
 
+            if (_isDialogueModeEnabled)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(0, -6), 4* dt);
+            }
+
+            DoubleCheckForOutOfBounds();
+        }
+
+        /// <summary>
+        /// extra protection in case the player somehow gets forced out of bounds
+        ///
+        /// For example, without this method, if you push forward into enemies that are
+        /// pushing you out of bounds you glitch through the wall.
+        ///
+        /// This should still be combined with physics based rigidbody walls though.
+        /// </summary>
+        private void DoubleCheckForOutOfBounds()
+        {
+            var pos = transform.position;
+
+            var x = pos.x;
+            var y = pos.y;
+            
+            if (pos.y < -10)
+            {
+                y = -8;
+            } 
+            else if (pos.y > 12)
+            {
+                y = 11;
+            }
+
+            if (x > 20)
+            {
+                x = 17;
+            }
+            else if (x < -19)
+            {
+                x = -16;
+            }
+            
+            transform.position = new Vector2(x, y);
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            var collisionResponder = other.gameObject.GetComponent<ICollideWithPlayerResponder>();
+            collisionResponder?.CollideWithPlayer(this);
         }
 
         private void OnCollisionStay2D(Collision2D other)
         {
             var collisionResponder = other.gameObject.GetComponent<ICollideWithPlayerResponder>();
-
             collisionResponder?.CollideWithPlayer(this);
         }
 
@@ -203,9 +273,63 @@ namespace Source.Actors
 
         public void AddForceToPlayer(Vector2 force)
             => rigidBody.AddForce(force, ForceMode2D.Impulse);
-        
+
+        /// <summary>
+        /// Player has begun dying
+        /// </summary>
+        public void BeginDying()
+        {
+            _isMovementLocked = true;
+            _isWeaponsLocked = true;
+            _healthRegenEnabled = false;
+            Stats.TrackDeath();
+            Stats.Current.LivesRemaining--;
+            
+            animator.SetBool(HasMoreLivesAnimatorParam, Stats.Current.LivesRemaining >= 0);
+            animator.SetTrigger(DieAnimatorParam);
+        }
+
+        /// <summary>
+        /// (called from animator) player is done dying, and
+        /// will either revive or we go to game over
+        /// </summary>
+        public void EndDying()
+        {
+            var lives = Stats.Current.LivesRemaining;
+
+            if (lives >= 0)
+            {
+                health = 100;
+                // animator will handle this transition, but  refresh the hud
+                livesDisplay.Refresh();
+                return;
+            }
+
+            sceneLoader.BeginFadingToScene(Scenes.GameOver);
+        }
+
+        /// <summary>
+        /// (called from animator) player has finished reviving,
+        /// time to play the game again
+        /// </summary>
+        public void EndRevive()
+        {
+            _isMovementLocked = false;
+            _isWeaponsLocked = false;
+            _healthRegenEnabled = true;
+            
+            // free shield
+            shield.gameObject.SetActive(true);
+            RefreshHud();
+            healthDiplayBar.BounceUp();
+        }
+
         public bool TakeDamage(int amount)
         {
+            // not fair to damage player if they can't move lol
+            if (_isMovementLocked)
+                return false;
+            
             if (_damageCooldownTime > 0)
                 return false;
             
@@ -218,8 +342,11 @@ namespace Source.Actors
 
                 _damageCooldownTime = DamageCooldownMax;
                 Instantiate(shieldAborbEffectPrefab).At(ox, oy);
+                Stats.TrackDamageBlockedByShield(amount);
                 return true;
             }
+
+            Stats.TrackDamageTaken(amount);
 
             healthDiplayBar.BounceUp();
             _currentHealthRegenDelay = HealthRegenDelay;
@@ -228,7 +355,21 @@ namespace Source.Actors
             health -= amount;
             _damageCooldownTime = DamageCooldownMax;
             RefreshHud();
+            
+            if (health <= 0)
+            {
+                BeginDying();
+            }
+            
+            
             return true;
+        }
+        
+        public void SetDialogueMode(bool enabled)
+        {
+            _isDialogueModeEnabled = enabled;
+            _isWeaponsLocked = enabled;
+            _isMovementLocked = enabled;
         }
 
         /// <summary>
@@ -254,6 +395,12 @@ namespace Source.Actors
 
         private void OnMove(InputValue inputValue)
         {
+            if (_isMovementLocked)
+            {
+                _inputVelocity = Vector2.zero;
+                return;
+            }
+
             var inputVector = inputValue.Get<Vector2>();
             var xDirection = Math.Sign(inputVector.x);
 
@@ -269,6 +416,8 @@ namespace Source.Actors
         {
             if (_isWeaponsLocked)
                 return;
+
+            Stats.TrackBulletFired();
             blaster.Shoot();
         }
 
@@ -282,17 +431,22 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
+            Stats.TrackLaser();
             var position = transform.position;
             Instantiate(playerLaserPrefab).At(position.x, position.y + 8);
         }
 
         private void OnDash(InputValue inputValue)
         {
+            if (_isWeaponsLocked)
+                return;
+            
             var requiredEnergy = 10;
             
             if (!TryReduceEnergy(requiredEnergy))
                 return;
-            
+
+            Stats.TrackPlayerDash();
             var position = transform.position;
             Instantiate(playerDashAnimationPrefab).At(position);
             rigidBody.AddForce(new(_lastDirection * dashThrust, 0), ForceMode2D.Impulse);
@@ -310,7 +464,7 @@ namespace Source.Actors
 
             if (!TryReduceEnergy(requiredEnergy))
                 return;
-            
+            Stats.TrackShield();
             shield.gameObject.SetActive(true);
         }
 
@@ -324,6 +478,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
+            Stats.TrackMissile();
             Instantiate(playerMissilePrefab).At(transform.position);
         }
 
@@ -337,6 +492,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
+            Stats.TrackMine();
             Instantiate(playerMinePrefab).At(transform.position);
         }
         
@@ -355,6 +511,8 @@ namespace Source.Actors
 
             if (!TryReduceEnergy(requiredEnergy))
                 return;
+            
+            Stats.TrackForceField();
             var position = transform.position;
             var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
             Instantiate(forcefieldPrefab).At(adjustedPosition);

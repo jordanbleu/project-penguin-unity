@@ -2,6 +2,7 @@ using System;
 using Cinemachine;
 using Source.Behaviors;
 using Source.Constants;
+using Source.Data;
 using Source.Interfaces;
 using Source.Timers;
 using Source.Weapons;
@@ -107,6 +108,7 @@ namespace Source.Actors
                 return;
             }
 
+            Stats.TrackBulletHit();
             impulseSource.GenerateImpulse();
             bullet.GetComponent<Bullet>().HitSomething();
             attackable.Damage(DamageValues.PlayerBulletDamage);

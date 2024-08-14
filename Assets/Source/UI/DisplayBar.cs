@@ -10,6 +10,10 @@ namespace Source.UI
         [SerializeField]
         private Image barImage;
 
+        /// <summary>
+        /// Set how full the bar is from 0 to 100
+        /// </summary>
+        /// <param name="value"></param>
         public void SetValue(float value)
         {
             var obj = barImage.gameObject;

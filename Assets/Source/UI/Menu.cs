@@ -50,12 +50,15 @@ namespace Source.UI
         private int _currentPageOffset = 0;
         private bool _ready = false;
         private TextMeshProUGUI[] _menuItems;
+
+        private int GetPageSize() => Math.Min(PageSize, menuItemData.Length);
         
         private void Start()
         {
-            _textMeshes = new TextMeshProUGUI[PageSize];
+            var pageSize = GetPageSize();
+            _textMeshes = new TextMeshProUGUI[pageSize];
             
-            for (var i=0;i<PageSize;i++)
+            for (var i=0;i<pageSize;i++)
             {
                 var menuItem = Instantiate(menuItemPrefab, transform).WithName("MenuItem" + i); 
                 menuItem.transform.localPosition = new Vector3(0, MenuItemTopPosition - (i * MenuItemSpacing), 0);
@@ -108,8 +111,9 @@ namespace Source.UI
 
             }
 
+            var pageSize = GetPageSize();
 
-            for (var i=0;i<PageSize;i++)
+            for (var i=0;i<pageSize;i++)
             {
                 if (i == _selectorPosition)
                 {
@@ -126,7 +130,9 @@ namespace Source.UI
         // refreshes what each item is displaying
         private void RefreshPage()
         {
-            for (var i = 0; i < PageSize; i++)
+            var pageSize = GetPageSize();
+
+            for (var i = 0; i < pageSize; i++)
             {
                 var startIndex = _currentPageOffset + i;
                 
@@ -162,11 +168,14 @@ namespace Source.UI
                     RefreshPage();
                 }
             }
+            menuItemData[_currentPageOffset + _selectorPosition].onItemHighlighted?.Invoke();
             RefreshMenuItems();
         }
         
         public void MoveCursorDown(InputAction.CallbackContext context)
         {
+            var pageSize = GetPageSize();
+            
             if (!_ready)
                 return;
             
@@ -174,18 +183,20 @@ namespace Source.UI
             if (!context.started)
                 return;
 
-            if (_selectorPosition < PageSize-1)
+            if (_selectorPosition < pageSize-1)
             {
                 _selectorPosition++;
             }
             else
             {
-                if (_currentPageOffset + PageSize < menuItemData.Length)
+                if (_currentPageOffset + pageSize < menuItemData.Length)
                 {
                     _currentPageOffset++;
                     RefreshPage();
                 }
             }
+            menuItemData[_currentPageOffset + _selectorPosition].onItemHighlighted?.Invoke();
+
             RefreshMenuItems();
         }
         
@@ -202,8 +213,7 @@ namespace Source.UI
             var oldScaleY = selector.transform.localScale.y;
             LeanTween.scaleY(selector, 0.8f, 0.1f).setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
             
-            
-            menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected.Invoke();
+            menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected?.Invoke();
         }
 
         public void DismissMenu()
@@ -236,6 +246,9 @@ namespace Source.UI
 
             [SerializeField]
             public UnityEvent OnItemSelected;
+
+            [SerializeField]
+            public UnityEvent onItemHighlighted;
 
             [SerializeField]
             public bool IsEnabled = true;

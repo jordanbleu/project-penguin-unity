@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using Source.Constants;
+using Source.Data;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Source.Director
 {
@@ -29,14 +32,39 @@ namespace Source.Director
         
         private Queue<GameInstruction> _gameInstructions;
         private GameInstruction _currentInstruction;
+        private bool firstUpdate = true;
         
         private void Start()
         {
+            InitStats();
             var gameplayInstructionList = FindGampeplayInstructions();
             _gameInstructions = new Queue<GameInstruction>(gameplayInstructionList.Skip(startAtElement));
-            BeginNextInstruction();
         }
+
+        private void InitStats()
+        {
+            Stats.Current = new();
+            Stats.Current.StartDt = System.DateTime.UtcNow;
+            Stats.Current.SceneName = SceneManager.GetActiveScene().name;
+            Stats.Current.LivesRemaining = GameplayConstants.TotalLives;
+        }
+
         
+        public void FinalizeStats()
+        {
+            Stats.Current.EndDt = System.DateTime.UtcNow;
+
+            var score = Stats.Current.Score;
+            Stats.Current.FinalBaseScore = Stats.Current.Score;
+            Stats.Current.TimeBonus = Stats.CalculateTimeBonus();
+            Stats.Current.AccuracyBonus = Stats.CalculateAccuracyBonus();
+            Stats.Current.NoDeathBonus = Stats.CalculateNoDeathBonus();
+            Stats.Current.ComboBonus = Stats.CalculateComboBonus();
+            Stats.Current.FinalScore = (score + Stats.Current.TimeBonus + Stats.Current.AccuracyBonus + Stats.Current.NoDeathBonus + Stats.Current.ComboBonus);
+            
+            // save stats to file
+        }
+
         private List<GameInstruction> FindGampeplayInstructions()
         {
             // Get all GameInstruction components in children
@@ -72,6 +100,16 @@ namespace Source.Director
         
         private void Update()
         {
+            // this is done in update so we can ensure every other
+            // game object has had their 'start' method run.
+            // Otherwise the game behaves unpredictably because 
+            // other objects might run 'start' while the director is doing stuff.
+            if (firstUpdate)
+            {
+                BeginNextInstruction();
+                firstUpdate = false;
+            }
+
             if (_currentInstruction is null)
                 return;
 
