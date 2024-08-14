@@ -71,6 +71,8 @@ MonoBehaviour:
   energyDiplayBar: {fileID: 0}
   shield: {fileID: 7945788222303484221}
   dialogueTyper: {fileID: 0}
+  livesDisplay: {fileID: 0}
+  sceneLoader: {fileID: 0}
 --- !u!114 &5436033853786342711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 215208052863963414, guid: 9e626e7c051fc46ec83d8b54ab728408, type: 3}
   spread: 0.36
+  shootSound: {fileID: 8300000, guid: 05258a840af6042979126f91cd1851b4, type: 3}
 --- !u!114 &2568362772900784676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,3 +620,4 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   preDelaySeconds: 0
+  loopMode: 0

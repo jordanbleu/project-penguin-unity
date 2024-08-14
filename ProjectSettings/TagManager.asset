@@ -13,6 +13,7 @@ TagManager:
   - player-speaking-indicator
   - ui-healthbar
   - ui-energybar
+  - sound-effect-emitter
   layers:
   - Default
   - TransparentFX

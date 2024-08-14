@@ -50311,7 +50311,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 6, y: 6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -91071,11 +91071,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.04384077
+      value: 0.043860257
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4902301
+      value: 1.4902401
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.z
@@ -93902,6 +93902,67 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &5285128724368608130
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1619674129842182684, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_Name
+      value: SoundEffectEmitter
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.4146113
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -19.746992
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.3499109
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2599491461752359149, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195690710368253846, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
+      propertyPath: soundEffectPrefab
+      value: 
+      objectReference: {fileID: 4165444029389576315, guid: d2ff8baf9ba094413a4ca4d53b281a4c, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 03a56e09a707741e1ad56f7901879760, type: 3}
 --- !u!222 &5301367542620348540
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -94740,7 +94801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9001687399582294447
 RectTransform:
   m_ObjectHideFlags: 0
@@ -94806,6 +94867,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2132417254}
+  - {fileID: 5285128724368608130}
   - {fileID: 1182021207}
   - {fileID: 1176035264}
   - {fileID: 1909376262}

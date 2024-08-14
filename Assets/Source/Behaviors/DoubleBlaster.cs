@@ -1,4 +1,8 @@
+using System;
+using Source.Audio;
+using Source.Constants;
 using Source.Extensions;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace Source.Behaviors
@@ -14,7 +18,17 @@ namespace Source.Behaviors
         [SerializeField]
         [Tooltip("Line this up with where the sprite's gun barrels are")]
         private float spread = 0.5f;
+
+        [SerializeField]
+        private AudioClip shootSound;
+
+        private SoundEffectEmitter _soundEmitter;
         
+        private void Start()
+        {
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+        }
+
         public void Shoot()
         {
             var position = transform.position;
@@ -22,10 +36,12 @@ namespace Source.Behaviors
 
             if (_isLeftBlaster)
             {
+                _soundEmitter.PlaySound(shootSound, -0.25f); 
                 Instantiate(bulletPrefab).At(position.x - spread, position.y+0.5f);
             }
             else
             {
+                _soundEmitter.PlaySound(shootSound, 0.25f);
                 Instantiate(bulletPrefab).At(position.x + spread, position.y+0.5f);
             }
 
