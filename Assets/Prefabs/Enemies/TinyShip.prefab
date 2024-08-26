@@ -123,6 +123,11 @@ MonoBehaviour:
   speed: -2
   repelPlayerOnCollide: 0
   playerCollisionDamage: 10
+  bulletHitSounds:
+  - {fileID: 8300000, guid: 7d10f4551533f4767a298e65f8c7945c, type: 3}
+  - {fileID: 8300000, guid: c3d856da295334060aa5dee99b7f709e, type: 3}
+  - {fileID: 8300000, guid: a8934994ec96c4aed895c7d229f8111a, type: 3}
+  - {fileID: 8300000, guid: 3d6fc8fd5982a41169ad65cea1a17245, type: 3}
 --- !u!95 &7650492487039300539
 Animator:
   serializedVersion: 5
