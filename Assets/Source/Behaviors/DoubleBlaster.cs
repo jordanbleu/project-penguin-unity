@@ -36,12 +36,12 @@ namespace Source.Behaviors
 
             if (_isLeftBlaster)
             {
-                _soundEmitter.PlaySound(shootSound, -0.25f); 
+                _soundEmitter.Play(gameObject, shootSound, -0.25f); 
                 Instantiate(bulletPrefab).At(position.x - spread, position.y+0.5f);
             }
             else
             {
-                _soundEmitter.PlaySound(shootSound, 0.25f);
+                _soundEmitter.Play(gameObject, shootSound, 0.25f);
                 Instantiate(bulletPrefab).At(position.x + spread, position.y+0.5f);
             }
 

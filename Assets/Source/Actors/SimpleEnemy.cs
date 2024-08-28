@@ -98,7 +98,7 @@ namespace Source.Actors
             {
 
                 var randomClip = RandomUtils.Choose(bulletHitSounds);
-                _soundEmitter.PlaySound(randomClip);
+                _soundEmitter.Play(gameObject, randomClip);
                 
                 Stats.TrackBulletHit();
                 impulseSource.GenerateImpulse();

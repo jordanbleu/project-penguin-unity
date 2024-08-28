@@ -1,5 +1,7 @@
 
+using Source.Audio;
 using Source.Behaviors;
+using Source.Constants;
 using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
@@ -34,6 +36,9 @@ namespace Source.Actors
         [SerializeField]
         private float shootIntervalSeconds = 6;
 
+        [SerializeField]
+        private AudioClip beeFlappingSound;
+        
         private float _shootIntervalTimer;
         
         [SerializeField]
@@ -61,6 +66,9 @@ namespace Source.Actors
         private bool _animatorStarted;
         private static readonly int StartAnimAnimatorParam = Animator.StringToHash("startAnim");
 
+        private SoundEffectEmitter _soundEmitter;
+        private SoundEffect _buzz;
+        
         private void Start()
         {
             var halfSize = zoneSize / 2;
@@ -79,6 +87,14 @@ namespace Source.Actors
             // wait up to one second to start the animation
             // this ensures the bees don't all animate in sync
             _startAnimationTimer = Random.Range(0f, 1f);
+            
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+            
+            _buzz = _soundEmitter.Play(gameObject, beeFlappingSound, new SoundEffectEmitter.SoundEffectSettings()
+            {
+                IsLooped = true,
+                RandomizeStartTime = true
+            });
         }
 
         private void Update()
@@ -137,6 +153,7 @@ namespace Source.Actors
             // prevent the bee from shooting during death animation
             _isAlive = false;
             _attackable.Die();
+            _buzz.Destroy();
         }
 
         public void AttackedByBullet(GameObject attackingBullet)

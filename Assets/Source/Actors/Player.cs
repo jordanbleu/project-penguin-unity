@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Source.Audio;
 using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
@@ -9,6 +10,7 @@ using Source.Interfaces;
 using Source.Optimizations;
 using Source.Timers;
 using Source.UI;
+using Source.Utilities;
 using Source.Weapons;
 using UnityEngine;
 using UnityEngine.Events;
@@ -88,6 +90,9 @@ namespace Source.Actors
         [SerializeField]
         [Tooltip("Needed for going to the death scene.")]
         private SceneLoader sceneLoader;
+
+        [SerializeField]
+        private AudioClip[] dashSounds;
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
@@ -124,7 +129,8 @@ namespace Source.Actors
         /// <param name="action"></param>
         public void RemoveMenuEnterEventListener(UnityAction action)
             => onUserInputEnter.RemoveListener(action);
-        
+
+        private SoundEffectEmitter _soundEmitter;
         
         public bool ShieldProtectionEnabled { get; set; }
         
@@ -140,6 +146,8 @@ namespace Source.Actors
             
             dialogueTyper.OnDialogueBegin.AddListener(() => SetDialogueMode(true));
             dialogueTyper.OnDialogueComplete.AddListener(() => SetDialogueMode(false));
+            
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
         }
         
         
@@ -361,7 +369,6 @@ namespace Source.Actors
                 BeginDying();
             }
             
-            
             return true;
         }
         
@@ -446,6 +453,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(dashSounds));
             Stats.TrackPlayerDash();
             var position = transform.position;
             Instantiate(playerDashAnimationPrefab).At(position);

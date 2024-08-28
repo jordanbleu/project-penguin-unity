@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad995d18fad40b6a1faff7c72d84836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffectPrefab: {fileID: 0}
+  soundEffectPrefab: {fileID: 4165444029389576315, guid: d2ff8baf9ba094413a4ca4d53b281a4c, type: 3}

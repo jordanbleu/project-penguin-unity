@@ -76,6 +76,7 @@ MonoBehaviour:
   zoneSize: {x: 33, y: 10}
   bulletPrefab: {fileID: 6755899056298062110, guid: 88a9ad27a98d940e488c741c25687bb6, type: 3}
   shootIntervalSeconds: 6
+  beeFlappingSound: {fileID: 8300000, guid: 4ea4ada0b637a4b3ca47fdec16081add, type: 3}
   speed: 15
 --- !u!114 &799377284916468592
 MonoBehaviour:
