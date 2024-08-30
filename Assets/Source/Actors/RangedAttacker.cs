@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Source.Audio;
 using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
@@ -50,6 +51,18 @@ namespace Source.Actors
         [SerializeField]
         [Tooltip("Basically, the movement speed kinda")]
         private float maxDistanceDelta = 0.15f;
+
+        [SerializeField]
+        private AudioClip[] impacts;
+
+        [SerializeField]
+        private AudioClip[] groans;
+
+        [SerializeField]
+        private AudioClip[] gunshots;
+        
+        private SoundEffectEmitter _soundEmitter;
+
         
         private void Start()
         {
@@ -60,6 +73,8 @@ namespace Source.Actors
             _thinkTimer.AddEventListener(AIUpdate);
 
             _seekPosition = new(_player.transform.position.x, UnityEngine.Random.Range(3, 10));
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+
         }
         
         /// <summary>
@@ -79,6 +94,7 @@ namespace Source.Actors
             {
                 // shoot 
                 Instantiate(bulletPrefab, myPosition + (Vector3)shootPositionOffset, Quaternion.identity);    
+                _soundEmitter.PlayRandom(gameObject, gunshots);
             }
         }
         
@@ -107,13 +123,15 @@ namespace Source.Actors
                 bulletComponent.Ricochet();
                 return;
             }
+            
+            _soundEmitter.PlayRandom(gameObject, impacts);
+            _soundEmitter.PlayRandom(gameObject, groans);
 
             Stats.TrackBulletHit();
             impulseSource.GenerateImpulse();
             bullet.GetComponent<Bullet>().HitSomething();
             attackable.Damage(DamageValues.PlayerBulletDamage);
             animator.SetTrigger(DamageAnimatorTrigger);
-
         }
 
         public void AttackedByLaser(GameObject laser)
@@ -148,6 +166,7 @@ namespace Source.Actors
 
         public void OnDeath()
         {
+            // todo: need explosion
             animator.SetTrigger(DeathAnimatorTrigger);
         }
 

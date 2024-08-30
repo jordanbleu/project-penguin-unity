@@ -65,6 +65,9 @@ namespace Source.Audio
 
         private void Update()
         {
+            if (_clip is null)
+                return;
+            
             
             // destroy self after sound effect is done 
             if (!_audioSource.isPlaying && !_isLooped)
@@ -74,7 +77,7 @@ namespace Source.Audio
             }
 
             // sound is still playing but source object is destroyed.
-            if (_isLooped && _sourceGameObject == null)
+            if (_isLooped && (!_sourceGameObject.activeSelf || _sourceGameObject == null))
             {
                 // consider removing this debuyg, this might be fine.
                 Debug.LogWarning($"A looped sound effect '{_clip.name}' is still playing even though the source object '{_sourceObjectName}' was destroyed, so we just abruptly stopped the sound effect.");
@@ -83,7 +86,8 @@ namespace Source.Audio
                 return;
             }
 
-            transform.position = _sourceGameObject.transform.position;
+            if (_sourceGameObject != null)
+                transform.position = _sourceGameObject.transform.position;
         }
     }
 }

@@ -1,4 +1,6 @@
+using System;
 using Source.Actors;
+using Source.Audio;
 using Source.Constants;
 using UnityEngine;
 using UnityEngine.Events;
@@ -46,6 +48,14 @@ namespace Source.UI
         
         [SerializeField]
         private UnityEvent onToastComplete = new();
+
+        [SerializeField]
+        [Tooltip("Optional sound to play on open")]
+        private AudioClip openSound;
+
+        [SerializeField]
+        [Tooltip("Optional sound to play on dismiss")]
+        private AudioClip dismissSound;
         
         [SerializeField]
         [Tooltip("Setting to false will keep the toast alive once it completes.  Make sure to add a listener to onToastComplete if you do this, or weird things will happen!")]
@@ -69,8 +79,12 @@ namespace Source.UI
 
         private Player _player;
 
+        private SoundEffectEmitter _soundEmitter;
+        
+
         private void OnEnable()
         {
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
             
 #if UNITY_EDITOR
             if ((presentationMode is PresentationMode.Skippable or PresentationMode.Wait) && pressEnterIndicator == null)
@@ -98,12 +112,13 @@ namespace Source.UI
 
         private void Dismiss()
         {
+            
             if (!isActiveAndEnabled)
                 return;
             
             if (!_isDisplayed)
                 return;
-
+            
             if (pressEnterIndicator != null && pressEnterIndicator.activeSelf)
             {
                 var originalY = pressEnterIndicator.transform.localPosition.y;
@@ -141,6 +156,10 @@ namespace Source.UI
 
         private void BeginAnimateIn()
         {
+            if (openSound != null)
+                _soundEmitter.Play(gameObject, openSound);
+
+
             onAnimationInBegin?.Invoke();
             var yPosition = _initialPosition.y;
             if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)

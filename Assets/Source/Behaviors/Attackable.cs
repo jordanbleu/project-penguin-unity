@@ -40,6 +40,8 @@ namespace Source.Behaviors
                 _multiplierTimer -= Time.deltaTime;
         }
 
+        public bool IsAlive() => health > 0;
+
         public void Damage(int baseDamage)
         {
             health -= baseDamage;

@@ -77,6 +77,15 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6755899056298062110, guid: 88a9ad27a98d940e488c741c25687bb6, type: 3}
   shootIntervalSeconds: 6
   beeFlappingSound: {fileID: 8300000, guid: 4ea4ada0b637a4b3ca47fdec16081add, type: 3}
+  beeDeathSound: {fileID: 8300000, guid: f58b82913c1204b4f9270d946c0d30c3, type: 3}
+  stinger: {fileID: 8300000, guid: 036dc808751d443838547d81f3e9ab7b, type: 3}
+  thuds:
+  - {fileID: 8300000, guid: bf3eef5feb9fe48179e614103f9c2006, type: 3}
+  - {fileID: 8300000, guid: c083c8ceea8b0495196b7b6f8566552d, type: 3}
+  - {fileID: 8300000, guid: c6866c1fe4b294126bb7b3f12c729fb8, type: 3}
+  - {fileID: 8300000, guid: bfa60535379c94edba9cf6a2f70f9779, type: 3}
+  - {fileID: 8300000, guid: 381d2ce6c0e5f4a3ab64c8dbdd4854fc, type: 3}
+  - {fileID: 8300000, guid: 37b44ef4bc7ef45ea8c6f11a2109603e, type: 3}
   speed: 15
 --- !u!114 &799377284916468592
 MonoBehaviour:

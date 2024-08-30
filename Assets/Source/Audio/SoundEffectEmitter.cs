@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Source.Utilities;
 using UnityEngine;
 
 namespace Source.Audio
@@ -13,6 +15,15 @@ namespace Source.Audio
         [SerializeField]
         private GameObject soundEffectPrefab;
 
+        public SoundEffect PlayRandom(GameObject source, AudioClip[] clips, float panX = 0, float volume = 1f)
+        {
+            if (!clips.Any())
+                return null; 
+            
+            var clip = RandomUtils.Choose(clips);
+            return Play(source, clip, panX, volume);
+        }
+        
         /// <summary>
         /// Plays a sound effect once.
         /// </summary>

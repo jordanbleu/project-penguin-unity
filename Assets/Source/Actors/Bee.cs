@@ -6,6 +6,7 @@ using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Mathematics;
+using Source.Utilities;
 using Source.Weapons;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -38,6 +39,15 @@ namespace Source.Actors
 
         [SerializeField]
         private AudioClip beeFlappingSound;
+        
+        [SerializeField]
+        private AudioClip beeDeathSound;
+
+        [SerializeField]
+        private AudioClip stinger;
+
+        [SerializeField]
+        private AudioClip[] thuds;
         
         private float _shootIntervalTimer;
         
@@ -144,6 +154,8 @@ namespace Source.Actors
             _shootIntervalTimer -= Time.deltaTime;
             if (!(_shootIntervalTimer <= 0)) 
                 return;
+
+            _soundEmitter.Play(gameObject, stinger);
             _shootIntervalTimer = shootIntervalSeconds;
             Instantiate(bulletPrefab).At(transform.position);
         }
@@ -154,10 +166,13 @@ namespace Source.Actors
             _isAlive = false;
             _attackable.Die();
             _buzz.Destroy();
+            _soundEmitter.Play(gameObject, beeDeathSound);
         }
 
         public void AttackedByBullet(GameObject attackingBullet)
         {
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(thuds));
+
             Stats.TrackBulletHit();
             attackingBullet.GetComponent<Bullet>().HitSomething();
             _rigidBody.AddForce(new(0,5), ForceMode2D.Impulse);
@@ -187,6 +202,10 @@ namespace Source.Actors
 
         public void CollideWithPlayer(Player playerComponent)
         {
+            if (!_attackable.IsAlive())
+                return;
+            
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(thuds));
             playerComponent.TakeDamage(10);
             Die();
         }

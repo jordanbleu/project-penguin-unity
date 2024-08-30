@@ -73,13 +73,20 @@ namespace Source.Actors
         private Animator animator;
 
         [SerializeField]
+        private PlayerShield shield;
+
+        [SerializeField]
+        private AudioClip[] dashSounds;
+
+        [SerializeField]
+        private AudioClip[] damages;
+        
+        // required to populate these on each scene
+        [SerializeField]
         private DisplayBar healthDiplayBar;
         
         [SerializeField]
         private DisplayBar energyDiplayBar;
-
-        [SerializeField]
-        private PlayerShield shield;
 
         [SerializeField]
         private DialogueTyper dialogueTyper;
@@ -91,8 +98,7 @@ namespace Source.Actors
         [Tooltip("Needed for going to the death scene.")]
         private SceneLoader sceneLoader;
 
-        [SerializeField]
-        private AudioClip[] dashSounds;
+        
         
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
@@ -512,18 +518,21 @@ namespace Source.Actors
                 return;
             }
             
-            if (_isWeaponsLocked)
-                return;
-            
-            var requiredEnergy = 50;
-
-            if (!TryReduceEnergy(requiredEnergy))
-                return;
-            
-            Stats.TrackForceField();
-            var position = transform.position;
-            var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
-            Instantiate(forcefieldPrefab).At(adjustedPosition);
+            // below is for the forcefield weapon, neeed to find different button for it.
+            //
+            //
+            // if (_isWeaponsLocked)
+            //     return;
+            //
+            // var requiredEnergy = 50;
+            //
+            // if (!TryReduceEnergy(requiredEnergy))
+            //     return;
+            //
+            // Stats.TrackForceField();
+            // var position = transform.position;
+            // var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
+            // Instantiate(forcefieldPrefab).At(adjustedPosition);
         }
 
         

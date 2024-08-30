@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Source.Audio;
 using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
@@ -26,14 +27,20 @@ namespace Source.Actors
         private CinemachineImpulseSource cameraImpulseSource;
 
         [SerializeField] private Rigidbody2D rigidBody;
+
+        [SerializeField]
+        private AudioClip squish;
         
         private static readonly int DeathAnimatorTrigger = Animator.StringToHash("death");
 
         private GameObject _player;
+        private SoundEffectEmitter _soundEmitter;
 
         private void Start()
         {
             _player = GameObject.FindWithTag(Tags.Player);
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+
         }
 
         private void Update()
@@ -89,6 +96,7 @@ namespace Source.Actors
 
         public void OnDeath()
         {
+            _soundEmitter.Play(gameObject, squish);
             cameraImpulseSource.GenerateImpulse(CameraImpulseForce);
             animator.SetTrigger(DeathAnimatorTrigger);
         }

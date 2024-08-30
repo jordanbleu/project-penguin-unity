@@ -169,6 +169,7 @@ MonoBehaviour:
   animator: {fileID: 2652098725916655104}
   cameraImpulseSource: {fileID: 3300510317040572828}
   rigidBody: {fileID: 2466610568904475896}
+  squish: {fileID: 8300000, guid: 3e300e912cd534c62adc6405722dba0c, type: 3}
 --- !u!114 &3300510317040572828
 MonoBehaviour:
   m_ObjectHideFlags: 0

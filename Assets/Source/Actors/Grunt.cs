@@ -1,9 +1,12 @@
 using System;
 using Cinemachine;
+using Source.Audio;
 using Source.Behaviors;
+using Source.Constants;
 using Source.Data;
 using Source.Interfaces;
 using Source.Timers;
+using Source.Utilities;
 using Source.Weapons;
 using UnityEngine;
 
@@ -30,13 +33,24 @@ namespace Source.Actors
         [SerializeField]
         private Attackable attackable;
 
+        [SerializeField]
+        private AudioClip[] impacts;
+
+        [SerializeField]
+        private AudioClip[] groans;
+
+        [SerializeField]
+        private AudioClip death;
+
+        private SoundEffectEmitter _soundEmitter;
+        
         private void Start()
         {
             var burstInterval = gameObject.AddComponent<IntervalEventTimer>();
             burstInterval.AddEventListener(BurstMove);
             burstInterval.PreWarm();
             _player = GameObject.FindWithTag("Player");
-            
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
         }
 
         // Called by event interval timer
@@ -59,6 +73,9 @@ namespace Source.Actors
 
         public void AttackedByBullet(GameObject bullet)
         {
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(impacts));
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(groans), volume:0.25f);
+
             attackable.Damage(1);
             rigidBody2d.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
             Stats.TrackBulletHit();
@@ -87,6 +104,7 @@ namespace Source.Actors
 
         public void OnDeath()
         {
+            _soundEmitter.Play(gameObject, death);
             animator.SetTrigger(DeathAnimatorTrigger);
         }
 

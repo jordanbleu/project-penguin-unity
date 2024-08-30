@@ -205,6 +205,14 @@ MonoBehaviour:
   animator: {fileID: 871819488740610098}
   shootPositionOffset: {x: 0, y: -1.5}
   maxDistanceDelta: 0.15
+  impacts:
+  - {fileID: 8300000, guid: d62de6618a9414207b6c455a178c67ec, type: 3}
+  - {fileID: 8300000, guid: 6e5fe78b1a77d4c9394e0c4634c23500, type: 3}
+  - {fileID: 8300000, guid: 8626f77268f3240a2bcaea076679f77a, type: 3}
+  - {fileID: 8300000, guid: 88aa81776318344be915c4570dfeede0, type: 3}
+  groans: []
+  gunshots:
+  - {fileID: 8300000, guid: c9401052585eb4d09b0f00aacb249843, type: 3}
 --- !u!114 &5740141792611077348
 MonoBehaviour:
   m_ObjectHideFlags: 0
