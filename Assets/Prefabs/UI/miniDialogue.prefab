@@ -814,8 +814,8 @@ MonoBehaviour:
   onToastComplete:
     m_PersistentCalls:
       m_Calls: []
-  openSound: {fileID: 8300000, guid: 233043985633a43c5b0e851075a3370f, type: 3}
-  dismissSound: {fileID: 0}
+  openSound: {fileID: 0}
+  dismissSound: {fileID: 8300000, guid: 233043985633a43c5b0e851075a3370f, type: 3}
   destroyOnComplete: 1
   pressEnterIndicator: {fileID: 4471349105012660795}
 --- !u!1 &6659746343443248706

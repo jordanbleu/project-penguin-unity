@@ -1,3 +1,5 @@
+using System;
+using Source.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,20 +12,25 @@ namespace Source.Timers
     {
         [SerializeField] private float intervalSeconds = 1;
         [SerializeField] private UnityEvent onIntervalReached = new();
+        [SerializeField] private bool preWarm  = false;
         
         private float _currentTime = 0f;
         public float CurrentTime => _currentTime;
 
+        private void Start()
+        {
+            if (preWarm)
+                _currentTime = UnityEngine.Random.Range(0, intervalSeconds);
+        }
+
         private void Update()
         {
-            
             _currentTime +=  Time.deltaTime;
 
             if (_currentTime >= intervalSeconds)
             {
                 onIntervalReached?.Invoke();
                 _currentTime = 0;
-
             }
         }
 

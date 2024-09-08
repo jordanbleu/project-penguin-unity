@@ -4,6 +4,7 @@ using Source.Audio;
 using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
+using Source.Extensions;
 using Source.Interfaces;
 using Source.Timers;
 using Source.Weapons;
@@ -60,6 +61,15 @@ namespace Source.Actors
 
         [SerializeField]
         private AudioClip[] gunshots;
+        
+        [SerializeField]
+        [Tooltip("If true, the 'damage' trigger will be called for the animator on damage. ")]
+        private bool useDamageAnimatorTrigger = true;
+        
+        [SerializeField] 
+        [Tooltip("[Optional] prefab to be spawned each time the actor is damaged. If left null nothing will happen.")]
+        private GameObject damageEffectPrefab;
+
         
         private SoundEffectEmitter _soundEmitter;
 
@@ -131,7 +141,7 @@ namespace Source.Actors
             impulseSource.GenerateImpulse();
             bullet.GetComponent<Bullet>().HitSomething();
             attackable.Damage(DamageValues.PlayerBulletDamage);
-            animator.SetTrigger(DamageAnimatorTrigger);
+            AddDamageEffect();
         }
 
         public void AttackedByLaser(GameObject laser)
@@ -141,7 +151,7 @@ namespace Source.Actors
             
             impulseSource.GenerateImpulse();
             attackable.Damage(DamageValues.PlayerLaserDamage);
-            animator.SetTrigger(DamageAnimatorTrigger);
+            AddDamageEffect();
         }
 
         public void HitByMissileExplosion(GameObject explosion)
@@ -151,7 +161,7 @@ namespace Source.Actors
             
             impulseSource.GenerateImpulse();
             attackable.Damage(DamageValues.MissileExplosionDamage);
-            animator.SetTrigger(DamageAnimatorTrigger);
+            AddDamageEffect();
         }
 
         public void HitByMineExplosion(GameObject explosion)
@@ -161,7 +171,16 @@ namespace Source.Actors
             
             impulseSource.GenerateImpulse();
             attackable.Damage(DamageValues.MineExplosionDamage);
-            animator.SetTrigger(DamageAnimatorTrigger);
+            AddDamageEffect();
+        }
+
+        private void AddDamageEffect()
+        {
+            if (useDamageAnimatorTrigger)
+                animator.SetTrigger(DamageAnimatorTrigger);
+
+            if (damageEffectPrefab != null)
+                Instantiate(damageEffectPrefab, transform);
         }
 
         public void OnDeath()

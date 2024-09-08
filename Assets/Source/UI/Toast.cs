@@ -130,6 +130,8 @@ namespace Source.UI
                         .setOnComplete(() => pressEnterIndicator.SetActive(false)));
             }
         
+            if (dismissSound != null && !_isDismissed)
+                _soundEmitter.Play(gameObject, dismissSound);
             
             _isDismissed = true;
         }
@@ -154,12 +156,14 @@ namespace Source.UI
             transform.localPosition = new Vector3(localPos.x, _yOffscreenPosition, localPos.z);
         }
 
-        private void BeginAnimateIn()
+        private void OnAnimationStart()
         {
             if (openSound != null)
                 _soundEmitter.Play(gameObject, openSound);
+        }
 
-
+        private void BeginAnimateIn()
+        {
             onAnimationInBegin?.Invoke();
             var yPosition = _initialPosition.y;
             if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)
@@ -167,6 +171,7 @@ namespace Source.UI
                 LeanTween.moveLocalY(gameObject, yPosition, animateInSeconds)
                     .setEase(easeInStyle)
                     .setDelay(preDelaySeconds)
+                    .setOnStart(OnAnimationStart)
                     .setOnComplete(OnAnimateInComplete);
                 return;
             }
@@ -174,6 +179,7 @@ namespace Source.UI
             LeanTween.moveLocalY(gameObject, yPosition, animateInSeconds)
                 .setEase(easeInStyle)
                 .setDelay(preDelaySeconds)
+                .setOnStart(OnAnimationStart)
                 .setOnComplete(OnAnimateInComplete);
 
             LeanTween.scaleY(gameObject, 1, animateInSeconds)

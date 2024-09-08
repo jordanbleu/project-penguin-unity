@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Cinemachine;
 using Source.Audio;
 using Source.Behaviors;
@@ -97,9 +98,12 @@ namespace Source.Actors
             if (_isVulnerable)
             {
 
-                var randomClip = RandomUtils.Choose(bulletHitSounds);
-                _soundEmitter.Play(gameObject, randomClip);
-                
+                if (bulletHitSounds.Any())
+                {
+                    var randomClip = RandomUtils.Choose(bulletHitSounds);
+                    _soundEmitter.Play(gameObject, randomClip);
+                }
+
                 Stats.TrackBulletHit();
                 impulseSource.GenerateImpulse();
                 ApplyDamageEffect();
