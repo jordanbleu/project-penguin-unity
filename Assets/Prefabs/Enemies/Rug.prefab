@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1993779365305367577}
   - component: {fileID: 7305922813595266687}
+  - component: {fileID: 1517329581189747217}
   m_Layer: 9
   m_Name: outer-sprite
   m_TagString: Untagged
@@ -84,6 +85,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1517329581189747217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185034242002781778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c510dd6be42457ab0deaef8cb8aa73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowColor: {r: 0.6132076, g: 0.5925457, b: 0.014462441, a: 1}
+  numberOfLayers: 3
+  shadowDistance: 0.2
 --- !u!1 &7403771281036912648
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +116,7 @@ GameObject:
   - component: {fileID: 426853246341371255}
   - component: {fileID: 3389366107396833980}
   - component: {fileID: 4273739575272634483}
+  - component: {fileID: 698682993357568251}
   m_Layer: 9
   m_Name: Rug
   m_TagString: Untagged
@@ -245,6 +262,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 5
   baseScoreValue: 120
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 698682993357568251}
+        m_TargetAssemblyTypeName: Source.Behaviors.Emitter, Penguin
+        m_MethodName: Emit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3389366107396833980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +342,20 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &698682993357568251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7403771281036912648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b46abd18414766a14c1d40c502fdfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8052517294270788670, guid: dde9dd4ebe24c482c842081e4b72d4b1, type: 3}
+  relativePosition: {x: 0, y: 0}
 --- !u!1 &8817683518922256228
 GameObject:
   m_ObjectHideFlags: 0

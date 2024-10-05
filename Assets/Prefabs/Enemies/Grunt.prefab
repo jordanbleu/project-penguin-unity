@@ -161,6 +161,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 2
   baseScoreValue: 100
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1858018051843784009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +373,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 120671520, guid: dcac2614640634729b0867c7dd6c56da, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8627451, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -67,18 +67,19 @@ MonoBehaviour:
   shieldAborbEffectPrefab: {fileID: 5306925799245126350, guid: 0d6a9d888179246d499d3114dd9b79b3, type: 3}
   cameraImpulseSource: {fileID: 2568362772900784676}
   animator: {fileID: 503483402393805875}
-  healthDiplayBar: {fileID: 0}
-  energyDiplayBar: {fileID: 0}
   shield: {fileID: 7945788222303484221}
-  dialogueTyper: {fileID: 0}
-  livesDisplay: {fileID: 0}
-  sceneLoader: {fileID: 0}
   dashSounds:
   - {fileID: 8300000, guid: 4dacf57f7b52c41cdb0a641923426b30, type: 3}
   - {fileID: 8300000, guid: fd59e43b9beb642ec8a2dc461f012e8d, type: 3}
   - {fileID: 8300000, guid: d627e9382ee3740758548e74dfb2408e, type: 3}
   - {fileID: 8300000, guid: 81793e7a3242f4b4d86cc983fd0d339f, type: 3}
   - {fileID: 8300000, guid: 399d75bfb023b454fb9ac33bc5b7d655, type: 3}
+  damages: []
+  healthDiplayBar: {fileID: 0}
+  energyDiplayBar: {fileID: 0}
+  dialogueTyper: {fileID: 0}
+  livesDisplay: {fileID: 0}
+  sceneLoader: {fileID: 0}
 --- !u!114 &5436033853786342711
 MonoBehaviour:
   m_ObjectHideFlags: 0

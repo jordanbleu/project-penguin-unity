@@ -57,7 +57,7 @@ namespace Source.UI
                 return $"{formattedCombo} Hit Extra Juicy Combo!";
 
             if (combo <= 40)
-                return $"{formattedCombo} Hit EZ Mode Combo!";
+                return $"{formattedCombo} Hit Crispy Combo!";
 
             if (combo <= 45)
                 return $"{formattedCombo} Hit Mildly Spicy Combo!";
@@ -72,7 +72,7 @@ namespace Source.UI
                 return $"{formattedCombo} Hit Alarmingly Massive Combo!";
 
             if (combo <= 65)
-                return $"{formattedCombo} Hit Cream-Filled Combo!";
+                return $"{formattedCombo} Hit Creamy Combo!";
 
             if (combo <= 70)
                 return $"{formattedCombo} Hit Voluptuous Combo!";

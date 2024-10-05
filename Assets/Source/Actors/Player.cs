@@ -18,6 +18,9 @@ using UnityEngine.InputSystem;
 
 namespace Source.Actors
 {
+    /// <summary>
+    /// Unorganized God class for the player.
+    /// </summary>
     public class Player : MonoBehaviour
     {
         // how long after taking damage the player can take more damage
@@ -25,6 +28,7 @@ namespace Source.Actors
         private const float HealthRegenRate = 2f;
         private const float HealthRegenDelay = 8f;
         private const float EnergyRegenRate = 0.5f;
+        private const float ReloadSpeed = 50;
 
         [Tooltip("How much thrust is applied when moving ship.")]
         [SerializeField]
@@ -98,8 +102,25 @@ namespace Source.Actors
         [Tooltip("Needed for going to the death scene.")]
         private SceneLoader sceneLoader;
 
+        // Reload Mechanics
+        //
+        // Bullets remaining in current mag
+        private short _remainingBullets = GameplayConstants.MagSize;
+        public short RemainingBullets => _remainingBullets;
         
-        
+        // how much time is remaining before the player can shoot again
+        private float _reloadTimeRemaining = 0f;
+        public float RemainingReloadTime => _reloadTimeRemaining;   
+        // if the user failed the current active reload, this will be true
+        private bool _failedReload = false;
+        public bool FailedReload => _failedReload;
+        public UnityEvent OnActiveReloadSuccess { get;} = new();
+        public UnityEvent OnActiveReloadFailure { get; } = new();
+        public UnityEvent OnActiveReloadBegin { get; } = new();
+        public UnityEvent OnActiveReloadEnd { get; } = new();
+        public UnityEvent OnPlayerShoot { get; } = new();
+
+
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
         private int _lastDirection = 1;
@@ -117,6 +138,7 @@ namespace Source.Actors
         private bool _healthRegenEnabled = true;
         
         private UnityEvent onUserInputEnter = new();
+        
         private static readonly int DieAnimatorParam = Animator.StringToHash("die");
         private static readonly int HasMoreLivesAnimatorParam = Animator.StringToHash("hasMoreLives");
 
@@ -137,6 +159,8 @@ namespace Source.Actors
             => onUserInputEnter.RemoveListener(action);
 
         private SoundEffectEmitter _soundEmitter;
+
+        private Collider2D _collider;
         
         public bool ShieldProtectionEnabled { get; set; }
         
@@ -154,6 +178,8 @@ namespace Source.Actors
             dialogueTyper.OnDialogueComplete.AddListener(() => SetDialogueMode(false));
             
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+            
+            _collider = GetComponent<Collider2D>();
         }
         
         
@@ -218,6 +244,20 @@ namespace Source.Actors
 
             if (_currentHealthRegenDelay > 0f)
                 _currentHealthRegenDelay -= dt;
+
+            if (_reloadTimeRemaining > 0)
+            {
+                var reloadSpeed = _failedReload ? ReloadSpeed*0.5f : ReloadSpeed;
+                _reloadTimeRemaining -= dt * reloadSpeed;
+
+                if (_reloadTimeRemaining <= 0f)
+                {
+                    _failedReload = false;
+                    _remainingBullets = GameplayConstants.MagSize;
+                    _reloadTimeRemaining = 0f;
+                    OnActiveReloadEnd?.Invoke();
+                }
+            }
 
             if (_isDialogueModeEnabled)
             {
@@ -430,8 +470,44 @@ namespace Source.Actors
             if (_isWeaponsLocked)
                 return;
 
+            // Player tried to shoot during a reload
+            if (_reloadTimeRemaining > 0)
+            {
+                // user gets one chance at active reload
+                if (_failedReload)
+                    return;
+
+                var startThresh = 33;
+                var endThresh = 66;
+                
+                // Successful active reload
+                if (_reloadTimeRemaining > startThresh && _reloadTimeRemaining < endThresh)
+                {
+                    _remainingBullets = GameplayConstants.MagSize;
+                    _reloadTimeRemaining = 0;
+                    _failedReload = false;
+                    OnActiveReloadSuccess?.Invoke();
+                    OnActiveReloadEnd?.Invoke();
+                    return;
+                }
+                
+                // not so succsessful active reload
+                _failedReload = true;
+                OnActiveReloadFailure?.Invoke();
+                return;
+            }
+
             Stats.TrackBulletFired();
             blaster.Shoot();
+            _remainingBullets--;
+            OnPlayerShoot?.Invoke();
+
+            if (_remainingBullets <= 0)
+            {
+                OnActiveReloadBegin?.Invoke();
+                _reloadTimeRemaining = 100;
+                _remainingBullets = 0;
+            }
         }
 
         private void OnLaser(InputValue inputValue)
@@ -463,6 +539,7 @@ namespace Source.Actors
             Stats.TrackPlayerDash();
             var position = transform.position;
             Instantiate(playerDashAnimationPrefab).At(position);
+            _damageCooldownTime = DamageCooldownMax;
             rigidBody.AddForce(new(_lastDirection * dashThrust, 0), ForceMode2D.Impulse);
         }
 

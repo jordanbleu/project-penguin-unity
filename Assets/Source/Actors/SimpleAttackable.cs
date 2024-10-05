@@ -4,6 +4,7 @@ using Source.Behaviors;
 using Source.Interfaces;
 using Source.Weapons;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Source.Actors
 {
@@ -31,6 +32,9 @@ namespace Source.Actors
 
         [SerializeField]
         private int damageToSelfOnCollideWithPlayer = 0;
+
+        [SerializeField]
+        private UnityEvent onBeginDeath = new();
         
         private Rigidbody2D _rigidBody;
         private Animator _animator;
@@ -89,6 +93,7 @@ namespace Source.Actors
 
         public void OnDeath()
         {
+            onBeginDeath?.Invoke();
             _animator.SetTrigger(DeathAnimParameter);
         }
 

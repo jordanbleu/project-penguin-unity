@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,13 +17,23 @@ namespace Source.Behaviors
         [SerializeField]
         private float maxDistanceDelta = 3;
         
+        [SerializeField]
+        private bool loop = false;
+        
         private int _currentWaypointIndex = 0;
 
         private void Update()
         {
             if (_currentWaypointIndex >= waypoints.Length)
             {
-                return;
+                if (loop)
+                {
+                    _currentWaypointIndex = 0;
+                }
+                else
+                {
+                    return;
+                }
             }
             
             var waypoint = waypoints[_currentWaypointIndex];
@@ -48,8 +59,11 @@ namespace Source.Behaviors
             public UnityEvent onWaypointReached;
         }
 
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
+            if (!waypoints.Any())
+                return;
+            
             for (var i = 0; i < waypoints.Length; i++)
             {
                 var waypoint = waypoints[i];
@@ -67,7 +81,30 @@ namespace Source.Behaviors
                 // Draw the label indicating the index of the waypoint
                 UnityEditor.Handles.Label(waypoint.position + Vector2.up * 0.2f, i.ToString());
             }
+        }
+        
+        private void OnDrawGizmosSelected()
+        {
+            if (!waypoints.Any())
+                return;
+            
+            for (var i = 0; i < waypoints.Length; i++)
+            {
+                var waypoint = waypoints[i];
+                var nextWaypoint = i == waypoints.Length-1 ? null : waypoints[i + 1];
 
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawSphere(waypoint.position, 0.1f);
+                
+                if (nextWaypoint != null)
+                {
+                    Gizmos.color = Color.cyan;
+                    Gizmos.DrawLine(waypoint.position, nextWaypoint.position);
+                }
+                
+                // Draw the label indicating the index of the waypoint
+                UnityEditor.Handles.Label(waypoint.position + Vector2.up * 0.2f, i.ToString());
+            }
         }
     }
 }

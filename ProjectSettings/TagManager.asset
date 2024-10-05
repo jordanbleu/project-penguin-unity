@@ -51,6 +51,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ActorUnderlayUnderlay
+    uniqueID: 3139852109
+    locked: 0
+  - name: ActorUnderlay
+    uniqueID: 4172652927
+    locked: 0
+  - name: Actor
+    uniqueID: 1545855023
+    locked: 0
   - name: ActorOverlay
     uniqueID: 2661061661
     locked: 0
