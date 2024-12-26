@@ -1,7 +1,7 @@
 namespace Source.Data
 {
     /// <summary>
-    /// Global game settings
+    /// Global game settings todo: move to SaveData (?)
     /// </summary>
     public static class GameSettings
     {

@@ -617,6 +617,7 @@ namespace Source.Actors
         private void OnMenuEnter(InputValue inputValue)
         {
             onUserInputEnter?.Invoke();
+            return; // temporary hack
             
             // the logic below should maybe one day be consolidated into the event handling pattern
             // i will probably never do that.

@@ -82,6 +82,14 @@ namespace Source.UI
             LeanTween.moveLocal(pressAnyKeyToBegin, pressAnyKeyToBeginEndPosition, 1f).setEaseOutExpo().setDelay(3f).setOnComplete(Ready);
         }
 
+        // this is quite stupid but easy.  Called from the main menu when 'new game' is picked.
+        public void MovePlanetOutOfTheWay()
+        {
+            LeanTween.moveLocal(planet, new Vector2(planet.transform.localPosition.x, -300f), 5f).setEaseInOutCubic();
+        }
+
+        
+        
         private void Ready()
         {
             _isReady = true;

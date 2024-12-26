@@ -8,5 +8,6 @@ namespace Source.Constants
         public const string EnergyBar = "ui-energybar";
         public const string Canvas = "canvas";
         public const string SoundEffectEmitter = "sound-effect-emitter";
+        public const string DialoguePresenter = "dialogue-presenter";
     }
 }

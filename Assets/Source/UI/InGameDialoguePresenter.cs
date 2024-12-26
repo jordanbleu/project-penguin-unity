@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Source.Dialogue;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Source.UI
 {
@@ -37,6 +38,12 @@ namespace Source.UI
             doneTypingIndicator.SetActive(false);
             _avatarSpriteMappings = GetComponent<AvatarSpriteMapping>().ToDictionary();
         }
+
+        public void AddOnCompleteListener(UnityAction action)
+           => dialogueTyper.OnDialogueComplete.AddListener(action);
+        
+        public void RemoveOnCompleteListener(UnityAction action)
+            => dialogueTyper.OnDialogueComplete.RemoveListener(action);
 
         public void PresentDialogueFromFile(string filePath)
         {

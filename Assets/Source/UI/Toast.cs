@@ -80,18 +80,18 @@ namespace Source.UI
         private Player _player;
 
         private SoundEffectEmitter _soundEmitter;
-        
+
 
         private void OnEnable()
         {
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
             
-#if UNITY_EDITOR
-            if ((presentationMode is PresentationMode.Skippable or PresentationMode.Wait) && pressEnterIndicator == null)
-            {
-                Debug.LogWarning("CONVENTION VIOLATION -> skippable toasts need to display the 'pressEnterIndicator' somewhere.  Please fix this on the toast: " + name);
-            }
-#endif
+// #if UNITY_EDITOR
+//             if ((presentationMode is PresentationMode.Skippable or PresentationMode.Wait) && pressEnterIndicator == null)
+//             {
+//                 Debug.LogWarning("CONVENTION VIOLATION -> skippable toasts need to display the 'pressEnterIndicator' somewhere.  Please fix this on the toast: " + name);
+//             }
+// #endif
             _initialPosition = transform.localPosition;
             _yOffscreenPosition = _initialPosition.y - 20;
 
@@ -110,7 +110,7 @@ namespace Source.UI
             BeginAnimateIn();
         }
 
-        private void Dismiss()
+        public void Dismiss()
         {
             
             if (!isActiveAndEnabled)

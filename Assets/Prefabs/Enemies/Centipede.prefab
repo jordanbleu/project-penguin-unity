@@ -108,9 +108,10 @@ MonoBehaviour:
   impulseSource: {fileID: 4137972518460508014}
   rigidBody: {fileID: 7514261979626863860}
   attackable: {fileID: 5731554165748371363}
-  speed: 2
+  speed: -2
   repelPlayerOnCollide: 0
   playerCollisionDamage: 5
+  bulletHitSounds: []
 --- !u!114 &307996454641955588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +156,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 8
   baseScoreValue: 200
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4137972518460508014
 MonoBehaviour:
   m_ObjectHideFlags: 0

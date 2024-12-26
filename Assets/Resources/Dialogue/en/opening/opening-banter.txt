@@ -1,0 +1,7 @@
+# avatar|title|text|speed|preEvents
+tiny|Tiny|I'm gettin' real sick of these bastards!
+cyber|Cyber|Stay in formation, we've lost enough men as it is.
+tiny|Tiny|What kind of creatures are these things???
+cyber|Cyber|They're...
+sludge|Sludge|Boss, look out, there's more up ahead!|0.02|shake
+cyber|Cyber|Get ready, boys!

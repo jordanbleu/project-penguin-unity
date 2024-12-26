@@ -37,12 +37,15 @@ namespace Source.Behaviors
             }
             
             var waypoint = waypoints[_currentWaypointIndex];
-
+            
+            
             var distance = Vector2.Distance(transform.position, waypoint.position);
             if (distance < 0.1f)
             {
                 waypoint.onWaypointReached.Invoke();
-                _currentWaypointIndex++;
+                
+                if (!waypoint.waitForSignal)
+                    _currentWaypointIndex++;
             }
             else
             {
@@ -57,6 +60,13 @@ namespace Source.Behaviors
         {
             public Vector2 position;
             public UnityEvent onWaypointReached;
+            [Tooltip("If true, the actor will wait here until NextWaypoint() is called externally before continuing on to the next one.")]
+            public bool waitForSignal = false;
+        }
+
+        public void NextWaypoint()
+        {
+            _currentWaypointIndex++;
         }
 
         private void OnDrawGizmos()

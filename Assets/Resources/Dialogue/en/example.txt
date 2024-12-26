@@ -2,6 +2,7 @@
 # any line starting with # is ignored.
 # avatar|title|text|speed|preEvents
 
+
 cyber|Cyber|This is a test, that should have default speed
 cyber|Cyber2|This should have a different title and slower speed|0.25
 cyber|Cyber3|This should have a camera shake and fast speed!|0.01|shake
