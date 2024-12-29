@@ -27,21 +27,29 @@ namespace Source.UI
                 var obj = Instantiate(_displayItemPrefab, transform);
                 obj.transform.localPosition = new Vector3(i * spread, 0, 0);
                 _displayItems[i] = obj.GetComponent<BulletDisplayItem>();
+            }
+            
+            // center the whole display on the bottom
+            var fullWidth = spread * GameplayConstants.MagSize;
+            transform.localPosition = new Vector2(-fullWidth / 2, transform.localPosition.y);
 
-                // center the whole display on the bottom
-                var fullWidth = spread * GameplayConstants.MagSize;
-                transform.localPosition = new Vector2(-fullWidth / 2, transform.localPosition.y);
+            player = GameObject.FindWithTag(Tags.Player).GetComponent<Player>();
+            player.OnActiveReloadEnd.AddListener(BeginReloadAnimation);
+            player.OnPlayerShoot.AddListener(RefreshAmmoDisplay);
+            player.OnManualReload.AddListener(TriggerManualReload);
+        }
 
-                player = GameObject.FindWithTag(Tags.Player).GetComponent<Player>();
-                player.OnActiveReloadEnd.AddListener(BeginReloadAnimation);
-                player.OnPlayerShoot.AddListener(RefreshAmmoDisplay);
+        private void TriggerManualReload()
+        {
+            foreach (var item in _displayItems)
+            {
+                item.Hide(-27f);
             }
         }
 
         private void RefreshAmmoDisplay()
         {
             var playersRemainingAmmo = player.RemainingBullets;
-            
             _displayItems[playersRemainingAmmo].Hide(-27f);
         }
 
@@ -67,8 +75,6 @@ namespace Source.UI
             {
                 _displayItems[j].Hide(-27f);
             }
-
-
         }
 
     }

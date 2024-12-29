@@ -119,6 +119,10 @@ namespace Source.Actors
         public UnityEvent OnActiveReloadBegin { get; } = new();
         public UnityEvent OnActiveReloadEnd { get; } = new();
         public UnityEvent OnPlayerShoot { get; } = new();
+        /// <summary>
+        /// Called when the player manually pressed R to reload
+        /// </summary>
+        public UnityEvent OnManualReload { get; } = new();
 
 
         private Vector2 _inputVelocity = new();
@@ -504,10 +508,15 @@ namespace Source.Actors
 
             if (_remainingBullets <= 0)
             {
-                OnActiveReloadBegin?.Invoke();
-                _reloadTimeRemaining = 100;
-                _remainingBullets = 0;
+                Reload();
             }
+        }
+
+        private void Reload()
+        {
+            OnActiveReloadBegin?.Invoke();
+            _reloadTimeRemaining = 100;
+            _remainingBullets = 0;
         }
 
         private void OnLaser(InputValue inputValue)
@@ -586,8 +595,44 @@ namespace Source.Actors
             Stats.TrackMine();
             Instantiate(playerMinePrefab).At(transform.position);
         }
-        
+
+        private void OnReload(InputValue inputValue)
+        {
+            if (_isWeaponsLocked)
+                return;
+            
+            if (_remainingBullets == GameplayConstants.MagSize)
+                return;
+            
+            if (_reloadTimeRemaining > 0)
+                return;
+            
+            // this just triggers an animation that hides the bullets
+            OnManualReload?.Invoke();
+            
+            // this begins the active reload
+            Reload();
+        }
+
         private void OnForcefield(InputValue inputValue)
+        {
+            if (_isWeaponsLocked)
+                return;
+            
+            var requiredEnergy = 50;
+            
+            if (!TryReduceEnergy(requiredEnergy))
+                return;
+            
+            Stats.TrackForceField();
+            var position = transform.position;
+            var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
+            Instantiate(forcefieldPrefab).At(adjustedPosition);
+        }
+
+        
+        
+        private void OnMenuEnter(InputValue inputValue)
         {
             if (dialogueTyper is not null && dialogueTyper.isActiveAndEnabled)
             {
@@ -595,27 +640,6 @@ namespace Source.Actors
                 return;
             }
             
-            // below is for the forcefield weapon, neeed to find different button for it.
-            //
-            //
-            // if (_isWeaponsLocked)
-            //     return;
-            //
-            // var requiredEnergy = 50;
-            //
-            // if (!TryReduceEnergy(requiredEnergy))
-            //     return;
-            //
-            // Stats.TrackForceField();
-            // var position = transform.position;
-            // var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
-            // Instantiate(forcefieldPrefab).At(adjustedPosition);
-        }
-
-        
-        
-        private void OnMenuEnter(InputValue inputValue)
-        {
             onUserInputEnter?.Invoke();
             return; // temporary hack
             
