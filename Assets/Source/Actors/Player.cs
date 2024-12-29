@@ -622,10 +622,10 @@ namespace Source.Actors
             // the logic below should maybe one day be consolidated into the event handling pattern
             // i will probably never do that.
             
-            if (dialogueTyper is null || !dialogueTyper.isActiveAndEnabled)
-                return;
-
-            dialogueTyper.UserCycleDialogue();
+            // if (dialogueTyper is null || !dialogueTyper.isActiveAndEnabled)
+            //     return;
+            //
+            // dialogueTyper.UserCycleDialogue();
 
         }
 

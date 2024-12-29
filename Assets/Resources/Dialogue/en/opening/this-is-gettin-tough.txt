@@ -1,6 +1,6 @@
-# avatar|title|text|speed|preEvents
-sludge|Sludge|This is gettin' tough, boss...
-tiny|Tiny|We need more men out here.
-cyber|Cyber|Not an option.
-cyber|Cyber|Just keep pushing forward.
-sludge|Sludge|Sure thing, Boss.
+# id|avatar|title|text|speed|preEvents
+x|sludge|Sludge|This is gettin' tough, boss...
+x|tiny|Tiny|We need more men out here.
+x|cyber|Cyber|Not an option.
+x|cyber|Cyber|Just keep pushing forward.
+x|sludge|Sludge|Sure thing, Boss.

@@ -144,8 +144,16 @@ namespace Source.Dialogue
             }
         }
 
+        public void ClearTextBoxes()
+        {
+            titleTextMesh.SetText(string.Empty);
+            textMesh.SetText(string.Empty);
+        }
+
         public float CurrentTypingSpeed => _currentLine?.DelaySeconds ?? 0;
 
+        public string CurrentTitle => _currentLine.Title;
+        
         private void ResetParameters()
         {
             _currentLine = null;

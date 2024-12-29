@@ -1,14 +1,14 @@
-# avatar|title|text|speed|preEvents
-sludge-scared|Sludge|Nooo!!!|0.02|shake
-cyber|Cyber|What the hell just happened?
-sludge-scared|Sludge|Pharaoh...just...killed himself!
-tiny-scared|Tiny|This makes no goddamn sense.
-tiny-scared|Tiny|He was totally fine yesterday...
-sludge-scared|Sludge|It's these damn aliens, man...they're manipulating us somehow!
-cyber|Cyber|Dammit...
-sludge|Sludge|Boss, we don't have the manpower for an enemy like this.
-sludge|Sludge|We need to fall back or we'll lose more men.
-cyber|Cyber|No!|0.03|shake
-cyber|Cyber|I told you to keep pushing forward. 
-cyber|Cyber|That's an order!
-tiny-scared|Tiny|Boss...
+# id|avatar|title|text|speed|preEvents
+x|sludge-scared|Sludge|Nooo!!!|0.02|shake
+x|cyber|Cyber|What the hell just happened?
+x|sludge-scared|Sludge|Pharaoh...just...killed himself!
+x|tiny-scared|Tiny|This makes no goddamn sense.
+x|tiny-scared|Tiny|He was totally fine yesterday...
+x|sludge-scared|Sludge|It's these damn aliens, man...they're manipulating us somehow!
+x|cyber|Cyber|Dammit...
+x|sludge|Sludge|Boss, we don't have the manpower for an enemy like this.
+x|sludge|Sludge|We need to fall back or we'll lose more men.
+x|cyber|Cyber|No!|0.03|shake
+x|cyber|Cyber|I told you to keep pushing forward. 
+x|cyber|Cyber|That's an order!
+x|tiny-scared|Tiny|Boss...

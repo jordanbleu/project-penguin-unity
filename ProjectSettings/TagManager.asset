@@ -15,6 +15,7 @@ TagManager:
   - ui-energybar
   - sound-effect-emitter
   - dialogue-presenter
+  - cutscene-dialogue-presenter
   layers:
   - Default
   - TransparentFX

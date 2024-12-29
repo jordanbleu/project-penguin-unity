@@ -78,9 +78,6 @@ namespace Source.UI
         {
             dialogueTyper.Present(dialogueLines);
         }
-        
-        
-        
 
         /// <summary>
         /// Dialogue presentation is over
@@ -111,6 +108,8 @@ namespace Source.UI
 
             avatarAnimator.Reset();
             avatarAnimator.Play();
+            
+            
         }
 
         private void OnLineEnd()

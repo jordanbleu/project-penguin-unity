@@ -1,0 +1,47 @@
+﻿# id|avatar|title|text|speed|preEvents
+blackScreenBanter|[N/A]|Sludge|I was reading something the other day, about this...type of shrimp...
+blackScreenBanter|[N/A]|Tiny|Who gives a shit about a damn shrimp?
+blackScreenBanter|[N/A]|Sludge|No, no, listen.
+blackScreenBanter|[N/A]|Sludge|This shrimp, what was it...Mantis Shrimp, or something.
+blackScreenBanter|[N/A]|Sludge|It can see, like, a shit-ton more colors than we can.
+blackScreenBanter|[N/A]|Tiny|What, the world's not colorful enough for ya?
+blackScreenBanter|[N/A]|Sludge|Ha, guess not.
+blackScreenBanter|[N/A]|Sludge|Just makes you think, though.
+blackScreenBanter|[N/A]|Sludge|Like, try to imagine a color that doesn't exist. Your brain can't even comprehend it.
+blackScreenBanter|[N/A]|Tiny|Hmmm, yeah. I guess you're right.
+blackScreenBanter|[N/A]|Sludge|If a stupid little shrimp can see more than us, who knows what else is out there.
+blackScreenBanter|[N/A]|Sludge|Maybe our brains can only see, like, ten percent of the universe.
+blackScreenBanter|[N/A]|Tiny|Damn...
+blackScreenBanter|[N/A]|Sludge|Boss? You're being kinda quiet over there.
+
+cyberFace1|[N/A]|Cyber|I'm just deep in thought about your fish, or whatever you said.
+
+sludgeFace1|[N/A]|Sludge|Should have been pondering this stuff while you were in that Northern prison cell, heh.
+
+tinyFace1|[N/A]|Tiny|Yeah definitely should have been thinking about shrimp...
+tinyFace1|[N/A]|Tiny|...and not the fact that you were next in line to get executed
+
+cyberFace2|[N/A]|Cyber|Ha. Turns out the North doesn't take too kindly to mercs like us.
+cyberFace2|[N/A]|Cyber|And here I thought we'd get away with doing that job for the South.
+ 
+nest|[N/A]|Tiny|By the way...is that the nest thing we're supposed to blow up? 
+nest|[N/A]|Cyber|Yeah, that's the one.
+nest|[N/A]|Tiny|Pretty far from us...What the hell even is that thing?
+nest|[N/A]|Cyber|They didn't really tell me much.
+nest|[N/A]|Cyber|The north said something like "go blow this thing up and we'll let you free".
+nest|[N/A]|Sludge|Seems awful generous of them.
+nest|[N/A]|Cyber|Yeah, I don't trust it either. But, not like I had a choice.
+nest|[N/A]|Cyber|Either I accepted the job, or they killed me. 
+nest|[N/A]|Sludge|Must be some tough aliens out there protecting that thing.
+
+cyberFace3|[N/A]|Cyber|The "Vaslings", they called them...
+
+tinyFace3|[N/A]|Tiny|Vaslings, huh.
+tinyFace3|[N/A]|Tiny|Never heard of them before.
+tinyFace3|[N/A]|Tiny|I guess as long as they're dumber than that shrimp, we should be fine. Haha.
+
+flashingSludgeFace|[N/A]|Sludge|Look alive boys. I'm picking something up on the scanners.
+flashingSludgeFace|[N/A]|Sludge|Multiple lifeforms detected. They're coming right for us!
+
+cyberFace4|[N/A]|Cyber|Alright, boys.
+cyberFace4|[N/A]|Cyber|Let's see what these Vaslings are made of!

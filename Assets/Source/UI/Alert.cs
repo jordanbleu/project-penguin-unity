@@ -7,7 +7,7 @@ namespace Source.UI
     /// <summary>
     /// Basically a simpler version of Toast but works better for repeated alerts while it's still active
     /// (feel free to spam these alerts ;) )
-    ///
+    /// asdf
     /// Animates in from top, displays, then goes away.
     /// </summary>
     public class Alert : MonoBehaviour
