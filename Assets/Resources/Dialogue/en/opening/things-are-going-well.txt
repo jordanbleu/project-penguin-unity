@@ -1,0 +1,6 @@
+# id|avatar|title|text|speed|preEvents
+x|tiny|Tiny|Hell yeah, we still got it!
+x|tiny|Tiny|These bastards don't know who they're messin' with!
+x|cyber|Cyber|Don't get too cocky. There's something huge up ahead...
+x|sludge|Sludge|Jesus! What is that thing?
+x|tiny|Tiny|Doesn't matter, just shoot the hell out of it!

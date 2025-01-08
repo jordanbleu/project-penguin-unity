@@ -124,24 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a498cd73bb44e74a6a7b622ad1abeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundaryPosition: {x: -20, y: 30}
-  boundarySize: {x: 40, y: 50}
+  boundaryPosition: {x: -20, y: 13.7}
+  boundarySize: {x: 40, y: 25.3}
   flipToOtherSide: 1
   onOutOfBounds:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Source.Actors.SimpleEnemy, Penguin
-        m_MethodName: PickRandomXPosition
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &5731554165748371363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +263,7 @@ MonoBehaviour:
   randomizeInterval: 0
   bulletPrefab: {fileID: 246940042024443775, guid: 1dd90087100e14c79875cd5a05527efa, type: 3}
   positionOffset: {x: 0, y: -2}
+  startTime: 0
 --- !u!114 &993870380679141414
 MonoBehaviour:
   m_ObjectHideFlags: 0

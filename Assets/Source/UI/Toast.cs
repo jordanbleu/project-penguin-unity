@@ -233,15 +233,15 @@ namespace Source.UI
             
             if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)
             {
-                LeanTween.moveLocalY(gameObject, 150, animateInSeconds).setEase(easeOutStyle)
+                LeanTween.moveLocalY(gameObject, 150, animateOutSeconds).setEase(easeOutStyle)
                     .setOnComplete(OnAnimateOutComplete);
                 return;
             }
             
             LeanTween.moveLocalY(gameObject, _yOffscreenPosition, animateOutSeconds).setEase(easeOutStyle)
                 .setOnComplete(OnAnimateOutComplete);
-            LeanTween.scaleY(gameObject, 0, animateInSeconds).setEase(easeOutStyle);
-            LeanTween.scaleX(gameObject, 0, animateInSeconds / 2).setEase(easeOutStyle);
+            LeanTween.scaleY(gameObject, 0, animateOutSeconds).setEase(easeOutStyle);
+            LeanTween.scaleX(gameObject, 0, animateOutSeconds / 2).setEase(easeOutStyle);
         }
 
         private void OnAnimateOutComplete()

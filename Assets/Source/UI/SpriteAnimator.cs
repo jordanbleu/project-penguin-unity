@@ -115,6 +115,13 @@ namespace Source.UI
         }
 
         public void Play() => _isPlaying = true;
+
+        public void PlayFromBeginning()
+        {
+            Reset();
+            Play();
+        }
+
         public void Pause() => _isPlaying = false;
 
         public void Stop()

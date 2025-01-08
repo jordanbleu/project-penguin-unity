@@ -22,6 +22,7 @@ namespace Source.Actors
         private bool triggerDamageAnimatorParameter = true;
         
         [SerializeField]
+        [Tooltip("Optional damage effect prefab to instantiate when hit by the player.")]
         private GameObject damageEffectPrefab;
 
         [SerializeField]

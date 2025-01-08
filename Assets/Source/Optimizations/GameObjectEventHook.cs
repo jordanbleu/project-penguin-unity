@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,9 @@ namespace Source.Optimizations
         [SerializeField]
         private UnityEvent OnDestroyed = new();
 
+        [SerializeField]
+        private UnityEvent OnEnabled = new();
+        
         private void Start()
         {
             OnStart?.Invoke();
@@ -23,6 +27,11 @@ namespace Source.Optimizations
         private void OnDestroy()
         {
             OnDestroyed?.Invoke();
+        }
+
+        private void OnEnable()
+        {
+            OnEnabled?.Invoke();
         }
     }
 }
