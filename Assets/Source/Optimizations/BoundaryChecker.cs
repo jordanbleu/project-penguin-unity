@@ -22,6 +22,10 @@ namespace Source.Optimizations
         [SerializeField]
         private UnityEvent onOutOfBounds = new();
 
+        [SerializeField]
+        [Tooltip("Triggered if the thing goes out of bounds except if the Y position is above the boundary.  Used if you will be placing the item above the camera.")]
+        private UnityEvent onOutOfBoundsExceptAbove = new();
+        
         private void Update()
         {
             var position = transform.position;
@@ -39,6 +43,8 @@ namespace Source.Optimizations
                 }
 
                 onOutOfBounds?.Invoke();
+                onOutOfBoundsExceptAbove?.Invoke();
+
                 return;
             }
 
@@ -63,7 +69,7 @@ namespace Source.Optimizations
                     transform.position = new Vector2(maxX, y);
                 }
 
-                
+                onOutOfBoundsExceptAbove?.Invoke();
                 onOutOfBounds?.Invoke();
                 return;
             }
@@ -75,6 +81,7 @@ namespace Source.Optimizations
                     transform.position = new Vector2(minX, y);
                 }
                 onOutOfBounds?.Invoke();
+                onOutOfBoundsExceptAbove?.Invoke();
                 return;
             }
 

@@ -1,8 +1,8 @@
 # id|avatar|title|text|speed|preEvents
-x|sludge|Sludge|Boss this...this is getting heavy now.
+x|sludge|Sludge|Boss this is getting heavy now.
 x|tiny|Tiny|Yeah...there's so many of them.
 x|tiny|Tiny|We need more allies out here.
-x|sludge|Sludge|Should we head back? I think we can hire some more help.
+x|sludge|Sludge|Should we head back? We can hire some more mercs.
 
 x|cyber|Cyber|That's...not gonna happen.
 
@@ -19,7 +19,7 @@ x|tiny|Tiny|A better question...why the hell did you drag us with you?
 
 x|cyber|Cyber|You both know why I took this damn job.
 x|cyber|Cyber|And as for your question, Tiny...
-x|cyber|Cyber|I brought you with because that's what I goddamn pay you for.|0.1|shake
+x|cyber|Cyber|I brought you with because that's what I goddamn pay you for.|0.05|shake
 x|cyber|Cyber|If you've got a problem with it feel free to head back by yourself.
 
 x|sludge|Sludge|Knowing the North, these ships are probably rigged to explode...
