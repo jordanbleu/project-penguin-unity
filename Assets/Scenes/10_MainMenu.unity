@@ -224,11 +224,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'One week ago, an infamous war criminal named Cyber, was hired by the North.
+  m_text: 'Today, an infamous mercenary named "Cyber" begins his final mission.
 
 
-    This
-    will be his final mission.'
+    However,
+    it was not given to him by choice...'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -830,7 +830,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSegmentsCompleted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1973896847}
+        m_TargetAssemblyTypeName: Source.Optimizations.SceneLoader, Penguin
+        m_MethodName: BeginFadingToScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Scenes/20_BeginningCutscene
+          m_BoolArgument: 0
+        m_CallState: 2
   startAtElement: 0
 --- !u!1 &223357412
 GameObject:
@@ -6790,8 +6802,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: That debate sparked civil war across the planet.  The rich and powerful
-    all migrated to the northern hemisphere, everyone else moved south.
+  m_text: "This debate sparked civil war across the planet.  \n\nMany of the rich
+    and powerful migrated to the northern hemisphere, everyone else moved south."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -14282,8 +14294,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: And after years, decades, or perhaps centuries, the remaining humans would
-    be rescued, and thus able to repopulate our race.
+  m_text: "After years, decades, or perhaps even centuries, this beacon would be
+    discovered by alien civilizations. \n\nThe humans would be rescued, and then
+    able to repopulate our species."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -14586,9 +14599,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'But not everyone swears allegiance to either side.
+  m_text: 'But not everyone swears allegiance to any side.
 
-'
+
+    Some lack faith
+    in humanity and only fight for survival.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -14676,7 +14691,7 @@ GameObject:
   - component: {fileID: 1021986254}
   - component: {fileID: 1021986255}
   m_Layer: 5
-  m_Name: war still goes on
+  m_Name: but who
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15015,7 +15030,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'But who should be allowed to carry on our legacy? '
+  m_text: But which individuals should be chosen to carry on our legacy?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -15193,8 +15208,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'So the scientists of the world got together and came up with a solution. 
-    A small percentage of humans would be sent to the moon.  '
+  m_text: 'So the scientists of the world got together and came up with a solution.
+
+
+    A
+    small percentage of humans would be sent to the moon.  '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -15772,7 +15790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   preDelaySeconds: 0
   animateInSeconds: 1
-  displaySeconds: 4
+  displaySeconds: 8
   animateOutSeconds: 1
   presentationMode: 0
   style: 1
@@ -15860,8 +15878,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Those chosen would be cryogenically frozen alongside a distress signal
-    that would be broadcast to alien lifeforms.
+  m_text: Those chosen would be cryogenically frozen alongside a distress signal.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -21676,6 +21693,7 @@ MonoBehaviour:
       m_Calls: []
   preDelaySeconds: 0
   loopMode: 0
+  playOnAwake: 1
 --- !u!1001 &1828969982
 PrefabInstance:
   m_ObjectHideFlags: 0

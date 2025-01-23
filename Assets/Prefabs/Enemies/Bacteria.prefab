@@ -239,10 +239,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a498cd73bb44e74a6a7b622ad1abeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundaryPosition: {x: -20, y: 20}
-  boundarySize: {x: 40, y: 32}
+  boundaryPosition: {x: -20, y: 14.4}
+  boundarySize: {x: 40, y: 26.6}
   flipToOtherSide: 1
   onOutOfBounds:
+    m_PersistentCalls:
+      m_Calls: []
+  onOutOfBoundsExceptAbove:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &5729841903517943373

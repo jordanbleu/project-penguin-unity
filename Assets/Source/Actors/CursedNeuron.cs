@@ -221,6 +221,12 @@ namespace Source.Actors
             transform.position = Vector2.MoveTowards(pos, new Vector2(0, 7f), step);
         }
 
+        // only needed for testing
+        public void MoveInstantlyToDefaultPosition()
+        {
+            transform.position = new Vector2(0, 7f);
+        }
+
         private bool UpdateShieldStatus()
         {
             var shieldActive = false;
@@ -250,7 +256,7 @@ namespace Source.Actors
 
             var pos = transform.position;
             Instantiate(damageEffectPrefab).At(pos.x + Random.Range(-1, 1), pos.y + Random.Range(-1, 1));
-            _attackable.Damage(2);
+            _attackable.Damage(10); // todo: set to 2
             bulletComp.HitSomething();
             impulseSource.GenerateImpulse();
             
@@ -328,8 +334,9 @@ namespace Source.Actors
                     node.gameObject.SetActive(false);
                 }
 
-                KillAllEnemies(enemyWave3);
+                KillAllEnemies(enemyWave1);
                 KillAllEnemies(enemyWave2);
+                KillAllEnemies(enemyWave3);
 
                 _player.SetDialogueMode(true);
                 deathDialogue.SetActive(true);

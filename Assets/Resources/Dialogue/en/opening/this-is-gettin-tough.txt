@@ -13,7 +13,7 @@ x|cyber|Cyber|Look...You guys probably guessed this isn't a normal job.
 x|cyber|Cyber|The North ain't paying us shit.
 x|cyber|Cyber|And if we can't pull this off...well...
 
-x|sludge|Sludge|So we're basically slaves to the North.
+x|sludge|Sludge|So we're basically slaves.
 x|sludge|Sludge|Why the hell did you take this job?
 x|tiny|Tiny|A better question...why the hell did you drag us with you?
 

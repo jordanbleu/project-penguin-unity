@@ -40,6 +40,9 @@ namespace Source.UI
         [SerializeField]
         private LoopMode loopMode = LoopMode.Loop;
         
+        [SerializeField]
+        private bool playOnAwake = true;
+        
         private float _preDelayCounter = 0f;
         
         private int _imageIndex = 0;
@@ -59,6 +62,14 @@ namespace Source.UI
                 SetFrame(0);
             }
         
+        }
+
+        private void OnEnable()
+        {
+            if (playOnAwake)
+            {
+                PlayFromBeginning();
+            }
         }
 
         private void SetFrame(int index)
@@ -100,7 +111,7 @@ namespace Source.UI
             if (_imageIndex >= frames.Length)
             {
                 
-                onIterationComplete.Invoke();
+                onIterationComplete?.Invoke();
                 
                 if (loopMode == LoopMode.Once)
                 {

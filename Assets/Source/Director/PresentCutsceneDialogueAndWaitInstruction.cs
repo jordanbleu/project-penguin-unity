@@ -27,6 +27,12 @@ namespace Source.Director
 
         public override bool IsInstructionComplete()
         {
+            if (_presenter == null)
+            {
+                Debug.LogError("CutsceneDialoguePresenter is null. Did you mean to use the gameplaydialogue instead?");
+                return false;
+            }
+
             return _presenter.IsDonePresenting;
         }
     }

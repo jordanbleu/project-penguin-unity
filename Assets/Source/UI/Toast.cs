@@ -86,12 +86,18 @@ namespace Source.UI
         {
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
             
-// #if UNITY_EDITOR
-//             if ((presentationMode is PresentationMode.Skippable or PresentationMode.Wait) && pressEnterIndicator == null)
-//             {
-//                 Debug.LogWarning("CONVENTION VIOLATION -> skippable toasts need to display the 'pressEnterIndicator' somewhere.  Please fix this on the toast: " + name);
-//             }
-// #endif
+#if UNITY_EDITOR
+            if ((presentationMode is PresentationMode.Skippable or PresentationMode.Wait) && pressEnterIndicator == null)
+            {
+                Debug.LogWarning("CONVENTION VIOLATION -> skippable toasts need to display the 'pressEnterIndicator' somewhere.  Please fix this on the toast: " + name);
+            } 
+            else if (presentationMode is PresentationMode.Unskippable && pressEnterIndicator != null && pressEnterIndicator.activeSelf)
+            {
+                Debug.LogWarning(
+                    "CONVENTION VIOLATION -> unskippable toasts should not display the 'pressEnterIndicator'.  Please fix this on the toast: " +
+                    name);
+            }
+#endif
             _initialPosition = transform.localPosition;
             _yOffscreenPosition = _initialPosition.y - 20;
 

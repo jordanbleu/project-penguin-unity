@@ -73,12 +73,12 @@ namespace Source.UI
             gameObject.SetActive(true);
             transform.localPosition = new Vector2(0, -200);
             
-            LeanTween.moveLocalY(gameObject, 0, 1).setEaseInOutQuart().setOnComplete(()=> _isReady = true);
+            LeanTween.moveLocalY(gameObject, 0, 0.5f).setEaseOutBack().setOnComplete(()=> _isReady = true);
         }
         
         public void Hide()
         {
-            LeanTween.moveLocalY(gameObject, -200, 1).setEaseInOutQuart().setOnComplete(OnDismissed);
+            LeanTween.moveLocalY(gameObject, -200, 0.5f).setEaseInBack().setOnComplete(OnDismissed);
         }
 
         private void OnDismissed()

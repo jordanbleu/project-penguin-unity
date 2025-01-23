@@ -1,0 +1,9 @@
+﻿# id|avatar|title|text|speed|preEvents
+x|sludge-scared|Sludge|What!?
+x|sludge-scared|Sludge|Tiny!?!?!|0.05|shake
+x|sludge-scared|Sludge|What just happened?
+x|cyber|Cyber|He just exploded...
+x|sludge-scared|Sludge|Did that thing just kill him?
+x|cyber|Cyber|No idea.
+x|sludge-scared|Sludge|Cyber, I...
+x|cyber|Cyber|Sludge?

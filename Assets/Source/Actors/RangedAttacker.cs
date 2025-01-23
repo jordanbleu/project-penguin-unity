@@ -81,6 +81,7 @@ namespace Source.Actors
             _thinkTimer = gameObject.AddComponent<IntervalEventTimer>();
             _thinkTimer.SetInterval(thinkTime);
             _thinkTimer.AddEventListener(AIUpdate);
+            _thinkTimer.PreWarm();
 
             _seekPosition = new(_player.transform.position.x, UnityEngine.Random.Range(3, 10));
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
