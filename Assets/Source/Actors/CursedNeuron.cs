@@ -68,6 +68,9 @@ namespace Source.Actors
         [SerializeField]
         private GameObject enemyWave3;
         private bool wave3Spawned = false;
+
+        [SerializeField]
+        private UnityEvent onBeginFinalDialogue = new();
         
         private Animator _animator;
         
@@ -339,6 +342,7 @@ namespace Source.Actors
                 KillAllEnemies(enemyWave3);
 
                 _player.SetDialogueMode(true);
+                onBeginFinalDialogue?.Invoke();
                 deathDialogue.SetActive(true);
                 
                 return;
