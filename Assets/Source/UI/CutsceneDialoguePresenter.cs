@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Source.Audio;
+using Source.Constants;
 using Source.Dialogue;
 using UnityEngine;
 using UnityEngine.Events;
@@ -29,17 +31,32 @@ namespace Source.UI
                  "not try to display dialogue before this event is fired..")]
         private UnityEvent onDialogueLoaded;
 
+        [SerializeField]
+        private AudioClip typingSound;
+        
+        [SerializeField]
+        private AudioClip cycleDialogueSound;
+        
         private Dictionary<string, List<DialogueLine>> _linesById;
 
         public bool IsDonePresenting { get; private set; }
 
+        private SoundEffectEmitter _soundEmitter;
+        
         private void Start()
         {
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter)?.GetComponent<SoundEffectEmitter>();
+            
+            if (!_soundEmitter)
+                throw new UnityException("Missing game object tagged as SoundEffectEmitter in the scene");
+            
             if (onDialogueLoaded == null)
                 Debug.LogWarning("onDialogueLoaded event is ignored and it shouldn't be.");
             
             dialogueTyper.OnLineBegin.AddListener(OnLineBegin);
             dialogueTyper.OnLineComplete.AddListener(OnLineEnd);
+            dialogueTyper.OnTypeLetter.AddListener(OnTypeLetter);
+            dialogueTyper.OnUserCycleDialogue.AddListener(OnCycleDialogue);
             
             dialogueTyper.OnDialogueComplete.AddListener(OnDialogueCompleted);
             doneTypingIndicator.SetActive(false);
@@ -48,6 +65,11 @@ namespace Source.UI
             titleBoxObject.SetActive(false);
 
             StartCoroutine(BeginLoadingDialogue());
+        }
+
+        private void OnCycleDialogue()
+        {
+            _soundEmitter.Play(cycleDialogueSound);
         }
 
         private void OnDialogueCompleted()
@@ -62,6 +84,13 @@ namespace Source.UI
         {
             dialogueTyper.OnLineBegin.RemoveListener(OnLineBegin);
             dialogueTyper.OnLineComplete.RemoveListener(OnLineEnd);
+            dialogueTyper.OnTypeLetter.RemoveListener(OnTypeLetter);
+            dialogueTyper.OnUserCycleDialogue.RemoveListener(OnCycleDialogue);
+        }
+
+        private void OnTypeLetter()
+        {
+            _soundEmitter.Play(typingSound);
         }
 
         /// <summary>

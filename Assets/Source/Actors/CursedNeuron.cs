@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Source.Audio;
 using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
@@ -72,6 +73,15 @@ namespace Source.Actors
         [SerializeField]
         private UnityEvent onBeginFinalDialogue = new();
         
+        [SerializeField]
+        private AudioClip[] bodyHitSounds;
+        
+        [SerializeField]
+        private AudioClip[] shieldHitSounds;
+        
+        [SerializeField]
+        private AudioClip scream;
+        
         private Animator _animator;
         
         private bool _isShieldActive = true;
@@ -104,9 +114,14 @@ namespace Source.Actors
         [SerializeField]
         private UnityEvent onFullyDead = new();
         
+        private SoundEffectEmitter _soundEffectEmitter;
+        
         private Player _player;
         private void Start()
         {
+            _soundEffectEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter)?.GetComponent<SoundEffectEmitter>()
+                ??  throw new UnityException("No sound effect emitter");
+            
             _attackable = GetComponent<Attackable>();
             _animator = GetComponent<Animator>();
             _player = GameObject.FindWithTag(Tags.Player).GetComponent<Player>();
@@ -253,13 +268,15 @@ namespace Source.Actors
             var bulletComp = bullet.GetComponent<Bullet>();
             if (_isShieldActive)
             {
+                _soundEffectEmitter.PlayRandom(gameObject, shieldHitSounds);
                 bulletComp.Ricochet();
                 return;
             }
 
             var pos = transform.position;
+            _soundEffectEmitter.PlayRandom(gameObject, bodyHitSounds);
             Instantiate(damageEffectPrefab).At(pos.x + Random.Range(-1, 1), pos.y + Random.Range(-1, 1));
-            _attackable.Damage(10); // todo: set to 2
+            _attackable.Damage(2);
             bulletComp.HitSomething();
             impulseSource.GenerateImpulse();
             
@@ -350,6 +367,7 @@ namespace Source.Actors
             
             if (!wave3Spawned && hp <= 30)
             {
+                _soundEffectEmitter.Play(gameObject, scream);
                 enemyWave3.SetActive(true);
                 wave3Spawned = true;
             }

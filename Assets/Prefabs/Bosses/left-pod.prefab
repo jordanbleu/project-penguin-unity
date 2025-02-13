@@ -193,6 +193,7 @@ MonoBehaviour:
       m_Calls: []
   preDelaySeconds: 0
   loopMode: 0
+  playOnAwake: 1
 --- !u!1 &4948620577116684149
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,6 +330,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connector: {fileID: 4311329235637898086}
   bulletPrefab: {fileID: 246940042024443775, guid: 1dd90087100e14c79875cd5a05527efa, type: 3}
+  shootSound: {fileID: 8300000, guid: d391631bd159f41659ed854e8a55ccc9, type: 3}
+  hitSounds:
+  - {fileID: 8300000, guid: 2049cf2377da74ddfa3848c80195d3ba, type: 3}
+  - {fileID: 8300000, guid: 0caa061fe91e04b7ba82195a56ef5e88, type: 3}
+  - {fileID: 8300000, guid: 927c5808667df4fc683a57fb68171fdd, type: 3}
   impulseSource: {fileID: 1437489596394721586}
 --- !u!114 &4236097470014549167
 MonoBehaviour:
@@ -343,6 +349,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 9999
+  baseScoreValue: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1437489596394721586
 MonoBehaviour:
   m_ObjectHideFlags: 0

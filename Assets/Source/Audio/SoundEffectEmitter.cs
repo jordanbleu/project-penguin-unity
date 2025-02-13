@@ -58,6 +58,24 @@ namespace Source.Audio
             
             return snd;
         }
+
+        /// <summary>
+        /// Plays a simple sound effect with default settings.
+        /// </summary>
+        /// <param name="clip"></param>
+        /// <returns></returns>
+        public SoundEffect Play(AudioClip clip)
+        {
+            var name = BuildName(gameObject, clip, 0, 1, false);
+            
+            var inst = Instantiate(soundEffectPrefab, transform);
+            var snd = inst.GetComponent<SoundEffect>();
+            inst.name = name;
+            snd.Initialize(gameObject, clip);
+            
+            snd.PlayOnce();
+            return snd;
+        }
         
         public SoundEffect Play(GameObject source, AudioClip clip, SoundEffectSettings settings)
         {

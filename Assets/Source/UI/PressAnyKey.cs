@@ -1,7 +1,9 @@
 using System;
+using Source.Audio;
 using Source.Utilities;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
@@ -27,6 +29,16 @@ namespace Source.UI
         [SerializeField]
         private GameObject whiteFlashParent;
         
+        [SerializeField]
+        private AudioClip anyKeyHitSound;
+        
+        [SerializeField]
+        [Tooltip("Played if the user decides to  cancel and go back to this thing")]
+        private AudioClip anyKeyReOpenSound;
+        
+        [SerializeField]
+        private SoundEffectEmitter _soundEffectEmitter;
+        
         private Vector2 planetEndPosition; 
         private Vector2 logoEndPosition;
         private Vector2 pressAnyKeyToBeginEndPosition;
@@ -42,6 +54,7 @@ namespace Source.UI
             // if any key was pressed this frame on the keyboard or gamepad
             if (!_wasTriggered && InputUtils.AnyKeyHit())
             {
+                _soundEffectEmitter.Play(anyKeyHitSound);
                 LeanTween.moveLocalY(logo, -200, 1f).setEaseInBack();
                 LeanTween.moveLocalY(pressAnyKeyToBegin, -200, 1f).setEaseInBack().setDelay(0.5f).setOnComplete(()=>menu.SetActive(true));
                 LeanTween.moveLocalY(planet, -48, 3).setEaseInOutCubic().setDelay(0.5f);
@@ -81,11 +94,16 @@ namespace Source.UI
             
             LeanTween.moveLocal(pressAnyKeyToBegin, pressAnyKeyToBeginEndPosition, 1f).setEaseOutExpo().setDelay(3f).setOnComplete(Ready);
         }
+        
+        public void PlayReturningSound()
+        {
+            _soundEffectEmitter.Play(anyKeyReOpenSound);
+        }
 
         // this is quite stupid but easy.  Called from the main menu when 'new game' is picked.
         public void MovePlanetOutOfTheWay()
         {
-            LeanTween.moveLocal(planet, new Vector2(planet.transform.localPosition.x, -300f), 5f).setEaseInOutCubic();
+            LeanTween.moveLocal(planet, new Vector2(planet.transform.localPosition.x, -300f), 8f).setEaseInOutCubic();
         }
 
         

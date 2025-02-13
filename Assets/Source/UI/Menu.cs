@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using Source.Audio;
+using Source.Constants;
 using Source.Extensions;
 using TMPro;
 using UnityEngine;
@@ -59,6 +61,15 @@ namespace Source.UI
         [Tooltip("Fired when any menu item is selected.")]
         private UnityEvent onAnyMenuItemSelected = new();
         
+        [SerializeField]
+        private AudioClip menuOkSound;
+        
+        [SerializeField]
+        private AudioClip menuChangeSound;
+        
+        [SerializeField]
+        private AudioClip menuCancelSound;
+        
         // this is the selectors position on screen, so would be anywhere from 0 to pageSize
         private int _selectorPosition = 0;
         
@@ -67,10 +78,18 @@ namespace Source.UI
         private bool _ready;
         private TextMeshProUGUI[] _menuItems;
 
+        private SoundEffectEmitter _soundEmitter;
+        
         private int GetPageSize() => Math.Min(pageSize, menuItemData.Length);
         
         private void Start()
         {
+            var soundEmitterObj = GameObject.FindWithTag(Tags.SoundEffectEmitter);
+            
+            if (!soundEmitterObj)
+                throw new UnityException("Missing object tagged as sound effect emitter");
+            
+            _soundEmitter = soundEmitterObj.GetComponent<SoundEffectEmitter>();
             
             if (menuItemData.Any())
                 CreateMenu(menuItemData);
@@ -195,6 +214,8 @@ namespace Source.UI
             if (!context.started)
                 return;
             
+            _soundEmitter.Play(menuChangeSound);
+            
             if (_selectorPosition > 0)
             {
                 _selectorPosition--;
@@ -241,10 +262,13 @@ namespace Source.UI
             
             if (!_ready)
                 return;
-            
+
+
             // if the button is pressed.
             if (!context.started)
                 return;
+            
+            _soundEmitter.Play(menuChangeSound);
 
             if (_selectorPosition < pageSize-1)
             {
@@ -272,6 +296,8 @@ namespace Source.UI
             // if the button is pressed.
             if (!context.started)
                 return;
+            
+            _soundEmitter.Play(menuOkSound);
 
             // selector does the squeeze animation 
             var oldScaleY = selector.transform.localScale.y;
@@ -294,6 +320,8 @@ namespace Source.UI
         {
             if (!_ready)
                 return;
+            
+            _soundEmitter.Play(menuCancelSound);
             
             onGoBack.Invoke();
             DismissMenu();

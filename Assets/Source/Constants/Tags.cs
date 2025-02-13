@@ -9,5 +9,7 @@ namespace Source.Constants
         public const string SoundEffectEmitter        = "sound-effect-emitter";
         public const string DialoguePresenter         = "dialogue-presenter";
         public const string CutsceneDialoguePresenter = "cutscene-dialogue-presenter";
+        public const string MusicBox                  = "music-box";
+        public const string AmbienceBox               = "ambience-box";
     }
 }

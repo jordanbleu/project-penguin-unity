@@ -47,6 +47,11 @@ namespace Source.SaveData
         /// This should be set to false as soon as literally anything is saved.
         /// </summary>
         public bool IsFirstLoad { get; set; } = true;
+        
+        /// <summary>
+        /// Volume of in-game music
+        /// </summary>
+        public float MusicVolume { get; set; } = 1.0f;
 
     }
 }

@@ -80,6 +80,9 @@ MonoBehaviour:
   dialogueTyper: {fileID: 0}
   livesDisplay: {fileID: 0}
   sceneLoader: {fileID: 0}
+  reloadCompleteSound: {fileID: 8300000, guid: 7f47ebf296c8f9d45a1da07253bf6b4f, type: 3}
+  reloadFailSound: {fileID: 8300000, guid: 6e14beea4d89ca442917724cf1f0249a, type: 3}
+  reloadSuccessSound: {fileID: 8300000, guid: a3f735e6ed88d224094af4321279b5bb, type: 3}
 --- !u!114 &5436033853786342711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,3 +631,4 @@ MonoBehaviour:
       m_Calls: []
   preDelaySeconds: 0
   loopMode: 0
+  playOnAwake: 1

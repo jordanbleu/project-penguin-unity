@@ -194,6 +194,7 @@ MonoBehaviour:
   dialogueTyper: {fileID: 3529827739679311680}
   avatarAnimator: {fileID: 8394675868189241380}
   doneTypingIndicator: {fileID: 2894782210897591587}
+  typingSound: {fileID: 8300000, guid: 1a7fc8ba55b82bc478e87dcbe20ffc5d, type: 3}
 --- !u!95 &7586358766516415633
 Animator:
   serializedVersion: 5
@@ -468,6 +469,7 @@ MonoBehaviour:
       m_Calls: []
   preDelaySeconds: 0
   loopMode: 0
+  playOnAwake: 1
 --- !u!1 &4367519790756604472
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +567,7 @@ MonoBehaviour:
       m_Calls: []
   preDelaySeconds: 0
   loopMode: 0
+  playOnAwake: 1
 --- !u!1 &6110123908485106213
 GameObject:
   m_ObjectHideFlags: 0

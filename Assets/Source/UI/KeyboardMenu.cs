@@ -36,7 +36,6 @@ namespace Source.UI
         private string _currentText = "";
 
         private bool _wasInitialized = false;
-        
         private void Start()
         {
             _currentText = defaultText;
@@ -80,7 +79,18 @@ namespace Source.UI
             backspaceItem.OnItemSelected.AddListener(OnBackspaceEntered);
             menuItems.Add(backspaceItem);
 
-
+            // Add enter character
+            var enterItem = new Menu.MenuItemData
+            {
+                Id = "enter",
+                Text = "OK",
+                IsEnabled = true,
+                OnItemSelected = new()
+            };
+            enterItem.OnItemSelected.AddListener(OnEnterEntered);
+            menuItems.Add(enterItem);
+            
+            
             // Add shift character
             var shiftItem = new Menu.MenuItemData
             {
@@ -91,8 +101,7 @@ namespace Source.UI
             };
             shiftItem.OnItemSelected.AddListener(OnShiftEntered);
             menuItems.Add(shiftItem);
-             
-
+            
             // Add space character
             var spaceItem = new Menu.MenuItemData
             {
@@ -122,18 +131,6 @@ namespace Source.UI
 
                 menuItems.Add(mItem);
             }
-            
-            // Add enter character
-            var enterItem = new Menu.MenuItemData
-            {
-                Id = "enter",
-                Text = "OK",
-                IsEnabled = true,
-                OnItemSelected = new()
-            };
-            enterItem.OnItemSelected.AddListener(OnEnterEntered);
-            menuItems.Add(enterItem);
-
 
             _menu.CreateMenu(menuItems.ToArray());
         }
@@ -148,6 +145,11 @@ namespace Source.UI
 
             _currentText += letter;
             RefreshText();
+            
+            // If the player is typing the first letter and shift is enabled,
+            // disable caps so the first letter is capitalized easier 
+            if (_currentText.Length == 1 && _caps)
+                OnShiftEntered();
         }
         
         private void OnEnterEntered()

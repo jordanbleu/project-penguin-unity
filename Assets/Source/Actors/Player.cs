@@ -102,6 +102,17 @@ namespace Source.Actors
         [Tooltip("Needed for going to the death scene.")]
         private SceneLoader sceneLoader;
 
+        [SerializeField]
+        private AudioClip reloadCompleteSound;
+        
+        [SerializeField]
+        private AudioClip reloadFailSound;
+
+        [SerializeField]
+        private AudioClip reloadSuccessSound;
+
+
+        
         // Reload Mechanics
         //
         // Bullets remaining in current mag
@@ -254,8 +265,10 @@ namespace Source.Actors
                 var reloadSpeed = _failedReload ? ReloadSpeed*0.5f : ReloadSpeed;
                 _reloadTimeRemaining -= dt * reloadSpeed;
 
+                // the reload bar naturally filled up
                 if (_reloadTimeRemaining <= 0f)
                 {
+                    _soundEmitter.Play(gameObject, reloadCompleteSound);
                     _failedReload = false;
                     _remainingBullets = GameplayConstants.MagSize;
                     _reloadTimeRemaining = 0f;
@@ -492,12 +505,14 @@ namespace Source.Actors
                     _failedReload = false;
                     OnActiveReloadSuccess?.Invoke();
                     OnActiveReloadEnd?.Invoke();
+                    _soundEmitter.Play(gameObject, reloadSuccessSound);
                     return;
                 }
                 
                 // not so succsessful active reload
                 _failedReload = true;
                 OnActiveReloadFailure?.Invoke();
+                _soundEmitter.Play(gameObject, reloadFailSound);
                 return;
             }
 

@@ -47,11 +47,13 @@ namespace Source.Audio
 
         public void PlayOnce()
         {
+            // Make sure you call Initialize first 
             _audioSource.PlayOneShot(_clip);
         }
         
         public void PlayLooped()
         {
+            // Make sure you call Initialize first 
             _isLooped = true;
             _audioSource.loop = true;
             _audioSource.Play();

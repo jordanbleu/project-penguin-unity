@@ -25,8 +25,11 @@ namespace Source.Dialogue
         public UnityEvent OnLineComplete { get; private set; } = new();
         public UnityEvent OnLineBegin { get; private set; } = new();
         public UnityEvent OnDialogueComplete { get; private set; } = new();
-        
         public UnityEvent OnDialogueBegin { get; private set; } = new();
+        public UnityEvent OnTypeLetter {get; private set;} = new();
+        public UnityEvent OnUserCycleDialogue {get; private set;} = new();
+        
+        
         
         private Queue<DialogueLine> _queue = new();
         private DialogueLine _currentLine;
@@ -62,7 +65,8 @@ namespace Source.Dialogue
             
             // Type next character
             _charIndex++;
-
+            OnTypeLetter?.Invoke();
+            
             var currentString = fullText[.._charIndex];
             textMesh.SetText(currentString);
         
@@ -73,6 +77,7 @@ namespace Source.Dialogue
         /// </summary>
         public void UserCycleDialogue()
         {
+            OnUserCycleDialogue?.Invoke();
             if (IsDoneTypingCurrentLine())
             {
                 if (!_queue.Any())

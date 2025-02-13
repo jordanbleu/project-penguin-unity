@@ -16,6 +16,8 @@ TagManager:
   - sound-effect-emitter
   - dialogue-presenter
   - cutscene-dialogue-presenter
+  - music-box
+  - ambience-box
   layers:
   - Default
   - TransparentFX
