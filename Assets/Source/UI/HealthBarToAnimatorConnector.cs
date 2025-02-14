@@ -21,7 +21,7 @@ namespace Source.UI
         private void Update()
         {
             var health = _healthBar.GetValue();
-            _animator.SetBool(LowHealth, health < 0.3);
+            _animator.SetBool(LowHealth, health < 0.15);
         }
     }
 }

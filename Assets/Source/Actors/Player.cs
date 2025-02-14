@@ -181,10 +181,14 @@ namespace Source.Actors
 
         private Collider2D _collider;
         
+        private MusicBox _musicBox; 
+        
         public bool ShieldProtectionEnabled { get; set; }
         
         private void Start()
         {
+            _musicBox =  GameObject.FindWithTag(Tags.MusicBox)?.GetComponent<MusicBox>();
+            
             var healthRegenInterval = gameObject.AddComponent<IntervalEventTimer>();
             healthRegenInterval.SetInterval(HealthRegenRate);
             healthRegenInterval.AddEventListener(RegenHealth);
@@ -247,6 +251,14 @@ namespace Source.Actors
         {
             energyDiplayBar.SetValue(energy / 100f);
             healthDiplayBar.SetValue(health / 100f);
+            
+            // also update the music state
+            if (_musicBox)
+                _musicBox.EnableLowHealthEffect = (health < 15);
+            
+            if (_soundEmitter)
+                _soundEmitter.EnableLowHealthEffect = (health < 15);
+            
         }
 
         private void FixedUpdate()
@@ -354,6 +366,9 @@ namespace Source.Actors
         /// </summary>
         public void BeginDying()
         {
+            _soundEmitter.EnableLowHealthEffect = false;
+            _musicBox.EnableLowHealthEffect = false;
+            
             _soundEmitter.Play(gameObject, playerDeathSound);
             _isMovementLocked = true;
             _isWeaponsLocked = true;

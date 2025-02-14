@@ -16,9 +16,40 @@ namespace Source.Audio
     {
         private AudioSource _audioSource;
         
+        /// <summary>
+        /// Harsh muting effect to signify the players low health
+        /// or something bad or dramatic happening
+        /// </summary>
+        public bool EnableLowHealthEffect {get;set;}
+        
+        private AudioReverbFilter _reverbFilter;
+        private AudioLowPassFilter _lowPassFilter;
+        
         public void Start()
         {
+            _reverbFilter = GetComponent<AudioReverbFilter>();
+            _lowPassFilter = GetComponent<AudioLowPassFilter>();
             _audioSource = GetComponent<AudioSource>();
+        }
+        
+        public void Update()
+        {
+            // Apply audio effects based on the game situation
+            if (EnableLowHealthEffect)
+            {
+                _reverbFilter.enabled = true;
+                _reverbFilter.decayTime = 6.1f;
+                _lowPassFilter.enabled = true;
+                _lowPassFilter.cutoffFrequency = 800;
+            }
+            else
+            {
+                _reverbFilter.enabled = false;
+                _lowPassFilter.enabled = false;
+            }
+            
+        
+        
         }
         
         /// <summary>

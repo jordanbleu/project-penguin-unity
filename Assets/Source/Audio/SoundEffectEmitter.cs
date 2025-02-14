@@ -15,6 +15,12 @@ namespace Source.Audio
         [SerializeField]
         private GameObject soundEffectPrefab;
 
+        /// <summary>
+        /// Harsh muting effect to signify the players low health
+        /// or something bad or dramatic happening
+        /// </summary>
+        public bool EnableLowHealthEffect {get;set;}
+        
         public SoundEffect PlayRandom(GameObject source, AudioClip[] clips, float panX = 0, float volume = 1f)
         {
             if (!clips.Any())
@@ -38,7 +44,7 @@ namespace Source.Audio
             var inst = Instantiate(soundEffectPrefab, transform);
             var snd = inst.GetComponent<SoundEffect>();
             
-            snd.Initialize(source, clip, panX, volume);
+            snd.Initialize(source, clip, panX, volume, enableLowPassReverbEffect: EnableLowHealthEffect);
             inst.name = name;
             snd.PlayOnce();
             
@@ -52,7 +58,7 @@ namespace Source.Audio
             var inst = Instantiate(soundEffectPrefab, transform);
             var snd = inst.GetComponent<SoundEffect>();
             
-            snd.Initialize(source, clip, panX, volume);
+            snd.Initialize(source, clip, panX, volume, enableLowPassReverbEffect: EnableLowHealthEffect);
             inst.name = name;
             snd.PlayLooped();
             
@@ -71,7 +77,7 @@ namespace Source.Audio
             var inst = Instantiate(soundEffectPrefab, transform);
             var snd = inst.GetComponent<SoundEffect>();
             inst.name = name;
-            snd.Initialize(gameObject, clip);
+            snd.Initialize(gameObject, clip, enableLowPassReverbEffect: EnableLowHealthEffect);
             
             snd.PlayOnce();
             return snd;
@@ -84,7 +90,7 @@ namespace Source.Audio
             var inst = Instantiate(soundEffectPrefab, transform);
             var snd = inst.GetComponent<SoundEffect>();
             
-            snd.Initialize(source, clip, settings.Pan, settings.Volume);
+            snd.Initialize(source, clip, settings.Pan, settings.Volume, enableLowPassReverbEffect: EnableLowHealthEffect);
             inst.name = name;
             
             if (settings.RandomizeStartTime)

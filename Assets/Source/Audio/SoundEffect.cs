@@ -20,7 +20,7 @@ namespace Source.Audio
         /// This NEEDS to be called before any other method here is called.  There are no assertions that check this,
         /// so you will just get a null ref. This is a design choice to make the code more efficient.
         /// </summary>
-        public void Initialize(GameObject source, AudioClip clip, float panX = 0f, float volume = 1f)
+        public void Initialize(GameObject source, AudioClip clip, float panX = 0f, float volume = 1f, bool enableLowPassReverbEffect = false)
         {
             _sourceGameObject = source;
             _audioSource = gameObject.GetComponent<AudioSource>();
@@ -29,6 +29,15 @@ namespace Source.Audio
             _audioSource.volume = volume;
             _clip = clip;
             _sourceObjectName = source.name;
+            
+            if (enableLowPassReverbEffect)
+            {
+                var reverbFilter = gameObject.GetComponent<AudioReverbFilter>();
+                reverbFilter.enabled = true;
+                var lowPassFilter = gameObject.GetComponent<AudioLowPassFilter>();
+                lowPassFilter.enabled = true;
+                lowPassFilter.cutoffFrequency = 800;
+            }
 
         }
 
