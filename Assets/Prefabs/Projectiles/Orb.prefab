@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 2352171751782362906}
   - component: {fileID: 3533110173664227201}
   - component: {fileID: 5876718035165144126}
+  - component: {fileID: 8100660389153049626}
   m_Layer: 9
   m_Name: Orb
   m_TagString: Untagged
@@ -265,6 +266,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
+  onCollideWithPlayerBullet:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8100660389153049626}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: bullet-hits-bullet
+          m_BoolArgument: 0
+        m_CallState: 2
   bullet: {fileID: 8253884114436922311}
 --- !u!114 &6499566717063794365
 MonoBehaviour:
@@ -344,6 +360,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.0017760992}
   serializedVersion: 2
   m_Radius: 1.0168453
+--- !u!114 &8100660389153049626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3537049328491008339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2710b9a3194d4447bc54dfb1e3a2b4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffects:
+  - soundEffectId: bullet-hits-bullet
+    soundEffects:
+    - {fileID: 8300000, guid: 49a3ba1400b1e30458079a713b730b29, type: 3}
+    - {fileID: 8300000, guid: 8caa92051509d3b4692a3b8c49c8ea4b, type: 3}
+    - {fileID: 8300000, guid: f04651bc2e27b9a46b3c00a36709f505, type: 3}
+    - {fileID: 8300000, guid: b81edc827b0cad644bfd33f0e258c04a, type: 3}
+    - {fileID: 8300000, guid: d0990255e9740df49999566f325ba948, type: 3}
+    - {fileID: 8300000, guid: 20de2c9f1b596934ab85e35bc0d4596d, type: 3}
 --- !u!1 &4889085488045639044
 GameObject:
   m_ObjectHideFlags: 0

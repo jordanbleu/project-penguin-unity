@@ -63,6 +63,9 @@ namespace Source.Actors
         private AudioClip[] gunshots;
         
         [SerializeField]
+        private AudioClip death;
+        
+        [SerializeField]
         [Tooltip("If true, the 'damage' trigger will be called for the animator on damage. ")]
         private bool useDamageAnimatorTrigger = true;
         
@@ -186,7 +189,9 @@ namespace Source.Actors
 
         public void OnDeath()
         {
-            // todo: need explosion
+            if (death != null)
+                _soundEmitter.Play(gameObject, death);
+            
             animator.SetTrigger(DeathAnimatorTrigger);
         }
 

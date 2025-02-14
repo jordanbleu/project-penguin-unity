@@ -16,8 +16,10 @@ namespace Source.UI
         [SerializeField]
         private bool isVerticalBar = true;
         
+        private float barValue = 100f;
+        
         /// <summary>
-        /// Set how full the bar is from 0 to 100
+        /// Set how full the bar is from 0 to 1
         /// </summary>
         /// <param name="value"></param>
         public void SetValue(float value)
@@ -58,8 +60,12 @@ namespace Source.UI
                     barImage.gameObject.transform.localScale = new Vector3(value, localScale.y, localScale.z);
                 }
             }
+            
+            barValue = value;
         }
 
+        public float GetValue() => barValue;
+        
         public void BounceDown()
         {
             var parent = barImage.gameObject.transform.parent.gameObject;

@@ -10,6 +10,7 @@ using Source.Interfaces;
 using Source.Utilities;
 using Source.Weapons;
 using UnityEngine;
+using UnityEngine.Events;
 using RandomUtils = Source.Utilities.RandomUtils;
 
 namespace Source.Actors
@@ -60,6 +61,12 @@ namespace Source.Actors
         [Tooltip("one of these will be randomly played when the enemy is attacked.")]
         private AudioClip[] bulletHitSounds;
         
+        [SerializeField]
+        private UnityEvent onDeath = new();
+        
+        [SerializeField]
+        private UnityEvent onHit = new();
+        
         private bool _isVulnerable = true;
         private static readonly int DeathAnimatorTrigger = Animator.StringToHash("death");
         private static readonly int DamageAnimatorTrigger = Animator.StringToHash("damage");
@@ -93,6 +100,7 @@ namespace Source.Actors
 
         public void AttackedByBullet(GameObject bullet)
         {
+            onHit?.Invoke();
             var bulletComponent = bullet.GetComponent<Bullet>();
             
             if (_isVulnerable)
@@ -118,18 +126,21 @@ namespace Source.Actors
 
         public void AttackedByLaser(GameObject laser)
         {
+            onHit?.Invoke();
             ApplyDamageEffect();
             attackable.Damage(3);
         }
 
         public void HitByMissileExplosion(GameObject explosion)
         {
+            onHit?.Invoke();
             ApplyDamageEffect();
             attackable.Damage(10);
         }
 
         public void HitByMineExplosion(GameObject explosion)
         {
+            onHit?.Invoke();
             ApplyDamageEffect();
             attackable.Damage(5);
             
@@ -141,6 +152,7 @@ namespace Source.Actors
 
         public void OnDeath()
         {
+            onDeath?.Invoke();
             rigidBody.velocity = Vector2.zero;
             animator.SetTrigger(DeathAnimatorTrigger);
         }

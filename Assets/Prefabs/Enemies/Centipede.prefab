@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 2255253238728028655}
   - component: {fileID: 124929795875586974}
   - component: {fileID: 993870380679141414}
+  - component: {fileID: 6366780421000976320}
   m_Layer: 9
   m_Name: Centipede
   m_TagString: Untagged
@@ -112,6 +113,48 @@ MonoBehaviour:
   repelPlayerOnCollide: 0
   playerCollisionDamage: 5
   bulletHitSounds: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6366780421000976320}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: death
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6366780421000976320}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: crack
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6366780421000976320}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: hit
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &307996454641955588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +171,9 @@ MonoBehaviour:
   boundarySize: {x: 40, y: 25.3}
   flipToOtherSide: 1
   onOutOfBounds:
+    m_PersistentCalls:
+      m_Calls: []
+  onOutOfBoundsExceptAbove:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &5731554165748371363
@@ -264,6 +310,21 @@ MonoBehaviour:
   bulletPrefab: {fileID: 246940042024443775, guid: 1dd90087100e14c79875cd5a05527efa, type: 3}
   positionOffset: {x: 0, y: -2}
   startTime: 0
+  onEmit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6366780421000976320}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: shoot
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &993870380679141414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +337,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4f88e709c84f76a337aa4a59c3893e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6366780421000976320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608593437903202699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2710b9a3194d4447bc54dfb1e3a2b4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffects:
+  - soundEffectId: crack
+    soundEffects:
+    - {fileID: 8300000, guid: f58b82913c1204b4f9270d946c0d30c3, type: 3}
+    - {fileID: 8300000, guid: 8baf13eeaa36f400c982baf45cc6be25, type: 3}
+    - {fileID: 8300000, guid: 94d2c71020d2844f9bf36a5f6bca0b4e, type: 3}
+    - {fileID: 8300000, guid: baaf37580184f48e58aef7a58c66d030, type: 3}
+    - {fileID: 8300000, guid: 7301c650f58ec479585184a82d1c972d, type: 3}
+  - soundEffectId: death
+    soundEffects:
+    - {fileID: 8300000, guid: 33ab3b9208b814044949d8688fcfb20f, type: 3}
+  - soundEffectId: hit
+    soundEffects:
+    - {fileID: 8300000, guid: 5b729dcef5a8749889f7396427d5be75, type: 3}
+  - soundEffectId: shoot
+    soundEffects:
+    - {fileID: 8300000, guid: 88c3258746d9a7f4aa7c684dfa47c732, type: 3}
 --- !u!1 &3787822906796139049
 GameObject:
   m_ObjectHideFlags: 0

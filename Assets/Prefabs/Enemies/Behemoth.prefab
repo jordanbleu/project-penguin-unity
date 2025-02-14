@@ -4964,6 +4964,7 @@ GameObject:
   - component: {fileID: 5452693909279037237}
   - component: {fileID: 466966687128772299}
   - component: {fileID: 4692471981649743758}
+  - component: {fileID: 2274307882752750038}
   m_Layer: 0
   m_Name: Behemoth
   m_TagString: Untagged
@@ -5110,7 +5111,34 @@ MonoBehaviour:
   damageToSelfOnCollideWithPlayer: 0
   onBeginDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2274307882752750038}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: death
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2274307882752750038}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: hit
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &466966687128772299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5176,6 +5204,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b22edfcbd774da98d5932d22be6e4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2274307882752750038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046270771250914773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2710b9a3194d4447bc54dfb1e3a2b4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffects:
+  - soundEffectId: hit
+    soundEffects:
+    - {fileID: 8300000, guid: 88aa81776318344be915c4570dfeede0, type: 3}
+    - {fileID: 8300000, guid: d62de6618a9414207b6c455a178c67ec, type: 3}
+  - soundEffectId: death
+    soundEffects:
+    - {fileID: 8300000, guid: 097d3964fe5d0404fb435cd7efac67d1, type: 3}
 --- !u!1 &4965753609043567718
 GameObject:
   m_ObjectHideFlags: 0

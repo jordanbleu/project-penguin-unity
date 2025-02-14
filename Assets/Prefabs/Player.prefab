@@ -83,6 +83,13 @@ MonoBehaviour:
   reloadCompleteSound: {fileID: 8300000, guid: 7f47ebf296c8f9d45a1da07253bf6b4f, type: 3}
   reloadFailSound: {fileID: 8300000, guid: 6e14beea4d89ca442917724cf1f0249a, type: 3}
   reloadSuccessSound: {fileID: 8300000, guid: a3f735e6ed88d224094af4321279b5bb, type: 3}
+  playerDeathSound: {fileID: 0}
+  playerHitSounds:
+  - {fileID: 8300000, guid: 2bc59f8c4e5ac7d4694f7c8f740f5163, type: 3}
+  - {fileID: 8300000, guid: e67347f75ac141749bcd6ab7cd4002c0, type: 3}
+  - {fileID: 8300000, guid: 75f0e830df9e06d4e9dd1449a2efc0b3, type: 3}
+  - {fileID: 8300000, guid: 6eded3bd891c44145b244e660aec17b3, type: 3}
+  - {fileID: 8300000, guid: 6e744e47e0bcb0e4b833c8c94cacb412, type: 3}
 --- !u!114 &5436033853786342711
 MonoBehaviour:
   m_ObjectHideFlags: 0

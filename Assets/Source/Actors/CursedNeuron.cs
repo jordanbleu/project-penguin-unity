@@ -20,6 +20,10 @@ namespace Source.Actors
     public class CursedNeuron : MonoBehaviour, IAttackResponder
     {
         [SerializeField]
+        [Tooltip("Tweak during gamplay for testing :) ")]
+        private int damagePerHit = 2;
+        
+        [SerializeField]
         private GameObject damageEffectPrefab;
         
         [SerializeField]
@@ -116,9 +120,24 @@ namespace Source.Actors
         
         private SoundEffectEmitter _soundEffectEmitter;
         
+        [SerializeField]
+        private AudioClip _dyingMusic;
+        
+        [SerializeField]
+        private AudioClip _deathDramaImpactSound;
+        
+        [SerializeField]
+        private AudioClip _laserSound;
+        
+        
+        private MusicBox _musicBox;
+        
         private Player _player;
         private void Start()
         {
+            _musicBox = GameObject.FindWithTag(Tags.MusicBox)?.GetComponent<MusicBox>()
+                        ?? throw new UnityException("No music box");
+            
             _soundEffectEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter)?.GetComponent<SoundEffectEmitter>()
                 ??  throw new UnityException("No sound effect emitter");
             
@@ -208,6 +227,8 @@ namespace Source.Actors
             
             // fire laser
             _animator.SetTrigger(FireLaserAnimatorParameter);
+            
+            _soundEffectEmitter.Play(gameObject, _laserSound);
         }
 
         private void MoveTowardsDestination()
@@ -276,7 +297,7 @@ namespace Source.Actors
             var pos = transform.position;
             _soundEffectEmitter.PlayRandom(gameObject, bodyHitSounds);
             Instantiate(damageEffectPrefab).At(pos.x + Random.Range(-1, 1), pos.y + Random.Range(-1, 1));
-            _attackable.Damage(2);
+            _attackable.Damage(damagePerHit);
             bulletComp.HitSomething();
             impulseSource.GenerateImpulse();
             
@@ -334,7 +355,7 @@ namespace Source.Actors
         {
             foreach (var attackable in wave.GetComponentsInChildren<Attackable>())
             {
-                attackable.Die();
+                attackable?.Die();
             }
         }
 
@@ -344,6 +365,10 @@ namespace Source.Actors
             
             if (hp <= 0)
             {
+                
+                // abruptly switch to the dying music 
+                _musicBox.PlayImmediate(_dyingMusic, loop: true);
+                _soundEffectEmitter.Play(gameObject, _deathDramaImpactSound);
                 
                 _state = State.Dying;
                 _enableLaser = false;

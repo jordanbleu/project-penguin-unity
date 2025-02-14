@@ -75,7 +75,7 @@ namespace Source.UI
 
         private void HandleActiveReloadFailure()
         {
-            Colorize(Color.grey);
+            Colorize(Color.red);
         }
 
         private void HandleActiveReloadSuccess()

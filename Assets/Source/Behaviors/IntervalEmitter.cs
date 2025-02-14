@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using Vector2 = UnityEngine.Vector2;
 
 namespace Source.Behaviors
@@ -16,6 +17,9 @@ namespace Source.Behaviors
 
         [SerializeField] private float startTime = 0f;
         
+        [SerializeField]
+        private UnityEvent onEmit = new();
+        
         private float _currentTime = 0f;
 
         private void Start()
@@ -30,6 +34,7 @@ namespace Source.Behaviors
             if (_currentTime < bulletDropIntervalSeconds) 
                 return;
             
+            onEmit?.Invoke();
             var obj = Instantiate(bulletPrefab);
             
             obj.transform.position = ((Vector2)transform.position) + positionOffset;

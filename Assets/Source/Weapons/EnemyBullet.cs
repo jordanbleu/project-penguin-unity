@@ -2,6 +2,7 @@ using Source.Actors;
 using Source.Data;
 using Source.Interfaces;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Source.Weapons
 {
@@ -13,6 +14,9 @@ namespace Source.Weapons
     {
         [SerializeField]
         private int damage = 10;
+        
+        [SerializeField]
+        private UnityEvent onCollideWithPlayerBullet = new();
         
         [SerializeField]
         private Bullet bullet;
@@ -32,6 +36,7 @@ namespace Source.Weapons
 
         public void AttackedByBullet(GameObject attackingBullet)
         {
+            onCollideWithPlayerBullet?.Invoke();
             bullet.HitSomething();
             Stats.TrackBulletHit();
             attackingBullet.GetComponent<Bullet>().HitSomething();

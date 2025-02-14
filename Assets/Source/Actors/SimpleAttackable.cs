@@ -37,6 +37,9 @@ namespace Source.Actors
         [SerializeField]
         private UnityEvent onBeginDeath = new();
         
+        [SerializeField]
+        private UnityEvent onHit = new();
+        
         private Rigidbody2D _rigidBody;
         private Animator _animator;
         private Attackable _attackable;
@@ -65,6 +68,7 @@ namespace Source.Actors
 
         public void AttackedByBullet(GameObject bullet)
         {
+            onHit?.Invoke();
             AddDamageEffect();
             _attackable.Damage(1);
 
@@ -73,6 +77,7 @@ namespace Source.Actors
 
         public void AttackedByLaser(GameObject laser)
         {
+            onHit?.Invoke();
             AddDamageEffect();
             _attackable.Damage(3);
             
@@ -82,11 +87,12 @@ namespace Source.Actors
         {
             AddDamageEffect();
             _attackable.Damage(10);
-            
+            onHit?.Invoke();
         }
 
         public void HitByMineExplosion(GameObject explosion)
         {
+            onHit?.Invoke();
             AddDamageEffect();
             _attackable.Damage(10);
             

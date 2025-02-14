@@ -56,7 +56,7 @@ namespace Source.Behaviors
             {
                 _triggeredDeathEvent = true;
                 onDeath?.Invoke();
-                _responder.OnDeath();
+                _responder?.OnDeath();
                 // lock in the score multiplier
                 ScoreMultiplier = DetermineScoreMultiplier();
                 AddScore();

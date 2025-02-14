@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 6450740138608421437}
   - component: {fileID: 5891833849213431958}
   - component: {fileID: 2126761301711691181}
+  - component: {fileID: 6868689761331551177}
   m_Layer: 0
   m_Name: LargeGrunt
   m_TagString: Untagged
@@ -196,6 +197,10 @@ MonoBehaviour:
   randomizeInterval: 0
   bulletPrefab: {fileID: 3537049328491008339, guid: b243241b9c6824d05aac3ca8e538add8, type: 3}
   positionOffset: {x: 0, y: -1.45}
+  startTime: 0
+  onEmit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &6038973854684590948
 Rigidbody2D:
   serializedVersion: 4
@@ -259,7 +264,34 @@ MonoBehaviour:
   damageToSelfOnCollideWithPlayer: 0
   onBeginDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6868689761331551177}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: death
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6868689761331551177}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: hit
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5891833849213431958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,3 +357,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b22edfcbd774da98d5932d22be6e4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6868689761331551177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188151754675164747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2710b9a3194d4447bc54dfb1e3a2b4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffects:
+  - soundEffectId: hit
+    soundEffects:
+    - {fileID: 8300000, guid: 68c06f50f7d534ba492ccb10e06995d0, type: 3}
+  - soundEffectId: death
+    soundEffects:
+    - {fileID: 8300000, guid: 87785640f52c44baebcb0794e36c4ef8, type: 3}

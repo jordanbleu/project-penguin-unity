@@ -111,7 +111,11 @@ namespace Source.Actors
         [SerializeField]
         private AudioClip reloadSuccessSound;
 
+        [SerializeField]
+        private AudioClip playerDeathSound;
 
+        [SerializeField]
+        private AudioClip[] playerHitSounds;
         
         // Reload Mechanics
         //
@@ -350,6 +354,7 @@ namespace Source.Actors
         /// </summary>
         public void BeginDying()
         {
+            _soundEmitter.Play(gameObject, playerDeathSound);
             _isMovementLocked = true;
             _isWeaponsLocked = true;
             _healthRegenEnabled = false;
@@ -415,6 +420,8 @@ namespace Source.Actors
                 Instantiate(shieldAborbEffectPrefab).At(ox, oy);
                 Stats.TrackDamageBlockedByShield(amount);
                 return true;
+                
+                // todo: play a shield hit sound
             }
 
             Stats.TrackDamageTaken(amount);
@@ -426,6 +433,7 @@ namespace Source.Actors
             health -= amount;
             _damageCooldownTime = DamageCooldownMax;
             RefreshHud();
+            _soundEmitter.PlayRandom(gameObject, playerHitSounds);
             
             if (health <= 0)
             {

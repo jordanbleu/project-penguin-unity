@@ -181,9 +181,18 @@ MonoBehaviour:
   animator: {fileID: 255996478469026529}
   shootPositionOffset: {x: 0, y: 0}
   maxDistanceDelta: 0.025
-  impacts: []
-  groans: []
-  gunshots: []
+  impacts:
+  - {fileID: 8300000, guid: 6e5fe78b1a77d4c9394e0c4634c23500, type: 3}
+  - {fileID: 8300000, guid: 8626f77268f3240a2bcaea076679f77a, type: 3}
+  - {fileID: 8300000, guid: 88aa81776318344be915c4570dfeede0, type: 3}
+  groans:
+  - {fileID: 8300000, guid: 42e033863834f854b9db6d220b5db65a, type: 3}
+  - {fileID: 8300000, guid: dd3f5de08e0415c4eafdb44e355a7aa3, type: 3}
+  - {fileID: 8300000, guid: 89df1f0c0345d80459610964a7aeefb5, type: 3}
+  - {fileID: 8300000, guid: 87a36496a568f5a4fbe81619f66430c5, type: 3}
+  gunshots:
+  - {fileID: 8300000, guid: 4c56851cc0fc7482891f1d2266b5b820, type: 3}
+  death: {fileID: 8300000, guid: 990396487c038af4a87dab6f11004c5d, type: 3}
   useDamageAnimatorTrigger: 0
   damageEffectPrefab: {fileID: 366393571171672886, guid: 52a992022c5c743919d15de7fcf8615f, type: 3}
 --- !u!58 &5715217523945064895
