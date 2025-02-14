@@ -4,12 +4,28 @@ using UnityEngine;
 
 namespace Source.Data
 {
+    
+    
+    /// <summary>
+    /// How rank is calculated
+    ///
+    /// Rank is calculated based on Deaths, accuracy, and damage taken.
+    /// Deaths are the most detrimental to your score, with each one dropping your grade by 17%.
+    /// So, if you die twice, you'll get a D, if you die three times it's a guaranteed F.
+    ///
+    /// Accuracy technically would take a quarter of the grade but anything below 40% is
+    /// ignored because that's already just horrendous.
+    ///
+    /// Damage taken will ignore penalties given from deaths.  The closer to 1200 damage you take,
+    /// the worse this penalty will be, with anything over 1200 ignored.  
+    /// 
+    /// </summary>
     public static class RankCalculator
     {
         // these should add up to 1.0
         private const float DeathPenaltyWeight = 0.5f;
-        private const float AccuracyWeight = 0.15f;
-        private const float DamageTakenWeight = 0.35f;
+        private const float AccuracyWeight = 0.25f;
+        private const float DamageTakenWeight = 0.15f;
         
         // Super advanced algorithm to calculate the player's rank based on their stats
         public static Rank CalculateRank(int deaths, int bulletsFired, int bulletsHit, int damageTaken)
@@ -25,15 +41,21 @@ namespace Source.Data
             rank -= deathPenalty;
             
             // -- Accuracy --
-            var inverseAccuracy = 1 - accuracy;
+            // how "not accurate" were you
+            var inverseAccuracy =1f - accuracy;
+            // bottom out at 40% accuracy so sloppy players don't get reamed on.
+            inverseAccuracy = Mathf.Clamp(inverseAccuracy, 0f, 0.6f);
             var accuracyPenalty = inverseAccuracy * AccuracyWeight;
             rank -= accuracyPenalty;
             
             // -- Damage Taken --
-            // My arbitrary max 'damage taken' is 500, which is generous cuz the player would have 
-            // died 5 times if it weren't for healing.
+            // player was already penalized for deaths so remove those 
+            // (100 is max health).
             var damageTakenMinusDeaths = damageTaken - (deaths * 100);
-            var damageTakenPercent = (float)Mathf.Min(500,damageTakenMinusDeaths) / 500;
+            // up to 1200 damage taken is accounted for in your score, after that it maxes out.
+            // 1200 damage is the equivalent of 12 deaths.
+            var damageTakenPercent = Mathf.Min(1200, damageTakenMinusDeaths / 1200f);
+            
             rank -= damageTakenPercent * DamageTakenWeight;
 
             return GetRank(rank);
@@ -79,7 +101,10 @@ namespace Source.Data
             if (rank <= 0.93)
                 return Rank.AMinus;
             
-            // S
+            if (rank <= 0.95)
+                return Rank.A;
+            
+            // S - anything above 95%
             return Rank.S;
         }
     }
@@ -101,6 +126,7 @@ namespace Source.Data
         BPlus,
         
         AMinus,
+        A,
         
         S
     }
