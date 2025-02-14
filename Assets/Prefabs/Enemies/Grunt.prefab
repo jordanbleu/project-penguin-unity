@@ -161,6 +161,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 2
   baseScoreValue: 100
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1858018051843784009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +193,17 @@ MonoBehaviour:
   rigidBody2d: {fileID: 2450127666595458972}
   cameraImpulseSource: {fileID: 591540567919506553}
   attackable: {fileID: 8854693126041176884}
+  impacts:
+  - {fileID: 8300000, guid: 3a02fdac68cc24d28ae5851601876edc, type: 3}
+  - {fileID: 8300000, guid: f69d239d663f446fead253a1d5518aae, type: 3}
+  - {fileID: 8300000, guid: 2049cf2377da74ddfa3848c80195d3ba, type: 3}
+  - {fileID: 8300000, guid: 0caa061fe91e04b7ba82195a56ef5e88, type: 3}
+  groans:
+  - {fileID: 8300000, guid: 485b29fcdedd54b35a54294505500cba, type: 3}
+  - {fileID: 8300000, guid: 3a4804d4d5d234fb6b2d6eb0e86e89b6, type: 3}
+  - {fileID: 8300000, guid: cc2b075e9afc14d7dac6c6d361e1ff13, type: 3}
+  - {fileID: 8300000, guid: 47f6b9bb1614c413f829311b8004ea8d, type: 3}
+  death: {fileID: 8300000, guid: adb865a729d484f87b309b029e1cf9e5, type: 3}
 --- !u!114 &591540567919506553
 MonoBehaviour:
   m_ObjectHideFlags: 0

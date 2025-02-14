@@ -53,13 +53,23 @@ MonoBehaviour:
   animateInSeconds: 0.5
   displaySeconds: 0
   animateOutSeconds: 0.25
+  presentationMode: 0
   style: 1
   easeInStyle: 30
   easeOutStyle: 26
+  onAnimateInCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnimationInBegin:
+    m_PersistentCalls:
+      m_Calls: []
   onToastComplete:
     m_PersistentCalls:
       m_Calls: []
+  openSound: {fileID: 0}
+  dismissSound: {fileID: 0}
   destroyOnComplete: 1
+  pressEnterIndicator: {fileID: 0}
 --- !u!1 &6325764185256176649
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,8 +144,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278650797
-  m_fontColor: {r: 0.6792453, g: 0.028835932, b: 0.028835872, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

@@ -1,4 +1,6 @@
+using System;
 using Source.Actors;
+using Source.Audio;
 using Source.Constants;
 using UnityEngine;
 using UnityEngine.Events;
@@ -46,6 +48,14 @@ namespace Source.UI
         
         [SerializeField]
         private UnityEvent onToastComplete = new();
+
+        [SerializeField]
+        [Tooltip("Optional sound to play on open")]
+        private AudioClip openSound;
+
+        [SerializeField]
+        [Tooltip("Optional sound to play on dismiss")]
+        private AudioClip dismissSound;
         
         [SerializeField]
         [Tooltip("Setting to false will keep the toast alive once it completes.  Make sure to add a listener to onToastComplete if you do this, or weird things will happen!")]
@@ -69,13 +79,23 @@ namespace Source.UI
 
         private Player _player;
 
+        private SoundEffectEmitter _soundEmitter;
+
+
         private void OnEnable()
         {
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
             
 #if UNITY_EDITOR
             if ((presentationMode is PresentationMode.Skippable or PresentationMode.Wait) && pressEnterIndicator == null)
             {
                 Debug.LogWarning("CONVENTION VIOLATION -> skippable toasts need to display the 'pressEnterIndicator' somewhere.  Please fix this on the toast: " + name);
+            } 
+            else if (presentationMode is PresentationMode.Unskippable && pressEnterIndicator != null && pressEnterIndicator.activeSelf)
+            {
+                Debug.LogWarning(
+                    "CONVENTION VIOLATION -> unskippable toasts should not display the 'pressEnterIndicator'.  Please fix this on the toast: " +
+                    name);
             }
 #endif
             _initialPosition = transform.localPosition;
@@ -96,14 +116,15 @@ namespace Source.UI
             BeginAnimateIn();
         }
 
-        private void Dismiss()
+        public void Dismiss()
         {
+            
             if (!isActiveAndEnabled)
                 return;
             
             if (!_isDisplayed)
                 return;
-
+            
             if (pressEnterIndicator != null && pressEnterIndicator.activeSelf)
             {
                 var originalY = pressEnterIndicator.transform.localPosition.y;
@@ -115,6 +136,8 @@ namespace Source.UI
                         .setOnComplete(() => pressEnterIndicator.SetActive(false)));
             }
         
+            if (dismissSound != null && !_isDismissed)
+                _soundEmitter.Play(gameObject, dismissSound);
             
             _isDismissed = true;
         }
@@ -139,6 +162,12 @@ namespace Source.UI
             transform.localPosition = new Vector3(localPos.x, _yOffscreenPosition, localPos.z);
         }
 
+        private void OnAnimationStart()
+        {
+            if (openSound != null)
+                _soundEmitter.Play(gameObject, openSound);
+        }
+
         private void BeginAnimateIn()
         {
             onAnimationInBegin?.Invoke();
@@ -148,6 +177,7 @@ namespace Source.UI
                 LeanTween.moveLocalY(gameObject, yPosition, animateInSeconds)
                     .setEase(easeInStyle)
                     .setDelay(preDelaySeconds)
+                    .setOnStart(OnAnimationStart)
                     .setOnComplete(OnAnimateInComplete);
                 return;
             }
@@ -155,6 +185,7 @@ namespace Source.UI
             LeanTween.moveLocalY(gameObject, yPosition, animateInSeconds)
                 .setEase(easeInStyle)
                 .setDelay(preDelaySeconds)
+                .setOnStart(OnAnimationStart)
                 .setOnComplete(OnAnimateInComplete);
 
             LeanTween.scaleY(gameObject, 1, animateInSeconds)
@@ -208,15 +239,15 @@ namespace Source.UI
             
             if (style == ToastStyle.TranslateBottomToTop || style == ToastStyle.TranslateTopToTop)
             {
-                LeanTween.moveLocalY(gameObject, 150, animateInSeconds).setEase(easeOutStyle)
+                LeanTween.moveLocalY(gameObject, 150, animateOutSeconds).setEase(easeOutStyle)
                     .setOnComplete(OnAnimateOutComplete);
                 return;
             }
             
             LeanTween.moveLocalY(gameObject, _yOffscreenPosition, animateOutSeconds).setEase(easeOutStyle)
                 .setOnComplete(OnAnimateOutComplete);
-            LeanTween.scaleY(gameObject, 0, animateInSeconds).setEase(easeOutStyle);
-            LeanTween.scaleX(gameObject, 0, animateInSeconds / 2).setEase(easeOutStyle);
+            LeanTween.scaleY(gameObject, 0, animateOutSeconds).setEase(easeOutStyle);
+            LeanTween.scaleX(gameObject, 0, animateOutSeconds / 2).setEase(easeOutStyle);
         }
 
         private void OnAnimateOutComplete()

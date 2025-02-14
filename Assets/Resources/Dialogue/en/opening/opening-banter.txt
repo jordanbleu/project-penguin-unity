@@ -1,0 +1,6 @@
+# id|avatar|title|text|speed|preEvents
+x|tiny|Tiny|Time to find out how much firepower these Northern ships are packin'!
+x|cyber|Cyber|Let's hope our employers took good care of us.
+x|tiny|Tiny|I can see some of those Vasling things ahead. Get ready!
+x|sludge|Sludge|God damn I missed this shit!
+x|cyber|Cyber|Let's do this, boys!

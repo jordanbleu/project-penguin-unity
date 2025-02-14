@@ -1,0 +1,27 @@
+# id|avatar|title|text|speed|preEvents
+x|sludge|Sludge|Boss this is getting heavy now.
+x|tiny|Tiny|Yeah...there's so many of them.
+x|tiny|Tiny|We need more allies out here.
+x|sludge|Sludge|Should we head back? We can hire some more mercs.
+
+x|cyber|Cyber|Not gonna happen. We got this.
+
+x|sludge|Sludge|Are you sure? We're severely outnumbered.
+
+x|cyber|Cyber|Look...You guys probably guessed this isn't a normal job.
+x|cyber|Cyber|The North ain't paying us shit.
+x|cyber|Cyber|And if we can't pull this off...well...
+
+x|sludge|Sludge|I don't like this one bit.
+x|sludge|Sludge|Something about this job stinks.
+
+x|tiny|Tiny|Knowing the North, these ships are probably rigged to explode...
+
+x|cyber|Cyber|Exactly.
+x|cyber|Cyber|We quite literally can't turn back. 
+
+x|sludge|Sludge|Sure thing, boss...
+x|tiny|Tiny|We've seen worse.
+x|tiny|Tiny|Let's get through this last big push.
+x|tiny|Tiny|I gotta lady-friend waitin' at home.
+x|sludge|Sludge|We all do, Tiny...we all do.

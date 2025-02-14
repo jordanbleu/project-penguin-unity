@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1283366457897894612}
   - component: {fileID: 2293944821759485736}
   - component: {fileID: 3748599284363188472}
+  - component: {fileID: 5335304473716749983}
   m_Layer: 0
   m_Name: EnemyBullet
   m_TagString: Untagged
@@ -133,6 +134,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onOutOfBoundsExceptAbove:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5995800843893497390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +186,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594159cf54f9457e8573937535e0ee33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
+  onCollideWithPlayerBullet:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5335304473716749983}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: bullet-hits-bullet
+          m_BoolArgument: 0
+        m_CallState: 2
   bullet: {fileID: 5995800843893497390}
 --- !u!114 &1283366457897894612
 MonoBehaviour:
@@ -222,6 +242,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
+  baseScoreValue: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5335304473716749983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246940042024443775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2710b9a3194d4447bc54dfb1e3a2b4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffects:
+  - soundEffectId: bullet-hits-bullet
+    soundEffects:
+    - {fileID: 8300000, guid: 7c4a8a427e38a6749b92353915c9eb9f, type: 3}
 --- !u!1 &5347427167907625306
 GameObject:
   m_ObjectHideFlags: 0

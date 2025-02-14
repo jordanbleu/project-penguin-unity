@@ -14,9 +14,6 @@ namespace Source.Actors
     public class InanimateObject : MonoBehaviour, IAttackResponder, ICollideWithPlayerResponder
     {
         [SerializeField]
-        private SpriteAnimator flashObject;
-
-        [SerializeField]
         private CinemachineImpulseSource impulseSource;
 
         [SerializeField]
@@ -50,8 +47,6 @@ namespace Source.Actors
         {
             playerComponent.TakeDamage(damageToPlayerOnCollide);
             impulseSource.GenerateImpulse();
-            flashObject.gameObject.SetActive(true);
-            flashObject.Reset();
             Instantiate(particles).At(transform.position);
             Destroy(gameObject);
         }

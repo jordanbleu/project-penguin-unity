@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 834342349811080517}
   - component: {fileID: 297866721296596946}
   - component: {fileID: 6600719820466351735}
+  - component: {fileID: 8161848879292866022}
   m_Layer: 0
   m_Name: EnemySmallStinger
   m_TagString: Untagged
@@ -133,6 +134,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onOutOfBoundsExceptAbove:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &528359126580060627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +166,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
+  onCollideWithPlayerBullet:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8161848879292866022}
+        m_TargetAssemblyTypeName: Source.Audio.SoundEffectHook, Penguin
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: bullet-hits-bullet
+          m_BoolArgument: 0
+        m_CallState: 2
   bullet: {fileID: 528359126580060627}
 --- !u!114 &8112176268019230701
 MonoBehaviour:
@@ -203,6 +222,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   baseScoreValue: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &6600719820466351735
 Animator:
   serializedVersion: 5
@@ -224,6 +246,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8161848879292866022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6755899056298062110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2710b9a3194d4447bc54dfb1e3a2b4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffects:
+  - soundEffectId: bullet-hits-bullet
+    soundEffects:
+    - {fileID: 8300000, guid: 381d2ce6c0e5f4a3ab64c8dbdd4854fc, type: 3}
 --- !u!1 &8471479565188708616
 GameObject:
   m_ObjectHideFlags: 0

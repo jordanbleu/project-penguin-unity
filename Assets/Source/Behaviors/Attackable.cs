@@ -2,6 +2,7 @@ using System;
 using Source.Data;
 using Source.Interfaces;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Source.Behaviors
 {
@@ -19,6 +20,9 @@ namespace Source.Behaviors
 
         [SerializeField]
         private int baseScoreValue = 0;
+
+        [SerializeField]
+        private UnityEvent onDeath = new();
         
         private IAttackResponder _responder;
 
@@ -40,6 +44,8 @@ namespace Source.Behaviors
                 _multiplierTimer -= Time.deltaTime;
         }
 
+        public bool IsAlive() => health > 0;
+
         public void Damage(int baseDamage)
         {
             health -= baseDamage;
@@ -49,7 +55,8 @@ namespace Source.Behaviors
             if (!_triggeredDeathEvent && health <= 0)
             {
                 _triggeredDeathEvent = true;
-                _responder.OnDeath();
+                onDeath?.Invoke();
+                _responder?.OnDeath();
                 // lock in the score multiplier
                 ScoreMultiplier = DetermineScoreMultiplier();
                 AddScore();

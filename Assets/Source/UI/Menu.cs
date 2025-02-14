@@ -1,21 +1,23 @@
 using System;
+using System.Linq;
+using Source.Audio;
+using Source.Constants;
 using Source.Extensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.Serialization;
 
 namespace Source.UI
 {
+    /// <summary>
+    /// Note to future me - the input events need to be wrired up in the 'InputHandler' game object otherwise this weirdly wont work lol
+    /// </summary>
     public class Menu : MonoBehaviour
     {
-        // how many items to display per page
-        private const int PageSize = 5;
-        
+
         // positioning
-        private const float OffScreenPosition = -200f;
+        private const float OffScreenPosition = -250f;
         private const float OnScreenPosition = 0f;
         
         // positioning variables
@@ -24,7 +26,10 @@ namespace Source.UI
         
         // Animation times
         private const float MenuAnimationTime = 1f;
-        
+
+        [SerializeField]
+        [Tooltip("How many items to display before user has to scroll")]
+        private int pageSize = 5;
         
         [SerializeField]
         private GameObject menuItemPrefab;
@@ -38,23 +43,73 @@ namespace Source.UI
         private GameObject selector;
         
         [SerializeField]
-        private TMP_FontAsset fontAsset;
+        private UnityEvent onGoBack = new();
 
         [SerializeField]
-        private UnityEvent onGoBack = new();
+        [Tooltip("Called whenever the user changes the selected item")]
+        private UnityEvent onChange = new();
+        
+        [SerializeField]
+        [Tooltip("Called when the menu is ready, after the initial animation")]
+        private UnityEvent onReady = new();
+        
+        [SerializeField]
+        [Tooltip("Called before the menu opens.  The menu items will be created but not yet visible.")]
+        private UnityEvent afterMenuStart = new();
+
+        [SerializeField]
+        [Tooltip("Fired when any menu item is selected.")]
+        private UnityEvent onAnyMenuItemSelected = new();
+        
+        [SerializeField]
+        private AudioClip menuOkSound;
+        
+        [SerializeField]
+        private AudioClip menuChangeSound;
+        
+        [SerializeField]
+        private AudioClip menuCancelSound;
         
         // this is the selectors position on screen, so would be anywhere from 0 to pageSize
         private int _selectorPosition = 0;
         
         // this is the items that the menu is currently offset by.
         private int _currentPageOffset = 0;
-        private bool _ready = false;
+        private bool _ready;
         private TextMeshProUGUI[] _menuItems;
 
-        private int GetPageSize() => Math.Min(PageSize, menuItemData.Length);
+        private SoundEffectEmitter _soundEmitter;
+        
+        private int GetPageSize() => Math.Min(pageSize, menuItemData.Length);
         
         private void Start()
         {
+            var soundEmitterObj = GameObject.FindWithTag(Tags.SoundEffectEmitter);
+            
+            if (!soundEmitterObj)
+                throw new UnityException("Missing object tagged as sound effect emitter");
+            
+            _soundEmitter = soundEmitterObj.GetComponent<SoundEffectEmitter>();
+            
+            if (menuItemData.Any())
+                CreateMenu(menuItemData);
+            
+            // be careful, the menu component isn't available if you use this 
+            afterMenuStart?.Invoke();
+        }
+        
+        public void CreateMenu(MenuItemData[] items)
+        {
+            if (_textMeshes is { Length: > 0 })
+            {
+                foreach (var existingTMesh in _textMeshes)
+                {
+                    // NOTE - this will fail if the menu item prefabs are altered
+                    Destroy(existingTMesh.transform.parent.gameObject); 
+                }
+            }
+
+            menuItemData = items;
             var pageSize = GetPageSize();
             _textMeshes = new TextMeshProUGUI[pageSize];
             
@@ -71,7 +126,9 @@ namespace Source.UI
 
         private void OnEnable()
         {
-            transform.localPosition = new Vector3(0, OffScreenPosition, 0);
+            var positionX = transform.localPosition.x;
+
+            transform.localPosition = new Vector3(positionX, OffScreenPosition, 0);
 
             // animate menu in
             LeanTween.moveLocalY(gameObject, OnScreenPosition, MenuAnimationTime)
@@ -82,6 +139,7 @@ namespace Source.UI
         private void Ready()
         {
             _ready = true;
+            onReady?.Invoke();
         }
 
         // applies proper styles to the selected item and unstyles the rest
@@ -156,6 +214,8 @@ namespace Source.UI
             if (!context.started)
                 return;
             
+            _soundEmitter.Play(menuChangeSound);
+            
             if (_selectorPosition > 0)
             {
                 _selectorPosition--;
@@ -168,20 +228,47 @@ namespace Source.UI
                     RefreshPage();
                 }
             }
+            onChange?.Invoke();
             menuItemData[_currentPageOffset + _selectorPosition].onItemHighlighted?.Invoke();
             RefreshMenuItems();
         }
+
+        /// <summary>
+        /// Get the menu item data object as well as its index in the overall array
+        /// </summary>
+        /// <returns></returns>
+        public (int index, MenuItemData data) GetHighlightedItem()
+        {
+            var index = _currentPageOffset + _selectorPosition;
+            return (index, menuItemData[index]);    
+        }
+
+        public void RenameMenuItem(string id, string menuText)
+        {
+            var item = Array.Find(menuItemData, x => x.Id == id);
+            
+            if (item != null)
+            {
+                item.Text = menuText;
+                RefreshPage();
+            }
         
+        }
+
+
         public void MoveCursorDown(InputAction.CallbackContext context)
         {
             var pageSize = GetPageSize();
             
             if (!_ready)
                 return;
-            
+
+
             // if the button is pressed.
             if (!context.started)
                 return;
+            
+            _soundEmitter.Play(menuChangeSound);
 
             if (_selectorPosition < pageSize-1)
             {
@@ -195,6 +282,7 @@ namespace Source.UI
                     RefreshPage();
                 }
             }
+            onChange?.Invoke();
             menuItemData[_currentPageOffset + _selectorPosition].onItemHighlighted?.Invoke();
 
             RefreshMenuItems();
@@ -208,12 +296,15 @@ namespace Source.UI
             // if the button is pressed.
             if (!context.started)
                 return;
+            
+            _soundEmitter.Play(menuOkSound);
 
             // selector does the squeeze animation 
             var oldScaleY = selector.transform.localScale.y;
             LeanTween.scaleY(selector, 0.8f, 0.1f).setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
             
             menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected?.Invoke();
+            onAnyMenuItemSelected?.Invoke();    
         }
 
         public void DismissMenu()
@@ -229,6 +320,8 @@ namespace Source.UI
         {
             if (!_ready)
                 return;
+            
+            _soundEmitter.Play(menuCancelSound);
             
             onGoBack.Invoke();
             DismissMenu();

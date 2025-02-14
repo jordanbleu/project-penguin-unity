@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1633905635
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 03df05553bf4543ff96a143754473be8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -149,9 +149,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.26856565}
+  m_Offset: {x: 0, y: -0.20385647}
   serializedVersion: 2
-  m_Radius: 7.273978
+  m_Radius: 3.650323
 --- !u!114 &5917725256554482460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2675517046386013123}
+  - component: {fileID: 1199439134443438645}
   - component: {fileID: 6285256685952347582}
   - component: {fileID: 1665390511233976275}
   - component: {fileID: 3528105999493769547}
@@ -207,6 +208,22 @@ Transform:
   - {fileID: 3226419582052580758}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1199439134443438645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5743076711596552446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7024c06245463a9f771001ac8dfb9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: An asteroid, has slightly randomized velocity but moves mostly in
+    a straight line.
+  todoItems:
+  - 'Add flash object to InanimateObject '
 --- !u!50 &6285256685952347582
 Rigidbody2D:
   serializedVersion: 4
@@ -281,8 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b253708b77748539b3bd3cf971defb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumVelocity: {x: -5, y: -10}
-  maximumVelocity: {x: 5, y: -5}
+  minimumVelocity: {x: -1, y: -10}
+  maximumVelocity: {x: 1, y: -10}
   decelerationRate: 0.25
 --- !u!114 &5697189097784671138
 MonoBehaviour:
@@ -301,8 +318,11 @@ MonoBehaviour:
   flipToOtherSide: 0
   onOutOfBounds:
     m_PersistentCalls:
+      m_Calls: []
+  onOutOfBoundsExceptAbove:
+    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2708700805885710976}
         m_TargetAssemblyTypeName: Source.Optimizations.GameObjectDestroyer, Penguin
         m_MethodName: DestroySelf
         m_Mode: 1
@@ -338,9 +358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dade736c51e3471b9ddfe3d8f43ba1c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashObject: {fileID: 0}
   impulseSource: {fileID: 7136197180422727563}
   particles: {fileID: 84652315141593494, guid: 5594a74d327e9448db13823acb0bdc32, type: 3}
+  damageToPlayerOnCollide: 50
 --- !u!114 &1830573383155541173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,6 +374,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 999999
+  baseScoreValue: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7136197180422727563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +442,7 @@ GameObject:
   - component: {fileID: 7457300611442365950}
   - component: {fileID: 7436548909886509444}
   - component: {fileID: 5356557305015439468}
+  - component: {fileID: 1188210740768513070}
   m_Layer: 9
   m_Name: sprite
   m_TagString: Untagged
@@ -506,3 +531,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimumRotationSpeed: -1
   maximumRotationSpeed: 1
+--- !u!114 &1188210740768513070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455998216194799177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 525b231e9d074d378b12653d9161914f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: a3e6247667b4b4d96ba39ee9411210c7, type: 3}
+  - {fileID: 21300000, guid: a93ae01e6d71641e2906cce468dfd3a9, type: 3}
+  - {fileID: 21300000, guid: 128bf7ddc227248bdbcd3b02e912a422, type: 3}
+  - {fileID: 21300000, guid: 273089a7d89b74cc392d86e49f7f4c8c, type: 3}
+  - {fileID: 21300000, guid: 9d343ad9d03344fd89e7e55aff4f3987, type: 3}
+  - {fileID: 21300000, guid: ec36d0504b6e84f0987af38feebdb767, type: 3}
+  - {fileID: 21300000, guid: 3dc51f1e753c9405888543da12d9890d, type: 3}
+  - {fileID: 21300000, guid: 9919ac58772b94c2081a1b9145d6a6cc, type: 3}
+  - {fileID: 21300000, guid: 8e323570b2dcb435cabdf4940cd6cbdd, type: 3}
+  - {fileID: 21300000, guid: 8e774fcbc496d4f94a54eed422c7b148, type: 3}
+  - {fileID: 21300000, guid: 480d4e88038e9495a88516c5ec18f677, type: 3}

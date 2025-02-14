@@ -10,8 +10,16 @@ namespace Source.UI
         [SerializeField]
         private Image barImage;
 
+        [SerializeField]
+        private bool useSmoothing = true;
+
+        [SerializeField]
+        private bool isVerticalBar = true;
+        
+        private float barValue = 100f;
+        
         /// <summary>
-        /// Set how full the bar is from 0 to 100
+        /// Set how full the bar is from 0 to 1
         /// </summary>
         /// <param name="value"></param>
         public void SetValue(float value)
@@ -21,15 +29,43 @@ namespace Source.UI
             if (value < 0)
                 value = 0;
 
-            if (LeanTween.isTweening(obj))
+            if (useSmoothing)
             {
-                LeanTween.cancel(obj);
-            }
+                if (LeanTween.isTweening(obj))
+                {
+                    LeanTween.cancel(obj);
+                }
 
-            LeanTween.scaleY(barImage.gameObject, value, 0.25f)
-                .setEase(LeanTweenType.easeOutQuad);
+                if (isVerticalBar)
+                {
+                    LeanTween.scaleY(barImage.gameObject, value, 0.25f)
+                        .setEase(LeanTweenType.easeOutQuad);
+                }
+                else
+                {
+                    LeanTween.scaleX(barImage.gameObject, value, 0.25f)
+                        .setEase(LeanTweenType.easeOutQuad);
+                }
+            }
+            else
+            {
+                var localScale = transform.localScale;
+                
+                if (isVerticalBar)
+                {
+                    barImage.gameObject.transform.localScale = new Vector3(localScale.x, value, localScale.z);
+                }
+                else
+                {
+                    barImage.gameObject.transform.localScale = new Vector3(value, localScale.y, localScale.z);
+                }
+            }
+            
+            barValue = value;
         }
 
+        public float GetValue() => barValue;
+        
         public void BounceDown()
         {
             var parent = barImage.gameObject.transform.parent.gameObject;
@@ -39,13 +75,14 @@ namespace Source.UI
             
             var position = parent.transform.position;
 
-            LeanTween.moveY(parent, position.y + _errorTweenOffset, 0.5f)
+            LeanTween.moveY(parent, position.y - _errorTweenOffset, 0.5f)
                 .setEase(LeanTweenType.punch)
                 .setOnComplete(()=>LeanTween.moveY(parent, position.y, 0.5f));
         }
         
         public void BounceUp()
         {
+            
             var parent = barImage.gameObject.transform.parent.gameObject;
 
             if (LeanTween.isTweening(parent))
@@ -53,7 +90,7 @@ namespace Source.UI
             
             var position = parent.transform.position;
 
-            LeanTween.moveY(parent, position.y - _errorTweenOffset, 0.5f)
+            LeanTween.moveY(parent, position.y + _errorTweenOffset, 0.5f)
                 .setEase(LeanTweenType.punch)
                 .setOnComplete(()=>LeanTween.moveY(parent, position.y, 0.5f));
         }

@@ -195,7 +195,7 @@ namespace Source.Data
 
     public class GameStats
     {
-
+        public float TimeDelaySeconds { get; set; } = 0f;
         public int TimeBonus { get; set; }
         public int AccuracyBonus { get; set; }
         public int NoDeathBonus { get; set; }
@@ -247,7 +247,7 @@ namespace Source.Data
         public int FinalScore { get; set; }
 
         /// <summary>
-        /// How much damadge was dealt to any Attackable.
+        /// How much damage was dealt to any Attackable.
         /// </summary>
         public int DamageDealt { get; set; }
 

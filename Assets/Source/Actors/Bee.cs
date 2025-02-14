@@ -1,9 +1,12 @@
 
+using Source.Audio;
 using Source.Behaviors;
+using Source.Constants;
 using Source.Data;
 using Source.Extensions;
 using Source.Interfaces;
 using Source.Mathematics;
+using Source.Utilities;
 using Source.Weapons;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -34,6 +37,18 @@ namespace Source.Actors
         [SerializeField]
         private float shootIntervalSeconds = 6;
 
+        [SerializeField]
+        private AudioClip beeFlappingSound;
+        
+        [SerializeField]
+        private AudioClip beeDeathSound;
+
+        [SerializeField]
+        private AudioClip stinger;
+
+        [SerializeField]
+        private AudioClip[] thuds;
+        
         private float _shootIntervalTimer;
         
         [SerializeField]
@@ -61,6 +76,9 @@ namespace Source.Actors
         private bool _animatorStarted;
         private static readonly int StartAnimAnimatorParam = Animator.StringToHash("startAnim");
 
+        private SoundEffectEmitter _soundEmitter;
+        private SoundEffect _buzz;
+        
         private void Start()
         {
             var halfSize = zoneSize / 2;
@@ -79,6 +97,14 @@ namespace Source.Actors
             // wait up to one second to start the animation
             // this ensures the bees don't all animate in sync
             _startAnimationTimer = Random.Range(0f, 1f);
+            
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+            
+            _buzz = _soundEmitter.Play(gameObject, beeFlappingSound, new SoundEffectEmitter.SoundEffectSettings()
+            {
+                IsLooped = true,
+                RandomizeStartTime = true
+            });
         }
 
         private void Update()
@@ -128,6 +154,8 @@ namespace Source.Actors
             _shootIntervalTimer -= Time.deltaTime;
             if (!(_shootIntervalTimer <= 0)) 
                 return;
+
+            _soundEmitter.Play(gameObject, stinger);
             _shootIntervalTimer = shootIntervalSeconds;
             Instantiate(bulletPrefab).At(transform.position);
         }
@@ -137,10 +165,14 @@ namespace Source.Actors
             // prevent the bee from shooting during death animation
             _isAlive = false;
             _attackable.Die();
+            _buzz.Destroy();
+            _soundEmitter.Play(gameObject, beeDeathSound);
         }
 
         public void AttackedByBullet(GameObject attackingBullet)
         {
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(thuds));
+
             Stats.TrackBulletHit();
             attackingBullet.GetComponent<Bullet>().HitSomething();
             _rigidBody.AddForce(new(0,5), ForceMode2D.Impulse);
@@ -170,6 +202,10 @@ namespace Source.Actors
 
         public void CollideWithPlayer(Player playerComponent)
         {
+            if (!_attackable.IsAlive())
+                return;
+            
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(thuds));
             playerComponent.TakeDamage(10);
             Die();
         }

@@ -45,7 +45,7 @@ namespace Source.UI
                 return $"{formattedCombo} Hit Combo!";
 
             if (combo <= 20)
-                return $"{formattedCombo} Hit Combo!!!!";
+                return $"{formattedCombo} Hit Super Combo!";
 
             if (combo <= 25)
                 return $"{formattedCombo} Hit Mega-Combo!";
@@ -54,45 +54,45 @@ namespace Source.UI
                 return $"{formattedCombo} Hit THICK Combo!";
 
             if (combo <= 35)
-                return $"{formattedCombo} Hit Extra Juicy Combo!";
+                return $"{formattedCombo} Hit Juicy Combo!";
 
             if (combo <= 40)
-                return $"{formattedCombo} Hit EZ Mode Combo!";
+                return $"{formattedCombo} Hit Crispy Combo!";
 
             if (combo <= 45)
-                return $"{formattedCombo} Hit Mildly Spicy Combo!";
+                return $"{formattedCombo} Hit Spicy Combo!";
 
             if (combo <= 50)
-                return $"{formattedCombo} Hit Incredibly Gorgeous Combo!";
+                return $"{formattedCombo} Hit Gorgeous Combo!";
 
             if (combo <= 55)
-                return $"{formattedCombo} Hit Somewhat Suspicious Combo!";
+                return $"{formattedCombo} Hit Toasty Combo!";
 
             if (combo <= 60)
                 return $"{formattedCombo} Hit Alarmingly Massive Combo!";
 
             if (combo <= 65)
-                return $"{formattedCombo} Hit Cream-Filled Combo!";
+                return $"{formattedCombo} Hit Creamy Combo!";
 
             if (combo <= 70)
                 return $"{formattedCombo} Hit Voluptuous Combo!";
 
             if (combo <= 75)
-                return $"{formattedCombo} Hit Tear-Jerking Combo!";
+                return $"{formattedCombo} Hit Stanky Combo!";
 
             if (combo <= 80)
-                return $"{formattedCombo} Hit Emotionally Stimulating Combo!";
+                return $"{formattedCombo} Hit Galaxy-Sized Combo!";
 
             if (combo <= 85)
-                return $"{formattedCombo} Hit Nightmare-Inducing Combo!";
+                return $"{formattedCombo} Hit Hauntingly Big Combo!";
 
             if (combo <= 90)
-                return $"{formattedCombo} Hit Physically Stunning Combo!";
+                return $"{formattedCombo} Hit Unbelievable Combo!";
 
             if (combo <= 95)
                 return $"{formattedCombo} Hit Mind-Shattering Combo!";
 
-            return $"{formattedCombo} Hit Insanely Sexy Combo!";
+            return $"{formattedCombo} Hit Sexy Combo!";
         }
     }
 }

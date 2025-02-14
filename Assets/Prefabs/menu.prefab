@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8076d8fc834ed4bad53badca22bb21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pageSize: 5
   menuItemPrefab: {fileID: 8164344632559783903, guid: e4653f3625e9a4d4eb137d283e7dfe90, type: 3}
   menuItemData:
   - Id: btnContinue
@@ -232,6 +233,9 @@ MonoBehaviour:
             m_StringArgument: Hi
             m_BoolArgument: 0
           m_CallState: 2
+    onItemHighlighted:
+      m_PersistentCalls:
+        m_Calls: []
     IsEnabled: 1
   - Id: btnNew
     Text: New Game
@@ -250,6 +254,9 @@ MonoBehaviour:
             m_StringArgument: new game
             m_BoolArgument: 0
           m_CallState: 2
+    onItemHighlighted:
+      m_PersistentCalls:
+        m_Calls: []
     IsEnabled: 1
   - Id: btnEndless
     Text: Endless Mode
@@ -268,6 +275,9 @@ MonoBehaviour:
             m_StringArgument: endless mode
             m_BoolArgument: 0
           m_CallState: 2
+    onItemHighlighted:
+      m_PersistentCalls:
+        m_Calls: []
     IsEnabled: 1
   - Id: btnExtras
     Text: Extras
@@ -286,6 +296,9 @@ MonoBehaviour:
             m_StringArgument: extras
             m_BoolArgument: 0
           m_CallState: 2
+    onItemHighlighted:
+      m_PersistentCalls:
+        m_Calls: []
     IsEnabled: 1
   - Id: btnExit
     Text: Exit Game
@@ -304,9 +317,11 @@ MonoBehaviour:
             m_StringArgument: exit
             m_BoolArgument: 0
           m_CallState: 2
+    onItemHighlighted:
+      m_PersistentCalls:
+        m_Calls: []
     IsEnabled: 1
   selector: {fileID: 3193997914036998030}
-  fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   onGoBack:
     m_PersistentCalls:
       m_Calls:
@@ -322,6 +337,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onReady:
+    m_PersistentCalls:
+      m_Calls: []
+  afterMenuStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onAnyMenuItemSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  menuOkSound: {fileID: 8300000, guid: 5080cbbada3b0b749b189665526df0a4, type: 3}
+  menuChangeSound: {fileID: 8300000, guid: 3400eb40cc50b7b49ab6e58eaed0f070, type: 3}
+  menuCancelSound: {fileID: 8300000, guid: cc9ee1496267c2c4b896bec4244dd387, type: 3}
 --- !u!114 &9141580647152646600
 MonoBehaviour:
   m_ObjectHideFlags: 0

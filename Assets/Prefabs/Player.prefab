@@ -67,10 +67,29 @@ MonoBehaviour:
   shieldAborbEffectPrefab: {fileID: 5306925799245126350, guid: 0d6a9d888179246d499d3114dd9b79b3, type: 3}
   cameraImpulseSource: {fileID: 2568362772900784676}
   animator: {fileID: 503483402393805875}
+  shield: {fileID: 7945788222303484221}
+  dashSounds:
+  - {fileID: 8300000, guid: 4dacf57f7b52c41cdb0a641923426b30, type: 3}
+  - {fileID: 8300000, guid: fd59e43b9beb642ec8a2dc461f012e8d, type: 3}
+  - {fileID: 8300000, guid: d627e9382ee3740758548e74dfb2408e, type: 3}
+  - {fileID: 8300000, guid: 81793e7a3242f4b4d86cc983fd0d339f, type: 3}
+  - {fileID: 8300000, guid: 399d75bfb023b454fb9ac33bc5b7d655, type: 3}
+  damages: []
   healthDiplayBar: {fileID: 0}
   energyDiplayBar: {fileID: 0}
-  shield: {fileID: 7945788222303484221}
   dialogueTyper: {fileID: 0}
+  livesDisplay: {fileID: 0}
+  sceneLoader: {fileID: 0}
+  reloadCompleteSound: {fileID: 8300000, guid: 7f47ebf296c8f9d45a1da07253bf6b4f, type: 3}
+  reloadFailSound: {fileID: 8300000, guid: 6e14beea4d89ca442917724cf1f0249a, type: 3}
+  reloadSuccessSound: {fileID: 8300000, guid: a3f735e6ed88d224094af4321279b5bb, type: 3}
+  playerDeathSound: {fileID: 0}
+  playerHitSounds:
+  - {fileID: 8300000, guid: 2bc59f8c4e5ac7d4694f7c8f740f5163, type: 3}
+  - {fileID: 8300000, guid: e67347f75ac141749bcd6ab7cd4002c0, type: 3}
+  - {fileID: 8300000, guid: 75f0e830df9e06d4e9dd1449a2efc0b3, type: 3}
+  - {fileID: 8300000, guid: 6eded3bd891c44145b244e660aec17b3, type: 3}
+  - {fileID: 8300000, guid: 6e744e47e0bcb0e4b833c8c94cacb412, type: 3}
 --- !u!114 &5436033853786342711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 215208052863963414, guid: 9e626e7c051fc46ec83d8b54ab728408, type: 3}
   spread: 0.36
+  shootSound: {fileID: 8300000, guid: 3292cac8974d440c6a7ea974614e0f16, type: 3}
 --- !u!114 &2568362772900784676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,8 +351,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1545855023
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1720697814, guid: 694cf769abaae4036897dac69d046608, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -617,3 +637,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   preDelaySeconds: 0
+  loopMode: 0
+  playOnAwake: 1

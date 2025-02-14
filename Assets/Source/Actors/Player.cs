@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Source.Audio;
 using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
@@ -9,6 +10,7 @@ using Source.Interfaces;
 using Source.Optimizations;
 using Source.Timers;
 using Source.UI;
+using Source.Utilities;
 using Source.Weapons;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,6 +18,9 @@ using UnityEngine.InputSystem;
 
 namespace Source.Actors
 {
+    /// <summary>
+    /// Unorganized God class for the player.
+    /// </summary>
     public class Player : MonoBehaviour
     {
         // how long after taking damage the player can take more damage
@@ -23,6 +28,7 @@ namespace Source.Actors
         private const float HealthRegenRate = 2f;
         private const float HealthRegenDelay = 8f;
         private const float EnergyRegenRate = 0.5f;
+        private const float ReloadSpeed = 50;
 
         [Tooltip("How much thrust is applied when moving ship.")]
         [SerializeField]
@@ -71,13 +77,20 @@ namespace Source.Actors
         private Animator animator;
 
         [SerializeField]
+        private PlayerShield shield;
+
+        [SerializeField]
+        private AudioClip[] dashSounds;
+
+        [SerializeField]
+        private AudioClip[] damages;
+        
+        // required to populate these on each scene
+        [SerializeField]
         private DisplayBar healthDiplayBar;
         
         [SerializeField]
         private DisplayBar energyDiplayBar;
-
-        [SerializeField]
-        private PlayerShield shield;
 
         [SerializeField]
         private DialogueTyper dialogueTyper;
@@ -88,7 +101,45 @@ namespace Source.Actors
         [SerializeField]
         [Tooltip("Needed for going to the death scene.")]
         private SceneLoader sceneLoader;
+
+        [SerializeField]
+        private AudioClip reloadCompleteSound;
         
+        [SerializeField]
+        private AudioClip reloadFailSound;
+
+        [SerializeField]
+        private AudioClip reloadSuccessSound;
+
+        [SerializeField]
+        private AudioClip playerDeathSound;
+
+        [SerializeField]
+        private AudioClip[] playerHitSounds;
+        
+        // Reload Mechanics
+        //
+        // Bullets remaining in current mag
+        private short _remainingBullets = GameplayConstants.MagSize;
+        public short RemainingBullets => _remainingBullets;
+        
+        // how much time is remaining before the player can shoot again
+        private float _reloadTimeRemaining = 0f;
+        public float RemainingReloadTime => _reloadTimeRemaining;   
+        // if the user failed the current active reload, this will be true
+        private bool _failedReload = false;
+        public bool FailedReload => _failedReload;
+        public UnityEvent OnActiveReloadSuccess { get;} = new();
+        public UnityEvent OnActiveReloadFailure { get; } = new();
+        public UnityEvent OnActiveReloadBegin { get; } = new();
+        public UnityEvent OnActiveReloadEnd { get; } = new();
+        public UnityEvent OnPlayerShoot { get; } = new();
+        /// <summary>
+        /// Called when the player manually pressed R to reload
+        /// </summary>
+        public UnityEvent OnManualReload { get; } = new();
+
+
         private Vector2 _inputVelocity = new();
         private static readonly int DamageAnimatorParam = Animator.StringToHash("damage");
         private int _lastDirection = 1;
@@ -106,6 +157,7 @@ namespace Source.Actors
         private bool _healthRegenEnabled = true;
         
         private UnityEvent onUserInputEnter = new();
+        
         private static readonly int DieAnimatorParam = Animator.StringToHash("die");
         private static readonly int HasMoreLivesAnimatorParam = Animator.StringToHash("hasMoreLives");
 
@@ -124,12 +176,19 @@ namespace Source.Actors
         /// <param name="action"></param>
         public void RemoveMenuEnterEventListener(UnityAction action)
             => onUserInputEnter.RemoveListener(action);
+
+        private SoundEffectEmitter _soundEmitter;
+
+        private Collider2D _collider;
         
+        private MusicBox _musicBox; 
         
         public bool ShieldProtectionEnabled { get; set; }
         
         private void Start()
         {
+            _musicBox =  GameObject.FindWithTag(Tags.MusicBox)?.GetComponent<MusicBox>();
+            
             var healthRegenInterval = gameObject.AddComponent<IntervalEventTimer>();
             healthRegenInterval.SetInterval(HealthRegenRate);
             healthRegenInterval.AddEventListener(RegenHealth);
@@ -140,6 +199,10 @@ namespace Source.Actors
             
             dialogueTyper.OnDialogueBegin.AddListener(() => SetDialogueMode(true));
             dialogueTyper.OnDialogueComplete.AddListener(() => SetDialogueMode(false));
+            
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+            
+            _collider = GetComponent<Collider2D>();
         }
         
         
@@ -188,6 +251,14 @@ namespace Source.Actors
         {
             energyDiplayBar.SetValue(energy / 100f);
             healthDiplayBar.SetValue(health / 100f);
+            
+            // also update the music state
+            if (_musicBox)
+                _musicBox.EnableLowHealthEffect = (health < 15);
+            
+            if (_soundEmitter)
+                _soundEmitter.EnableLowHealthEffect = (health < 15);
+            
         }
 
         private void FixedUpdate()
@@ -204,6 +275,22 @@ namespace Source.Actors
 
             if (_currentHealthRegenDelay > 0f)
                 _currentHealthRegenDelay -= dt;
+
+            if (_reloadTimeRemaining > 0)
+            {
+                var reloadSpeed = _failedReload ? ReloadSpeed*0.5f : ReloadSpeed;
+                _reloadTimeRemaining -= dt * reloadSpeed;
+
+                // the reload bar naturally filled up
+                if (_reloadTimeRemaining <= 0f)
+                {
+                    _soundEmitter.Play(gameObject, reloadCompleteSound);
+                    _failedReload = false;
+                    _remainingBullets = GameplayConstants.MagSize;
+                    _reloadTimeRemaining = 0f;
+                    OnActiveReloadEnd?.Invoke();
+                }
+            }
 
             if (_isDialogueModeEnabled)
             {
@@ -279,6 +366,10 @@ namespace Source.Actors
         /// </summary>
         public void BeginDying()
         {
+            _soundEmitter.EnableLowHealthEffect = false;
+            _musicBox.EnableLowHealthEffect = false;
+            
+            _soundEmitter.Play(gameObject, playerDeathSound);
             _isMovementLocked = true;
             _isWeaponsLocked = true;
             _healthRegenEnabled = false;
@@ -344,6 +435,8 @@ namespace Source.Actors
                 Instantiate(shieldAborbEffectPrefab).At(ox, oy);
                 Stats.TrackDamageBlockedByShield(amount);
                 return true;
+                
+                // todo: play a shield hit sound
             }
 
             Stats.TrackDamageTaken(amount);
@@ -355,12 +448,12 @@ namespace Source.Actors
             health -= amount;
             _damageCooldownTime = DamageCooldownMax;
             RefreshHud();
+            _soundEmitter.PlayRandom(gameObject, playerHitSounds);
             
             if (health <= 0)
             {
                 BeginDying();
             }
-            
             
             return true;
         }
@@ -417,8 +510,51 @@ namespace Source.Actors
             if (_isWeaponsLocked)
                 return;
 
+            // Player tried to shoot during a reload
+            if (_reloadTimeRemaining > 0)
+            {
+                // user gets one chance at active reload
+                if (_failedReload)
+                    return;
+
+                var startThresh = 33;
+                var endThresh = 66;
+                
+                // Successful active reload
+                if (_reloadTimeRemaining > startThresh && _reloadTimeRemaining < endThresh)
+                {
+                    _remainingBullets = GameplayConstants.MagSize;
+                    _reloadTimeRemaining = 0;
+                    _failedReload = false;
+                    OnActiveReloadSuccess?.Invoke();
+                    OnActiveReloadEnd?.Invoke();
+                    _soundEmitter.Play(gameObject, reloadSuccessSound);
+                    return;
+                }
+                
+                // not so succsessful active reload
+                _failedReload = true;
+                OnActiveReloadFailure?.Invoke();
+                _soundEmitter.Play(gameObject, reloadFailSound);
+                return;
+            }
+
             Stats.TrackBulletFired();
             blaster.Shoot();
+            _remainingBullets--;
+            OnPlayerShoot?.Invoke();
+
+            if (_remainingBullets <= 0)
+            {
+                Reload();
+            }
+        }
+
+        private void Reload()
+        {
+            OnActiveReloadBegin?.Invoke();
+            _reloadTimeRemaining = 100;
+            _remainingBullets = 0;
         }
 
         private void OnLaser(InputValue inputValue)
@@ -446,9 +582,11 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(dashSounds));
             Stats.TrackPlayerDash();
             var position = transform.position;
             Instantiate(playerDashAnimationPrefab).At(position);
+            _damageCooldownTime = DamageCooldownMax;
             rigidBody.AddForce(new(_lastDirection * dashThrust, 0), ForceMode2D.Impulse);
         }
 
@@ -495,20 +633,32 @@ namespace Source.Actors
             Stats.TrackMine();
             Instantiate(playerMinePrefab).At(transform.position);
         }
-        
+
+        private void OnReload(InputValue inputValue)
+        {
+            if (_isWeaponsLocked)
+                return;
+            
+            if (_remainingBullets == GameplayConstants.MagSize)
+                return;
+            
+            if (_reloadTimeRemaining > 0)
+                return;
+            
+            // this just triggers an animation that hides the bullets
+            OnManualReload?.Invoke();
+            
+            // this begins the active reload
+            Reload();
+        }
+
         private void OnForcefield(InputValue inputValue)
         {
-            if (dialogueTyper is not null && dialogueTyper.isActiveAndEnabled)
-            {
-                dialogueTyper.UserCycleDialogue();
-                return;
-            }
-            
             if (_isWeaponsLocked)
                 return;
             
             var requiredEnergy = 50;
-
+            
             if (!TryReduceEnergy(requiredEnergy))
                 return;
             
@@ -522,15 +672,22 @@ namespace Source.Actors
         
         private void OnMenuEnter(InputValue inputValue)
         {
+            if (dialogueTyper is not null && dialogueTyper.isActiveAndEnabled)
+            {
+                dialogueTyper.UserCycleDialogue();
+                return;
+            }
+            
             onUserInputEnter?.Invoke();
+            return; // temporary hack
             
             // the logic below should maybe one day be consolidated into the event handling pattern
             // i will probably never do that.
             
-            if (dialogueTyper is null || !dialogueTyper.isActiveAndEnabled)
-                return;
-
-            dialogueTyper.UserCycleDialogue();
+            // if (dialogueTyper is null || !dialogueTyper.isActiveAndEnabled)
+            //     return;
+            //
+            // dialogueTyper.UserCycleDialogue();
 
         }
 

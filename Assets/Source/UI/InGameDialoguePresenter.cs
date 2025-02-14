@@ -2,8 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Source.Audio;
+using Source.Constants;
 using Source.Dialogue;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Source.UI
 {
@@ -25,18 +28,47 @@ namespace Source.UI
         [SerializeField]
         private GameObject doneTypingIndicator;
 
-        private Dictionary<string, Sprite[]> _avatarSpriteMappings;
+        [SerializeField]
+        private AudioClip typingSound;
         
+        private Dictionary<string, Sprite[]> _avatarSpriteMappings;
+        private SoundEffectEmitter _soundEmitter;
+
         private string _avatarId;
         
         private void Start()
         {
+            _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter)?.GetComponent<SoundEffectEmitter>();
+            
+            if (!_soundEmitter)
+                throw new UnityException("Missing game object tagged as SoundEffectEmitter in the scene");
+
             dialogueTyper.OnDialogueComplete.AddListener(OnCompleted);
             dialogueTyper.OnLineBegin.AddListener(OnLineBegin);
             dialogueTyper.OnLineComplete.AddListener(OnLineEnd);
+            dialogueTyper.OnTypeLetter.AddListener(OnTypedLetter);
             doneTypingIndicator.SetActive(false);
             _avatarSpriteMappings = GetComponent<AvatarSpriteMapping>().ToDictionary();
         }
+
+        private void OnDestroy()
+        {
+            dialogueTyper.OnDialogueComplete.RemoveListener(OnCompleted);
+            dialogueTyper.OnLineBegin.RemoveListener(OnLineBegin);
+            dialogueTyper.OnLineComplete.RemoveListener(OnLineEnd);
+            dialogueTyper.OnTypeLetter.RemoveListener(OnTypedLetter);    
+        }
+
+        private void OnTypedLetter()
+        {
+            _soundEmitter.Play(typingSound);
+        }
+
+        public void AddOnCompleteListener(UnityAction action)
+           => dialogueTyper.OnDialogueComplete.AddListener(action);
+        
+        public void RemoveOnCompleteListener(UnityAction action)
+            => dialogueTyper.OnDialogueComplete.RemoveListener(action);
 
         public void PresentDialogueFromFile(string filePath)
         {
@@ -71,9 +103,6 @@ namespace Source.UI
         {
             dialogueTyper.Present(dialogueLines);
         }
-        
-        
-        
 
         /// <summary>
         /// Dialogue presentation is over
@@ -104,6 +133,8 @@ namespace Source.UI
 
             avatarAnimator.Reset();
             avatarAnimator.Play();
+            
+            
         }
 
         private void OnLineEnd()

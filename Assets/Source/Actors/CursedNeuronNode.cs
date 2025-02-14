@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Source.Audio;
 using Source.Constants;
 using Source.Data;
 using Source.Extensions;
@@ -38,6 +39,12 @@ namespace Source.Actors
         private GameObject bulletPrefab;
 
         [SerializeField]
+        private AudioClip shootSound;
+        
+        [SerializeField]
+        private AudioClip[] hitSounds;
+        
+        [SerializeField]
         private CinemachineImpulseSource impulseSource;
 
         private GameObject _player;
@@ -46,9 +53,13 @@ namespace Source.Actors
         
         private float _noAttackSeconds = 3f;
 
+        private SoundEffectEmitter _soundEffectEmitter;
         
         private void Start()
         {
+            _soundEffectEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter)?.GetComponent<SoundEffectEmitter>()
+                ?? throw new UnityException("No SoundEffectEmitter found in scene");
+            
             _animator = GetComponent<Animator>();
             _player = GameObject.FindWithTag(Tags.Player);
         }
@@ -114,6 +125,7 @@ namespace Source.Actors
             
             if (playerX > min && playerX < max)
             {
+                _soundEffectEmitter.Play(gameObject, shootSound);
                 Instantiate(bulletPrefab).At(x, y - 0.5f);
                 _shootTimer = ShootWaitSeconds;
             }
@@ -121,6 +133,7 @@ namespace Source.Actors
 
         public void AttackedByBullet(GameObject bullet)
         {
+            _soundEffectEmitter.PlayRandom(gameObject, hitSounds);
             var b = bullet.GetComponent<Bullet>();
             
             if (_isDisabled)

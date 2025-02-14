@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Source.Audio;
 using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
@@ -18,6 +19,10 @@ namespace Source.Actors
     /// </summary>
     public class CursedNeuron : MonoBehaviour, IAttackResponder
     {
+        [SerializeField]
+        [Tooltip("Tweak during gamplay for testing :) ")]
+        private int damagePerHit = 2;
+        
         [SerializeField]
         private GameObject damageEffectPrefab;
         
@@ -68,6 +73,18 @@ namespace Source.Actors
         [SerializeField]
         private GameObject enemyWave3;
         private bool wave3Spawned = false;
+
+        [SerializeField]
+        private UnityEvent onBeginFinalDialogue = new();
+        
+        [SerializeField]
+        private AudioClip[] bodyHitSounds;
+        
+        [SerializeField]
+        private AudioClip[] shieldHitSounds;
+        
+        [SerializeField]
+        private AudioClip scream;
         
         private Animator _animator;
         
@@ -101,9 +118,29 @@ namespace Source.Actors
         [SerializeField]
         private UnityEvent onFullyDead = new();
         
+        private SoundEffectEmitter _soundEffectEmitter;
+        
+        [SerializeField]
+        private AudioClip _dyingMusic;
+        
+        [SerializeField]
+        private AudioClip _deathDramaImpactSound;
+        
+        [SerializeField]
+        private AudioClip _laserSound;
+        
+        
+        private MusicBox _musicBox;
+        
         private Player _player;
         private void Start()
         {
+            _musicBox = GameObject.FindWithTag(Tags.MusicBox)?.GetComponent<MusicBox>()
+                        ?? throw new UnityException("No music box");
+            
+            _soundEffectEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter)?.GetComponent<SoundEffectEmitter>()
+                ??  throw new UnityException("No sound effect emitter");
+            
             _attackable = GetComponent<Attackable>();
             _animator = GetComponent<Animator>();
             _player = GameObject.FindWithTag(Tags.Player).GetComponent<Player>();
@@ -190,6 +227,8 @@ namespace Source.Actors
             
             // fire laser
             _animator.SetTrigger(FireLaserAnimatorParameter);
+            
+            _soundEffectEmitter.Play(gameObject, _laserSound);
         }
 
         private void MoveTowardsDestination()
@@ -221,6 +260,12 @@ namespace Source.Actors
             transform.position = Vector2.MoveTowards(pos, new Vector2(0, 7f), step);
         }
 
+        // only needed for testing
+        public void MoveInstantlyToDefaultPosition()
+        {
+            transform.position = new Vector2(0, 7f);
+        }
+
         private bool UpdateShieldStatus()
         {
             var shieldActive = false;
@@ -244,13 +289,15 @@ namespace Source.Actors
             var bulletComp = bullet.GetComponent<Bullet>();
             if (_isShieldActive)
             {
+                _soundEffectEmitter.PlayRandom(gameObject, shieldHitSounds);
                 bulletComp.Ricochet();
                 return;
             }
 
             var pos = transform.position;
+            _soundEffectEmitter.PlayRandom(gameObject, bodyHitSounds);
             Instantiate(damageEffectPrefab).At(pos.x + Random.Range(-1, 1), pos.y + Random.Range(-1, 1));
-            _attackable.Damage(2);
+            _attackable.Damage(damagePerHit);
             bulletComp.HitSomething();
             impulseSource.GenerateImpulse();
             
@@ -308,7 +355,7 @@ namespace Source.Actors
         {
             foreach (var attackable in wave.GetComponentsInChildren<Attackable>())
             {
-                attackable.Die();
+                attackable?.Die();
             }
         }
 
@@ -319,6 +366,10 @@ namespace Source.Actors
             if (hp <= 0)
             {
                 
+                // abruptly switch to the dying music 
+                _musicBox.PlayImmediate(_dyingMusic, loop: true);
+                _soundEffectEmitter.Play(gameObject, _deathDramaImpactSound);
+                
                 _state = State.Dying;
                 _enableLaser = false;
                 _enableMovement = false;
@@ -328,10 +379,12 @@ namespace Source.Actors
                     node.gameObject.SetActive(false);
                 }
 
-                KillAllEnemies(enemyWave3);
+                KillAllEnemies(enemyWave1);
                 KillAllEnemies(enemyWave2);
+                KillAllEnemies(enemyWave3);
 
                 _player.SetDialogueMode(true);
+                onBeginFinalDialogue?.Invoke();
                 deathDialogue.SetActive(true);
                 
                 return;
@@ -339,6 +392,7 @@ namespace Source.Actors
             
             if (!wave3Spawned && hp <= 30)
             {
+                _soundEffectEmitter.Play(gameObject, scream);
                 enemyWave3.SetActive(true);
                 wave3Spawned = true;
             }

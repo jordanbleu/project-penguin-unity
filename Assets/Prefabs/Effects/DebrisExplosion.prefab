@@ -109,7 +109,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -4934,6 +4934,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  preWarm: 0
 --- !u!114 &4215364396407796620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5080,6 +5081,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   preDelaySeconds: 0
+  loopMode: 0
 --- !u!114 &3397292932397640462
 MonoBehaviour:
   m_ObjectHideFlags: 0
