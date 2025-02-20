@@ -5,6 +5,7 @@ using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
 using Source.Extensions;
+using Source.GameData;
 using Source.Interfaces;
 using Source.Timers;
 using Source.Weapons;
@@ -76,6 +77,7 @@ namespace Source.Actors
         
         private SoundEffectEmitter _soundEmitter;
 
+        private StatsTracker _statsTracker;
         
         private void Start()
         {
@@ -89,6 +91,8 @@ namespace Source.Actors
             _seekPosition = new(_player.transform.position.x, UnityEngine.Random.Range(3, 10));
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
 
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker).GetComponent<StatsTracker>()
+                            ?? throw new UnityException("Missing StatsTracker in scene");
         }
         
         /// <summary>
@@ -141,7 +145,8 @@ namespace Source.Actors
             _soundEmitter.PlayRandom(gameObject, impacts);
             _soundEmitter.PlayRandom(gameObject, groans);
 
-            Stats.TrackBulletHit();
+            _statsTracker.Stats.BulletsHit++;
+            
             impulseSource.GenerateImpulse();
             bullet.GetComponent<Bullet>().HitSomething();
             attackable.Damage(DamageValues.PlayerBulletDamage);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Source.GameData;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -28,6 +29,13 @@ namespace Source.UI
         
         [SerializeField]
         private UnityEvent onEnterEntered = new();
+        
+        [SerializeField]
+        private SaveDataManager saveDataManager;
+        
+        [SerializeField]
+        [Tooltip("Use director to wait until this is called so you don't swap scenes before the data is saved.")]
+        private UnityEvent onSaveDataFinished;
         
         private bool _caps = true;
         
@@ -161,9 +169,19 @@ namespace Source.UI
                 return;
             }
             
+            var gameData = new SaveSlotData()
+            {
+                GameName = _currentText,
+                IsEmpty = false,
+                LastUpdateDt = DateTimeOffset.UtcNow,
+                CreateDt = DateTimeOffset.UtcNow
+            };
+            
+            // begin saving the new data, then invoke the on saving complete
+            saveDataManager.BeginSaving(GlobalSaveDataManager.GlobalData.SelectedSaveSlot, gameData, ()=>onSaveDataFinished.Invoke());
+            
             _menu.DismissMenu();
             onEnterEntered?.Invoke();
-
         }
 
         private void OnBackspaceEntered()

@@ -4,6 +4,7 @@ using Source.Audio;
 using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
+using Source.GameData;
 using Source.Interfaces;
 using Source.Timers;
 using Source.Utilities;
@@ -44,6 +45,8 @@ namespace Source.Actors
 
         private SoundEffectEmitter _soundEmitter;
         
+        private StatsTracker _statsTracker;
+        
         private void Start()
         {
             var burstInterval = gameObject.AddComponent<IntervalEventTimer>();
@@ -51,6 +54,7 @@ namespace Source.Actors
             burstInterval.PreWarm();
             _player = GameObject.FindWithTag("Player");
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker).GetComponent<StatsTracker>();
         }
 
         // Called by event interval timer
@@ -78,7 +82,7 @@ namespace Source.Actors
 
             attackable.Damage(1);
             rigidBody2d.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
-            Stats.TrackBulletHit();
+            _statsTracker.Stats.BulletsHit++;
             cameraImpulseSource.GenerateImpulse(CameraImpulseForce);
             bullet.GetComponent<Bullet>().HitSomething();
         }

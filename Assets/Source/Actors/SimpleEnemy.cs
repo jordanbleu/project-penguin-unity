@@ -6,6 +6,7 @@ using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
 using Source.Extensions;
+using Source.GameData;
 using Source.Interfaces;
 using Source.Utilities;
 using Source.Weapons;
@@ -79,10 +80,14 @@ namespace Source.Actors
         public void SetInvulnerable() =>
             _isVulnerable = false;
 
+        private StatsTracker _statsTracker;
+        
         private void Start()
         {
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
             rigidBody.velocity = new Vector2(0, speed);
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker).GetComponent<StatsTracker>()
+                            ?? throw new UnityException("Missing StatsTracker in scene");
         }
 
         private void FixedUpdate()
@@ -112,7 +117,8 @@ namespace Source.Actors
                     _soundEmitter.Play(gameObject, randomClip);
                 }
 
-                Stats.TrackBulletHit();
+                _statsTracker.Stats.BulletsHit++;
+                
                 impulseSource.GenerateImpulse();
                 ApplyDamageEffect();
                 bulletComponent.HitSomething();

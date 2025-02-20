@@ -12,7 +12,7 @@ public class RankTests
     public void InsanelyGoodPerformance_ResultsInSRank()
     {
         // 90% accuracy, barely any damage taken, no deaths.
-        var finalGrade = RankCalculator.CalculateRank
+        var finalGrade = StatsCalculator.CalculateRank
             (
                 deaths: 0,
                 bulletsFired: 100,
@@ -28,7 +28,7 @@ public class RankTests
     public void VeryGoodPerformance_ResultsInARank()
     {
         // No deaths but more damage taken and less accurate
-        var finalGrade = RankCalculator.CalculateRank
+        var finalGrade = StatsCalculator.CalculateRank
         (
             deaths: 0,
             bulletsFired: 100,
@@ -44,7 +44,7 @@ public class RankTests
     public void VeryGoodPerformance_ResultsInBRank_WithLowAccuracy()
     {
         // Very low accuracy
-        var finalGrade = RankCalculator.CalculateRank
+        var finalGrade = StatsCalculator.CalculateRank
         (
             deaths: 0,
             bulletsFired: 100,
@@ -64,7 +64,7 @@ public class RankTests
     public void AveragePerformance_ResultsInCRank()
     {
         // Very low accuracy
-        var finalGrade = RankCalculator.CalculateRank
+        var finalGrade = StatsCalculator.CalculateRank
         (
             deaths: 1,
             bulletsFired: 100,
@@ -84,7 +84,7 @@ public class RankTests
     public void AbysmalPerformance_ResultsInF()
     {
         // Very low accuracy
-        var finalGrade = RankCalculator.CalculateRank
+        var finalGrade = StatsCalculator.CalculateRank
         (
             deaths: 2,
             bulletsFired: 100,
@@ -102,7 +102,7 @@ public class RankTests
     public void BadPerformance_ResultsInD()
     {
         // Very low accuracy
-        var finalGrade = RankCalculator.CalculateRank
+        var finalGrade = StatsCalculator.CalculateRank
         (
             deaths: 2,
             bulletsFired: 100,
@@ -123,7 +123,7 @@ public class RankTests
     public void BadPerformance_ResultsInD_EvenWithZeroAccuracy()
     {
         // Very low accuracy
-        var finalGrade = RankCalculator.CalculateRank
+        var finalGrade = StatsCalculator.CalculateRank
         (
             deaths: 2,
             bulletsFired: 100,
@@ -143,7 +143,7 @@ public class RankTests
     public void NotGreatPerformance_ResultsInC_WithNoDeathsButHighDamage()
     {
         // Very low accuracy
-        var finalGrade = RankCalculator.CalculateRank
+        var finalGrade = StatsCalculator.CalculateRank
         (
             deaths: 0,
             bulletsFired: 100,

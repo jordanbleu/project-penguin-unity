@@ -352,6 +352,7 @@ MonoBehaviour:
   menuOkSound: {fileID: 8300000, guid: 5080cbbada3b0b749b189665526df0a4, type: 3}
   menuChangeSound: {fileID: 8300000, guid: 3400eb40cc50b7b49ab6e58eaed0f070, type: 3}
   menuCancelSound: {fileID: 8300000, guid: cc9ee1496267c2c4b896bec4244dd387, type: 3}
+  menuErrorSound: {fileID: 8300000, guid: 35f04708a232bf54c9a4694db452361a, type: 3}
 --- !u!114 &9141580647152646600
 MonoBehaviour:
   m_ObjectHideFlags: 0

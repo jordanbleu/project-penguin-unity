@@ -11,5 +11,7 @@ namespace Source.Constants
         public const string CutsceneDialoguePresenter = "cutscene-dialogue-presenter";
         public const string MusicBox                  = "music-box";
         public const string AmbienceBox               = "ambience-box";
+        public const string StatsTracker              = "stats-tracker";
+        public const string SaveDataManager           = "save-data-manager";
     }
 }

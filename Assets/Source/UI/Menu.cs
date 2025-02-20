@@ -70,6 +70,9 @@ namespace Source.UI
         [SerializeField]
         private AudioClip menuCancelSound;
         
+        [SerializeField]
+        private AudioClip menuErrorSound;
+        
         // this is the selectors position on screen, so would be anywhere from 0 to pageSize
         private int _selectorPosition = 0;
         
@@ -96,6 +99,13 @@ namespace Source.UI
             
             // be careful, the menu component isn't available if you use this 
             afterMenuStart?.Invoke();
+            
+            menuItemData[_currentPageOffset + _selectorPosition].onItemHighlighted?.Invoke();
+        }
+        
+        public void PlayErrorSound()
+        {
+            _soundEmitter.Play(menuErrorSound);
         }
         
         public void CreateMenu(MenuItemData[] items)
@@ -188,6 +198,10 @@ namespace Source.UI
         // refreshes what each item is displaying
         private void RefreshPage()
         {
+            // text meshes aren't ready yet 
+            if (_textMeshes == null)
+                return;
+            
             var pageSize = GetPageSize();
 
             for (var i = 0; i < pageSize; i++)
@@ -249,7 +263,7 @@ namespace Source.UI
             
             if (item != null)
             {
-                item.Text = menuText;
+                item.Text = menuText.Truncate(15, true);
                 RefreshPage();
             }
         
@@ -306,6 +320,35 @@ namespace Source.UI
             menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected?.Invoke();
             onAnyMenuItemSelected?.Invoke();    
         }
+        
+        // Remember to bind these in the input handler
+        public void MenuAlt(InputAction.CallbackContext context)
+        {
+            if (!_ready)
+                return;
+            
+            // if the button is pressed.
+            if (!context.started)
+                return;
+            
+            _soundEmitter.Play(menuOkSound);
+            
+            // selector does a reverse squeeze animation 
+            var oldScaleY = selector.transform.localScale.y;
+            LeanTween.scaleY(selector, 1.8f, 0.1f)
+                .setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
+
+            menuItemData[_currentPageOffset + _selectorPosition].OnItemAltSelected?.Invoke();
+        }
+        
+        /// <summary>
+        /// Marks the menu as no longer 'ready', preventing all further interactions until the menu
+        /// is re-opened.
+        /// </summary>
+        public void Unready()
+        {
+            _ready = false;
+        }
 
         public void DismissMenu()
         {
@@ -332,6 +375,9 @@ namespace Source.UI
         public class MenuItemData
         {
             [SerializeField]
+            public bool IsEnabled = true;
+            
+            [SerializeField]
             public string Id;
 
             [SerializeField]
@@ -344,7 +390,8 @@ namespace Source.UI
             public UnityEvent onItemHighlighted;
 
             [SerializeField]
-            public bool IsEnabled = true;
+            [Tooltip("Alt select is when user presses X on controller or R on keyboard.")]
+            public UnityEvent OnItemAltSelected;
         }
     }
 

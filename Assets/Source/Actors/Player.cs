@@ -6,6 +6,7 @@ using Source.Constants;
 using Source.Data;
 using Source.Dialogue;
 using Source.Extensions;
+using Source.GameData;
 using Source.Interfaces;
 using Source.Optimizations;
 using Source.Timers;
@@ -117,6 +118,10 @@ namespace Source.Actors
         [SerializeField]
         private AudioClip[] playerHitSounds;
         
+        private StatsTracker _statsTracker;
+        
+        public int LivesRemaining {get;set;} = GameplayConstants.TotalLives;
+        
         // Reload Mechanics
         //
         // Bullets remaining in current mag
@@ -157,6 +162,8 @@ namespace Source.Actors
         private bool _healthRegenEnabled = true;
         
         private UnityEvent onUserInputEnter = new();
+        
+        public int CurrentCombo {get; private set;} = 0;
         
         private static readonly int DieAnimatorParam = Animator.StringToHash("die");
         private static readonly int HasMoreLivesAnimatorParam = Animator.StringToHash("hasMoreLives");
@@ -203,6 +210,9 @@ namespace Source.Actors
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
             
             _collider = GetComponent<Collider2D>();
+            
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker).GetComponent<StatsTracker>()
+                            ?? throw new UnityException("Missing StatsTracker in scene");
         }
         
         
@@ -373,10 +383,10 @@ namespace Source.Actors
             _isMovementLocked = true;
             _isWeaponsLocked = true;
             _healthRegenEnabled = false;
-            Stats.TrackDeath();
-            Stats.Current.LivesRemaining--;
+            _statsTracker.Stats.Deaths++;
+            LivesRemaining--;
             
-            animator.SetBool(HasMoreLivesAnimatorParam, Stats.Current.LivesRemaining >= 0);
+            animator.SetBool(HasMoreLivesAnimatorParam, LivesRemaining >= 0);
             animator.SetTrigger(DieAnimatorParam);
         }
 
@@ -386,17 +396,18 @@ namespace Source.Actors
         /// </summary>
         public void EndDying()
         {
-            var lives = Stats.Current.LivesRemaining;
+            var lives = LivesRemaining;
 
             if (lives >= 0)
             {
                 health = 100;
                 // animator will handle this transition, but  refresh the hud
-                livesDisplay.Refresh();
+                livesDisplay.UpdateLives(lives);
                 return;
             }
-
-            sceneLoader.BeginFadingToScene(Scenes.GameOver);
+            
+            // Game over. Save the current stats then fade to the game over scene
+            _statsTracker.BeginSaving(false, () => sceneLoader.BeginFadingToScene(Scenes.GameOver));
         }
 
         /// <summary>
@@ -433,13 +444,15 @@ namespace Source.Actors
 
                 _damageCooldownTime = DamageCooldownMax;
                 Instantiate(shieldAborbEffectPrefab).At(ox, oy);
-                Stats.TrackDamageBlockedByShield(amount);
+                
+                _statsTracker.Stats.DamageBlockedByShield+=amount;
+                
                 return true;
                 
                 // todo: play a shield hit sound
             }
 
-            Stats.TrackDamageTaken(amount);
+            _statsTracker.Stats.DamageTaken += amount;
 
             healthDiplayBar.BounceUp();
             _currentHealthRegenDelay = HealthRegenDelay;
@@ -482,6 +495,11 @@ namespace Source.Actors
             energy -= amount;
             RefreshHud();
             return true;
+        }
+        
+        public void ResetCombo()
+        {
+            CurrentCombo = 0;
         }
 
         #region Input Events
@@ -539,7 +557,14 @@ namespace Source.Actors
                 return;
             }
 
-            Stats.TrackBulletFired();
+            _statsTracker.Stats.BulletsFired++;
+            
+            // combo logic
+            CurrentCombo++;
+            
+            if (CurrentCombo > _statsTracker.Stats.BestCombo)
+                _statsTracker.Stats.BestCombo = CurrentCombo;
+            
             blaster.Shoot();
             _remainingBullets--;
             OnPlayerShoot?.Invoke();
@@ -567,7 +592,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
-            Stats.TrackLaser();
+            _statsTracker.Stats.Lasers++;
             var position = transform.position;
             Instantiate(playerLaserPrefab).At(position.x, position.y + 8);
         }
@@ -583,7 +608,9 @@ namespace Source.Actors
                 return;
 
             _soundEmitter.Play(gameObject, RandomUtils.Choose(dashSounds));
-            Stats.TrackPlayerDash();
+            
+            _statsTracker.Stats.Dashes++;
+            
             var position = transform.position;
             Instantiate(playerDashAnimationPrefab).At(position);
             _damageCooldownTime = DamageCooldownMax;
@@ -602,7 +629,9 @@ namespace Source.Actors
 
             if (!TryReduceEnergy(requiredEnergy))
                 return;
-            Stats.TrackShield();
+            
+            _statsTracker.Stats.Shields++;
+            
             shield.gameObject.SetActive(true);
         }
 
@@ -616,7 +645,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
-            Stats.TrackMissile();
+            _statsTracker.Stats.Missiles++;
             Instantiate(playerMissilePrefab).At(transform.position);
         }
 
@@ -630,7 +659,8 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
-            Stats.TrackMine();
+            _statsTracker.Stats.Mines++;
+            
             Instantiate(playerMinePrefab).At(transform.position);
         }
 
@@ -662,7 +692,8 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
             
-            Stats.TrackForceField();
+            _statsTracker.Stats.ForceFields++;
+            
             var position = transform.position;
             var adjustedPosition = new Vector2(position.x, position.y + 0.75f);
             Instantiate(forcefieldPrefab).At(adjustedPosition);

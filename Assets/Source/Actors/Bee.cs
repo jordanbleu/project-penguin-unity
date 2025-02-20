@@ -4,6 +4,7 @@ using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
 using Source.Extensions;
+using Source.GameData;
 using Source.Interfaces;
 using Source.Mathematics;
 using Source.Utilities;
@@ -79,6 +80,8 @@ namespace Source.Actors
         private SoundEffectEmitter _soundEmitter;
         private SoundEffect _buzz;
         
+        private StatsTracker _statsTracker;
+        
         private void Start()
         {
             var halfSize = zoneSize / 2;
@@ -105,6 +108,9 @@ namespace Source.Actors
                 IsLooped = true,
                 RandomizeStartTime = true
             });
+            
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker).GetComponent<StatsTracker>()
+                            ?? throw new UnityException("Missing StatsTracker in scene");
         }
 
         private void Update()
@@ -173,7 +179,7 @@ namespace Source.Actors
         {
             _soundEmitter.Play(gameObject, RandomUtils.Choose(thuds));
 
-            Stats.TrackBulletHit();
+            _statsTracker.Stats.BulletsHit++;
             attackingBullet.GetComponent<Bullet>().HitSomething();
             _rigidBody.AddForce(new(0,5), ForceMode2D.Impulse);
             Die();

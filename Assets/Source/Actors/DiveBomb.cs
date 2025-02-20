@@ -5,6 +5,7 @@ using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
 using Source.Extensions;
+using Source.GameData;
 using Source.Interfaces;
 using Source.Weapons;
 using UnityEngine;
@@ -35,11 +36,15 @@ namespace Source.Actors
 
         private GameObject _player;
         private SoundEffectEmitter _soundEmitter;
+        
+        private StatsTracker _statsTracker;
 
         private void Start()
         {
             _player = GameObject.FindWithTag(Tags.Player);
             _soundEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter).GetComponent<SoundEffectEmitter>();
+            
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker).GetComponent<StatsTracker>() ?? throw new UnityException("No stat tracker found in scene");
 
         }
 
@@ -71,7 +76,7 @@ namespace Source.Actors
         public void AttackedByBullet(GameObject bullet)
         {
             bullet.GetComponent<Bullet>().HitSomething();
-            Stats.TrackBulletHit();
+            _statsTracker.Stats.BulletsHit++;
             attackable.Die();
         }
 
