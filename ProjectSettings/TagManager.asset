@@ -18,6 +18,8 @@ TagManager:
   - cutscene-dialogue-presenter
   - music-box
   - ambience-box
+  - stats-tracker
+  - save-data-manager
   layers:
   - Default
   - TransparentFX

@@ -2,6 +2,7 @@ using System;
 using Source.Actors;
 using Source.Constants;
 using Source.Data;
+using Source.GameData;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,6 +34,8 @@ namespace Source.UI
 
         private bool _isReady = false;
 
+        private StatsTracker _statsTracker;
+        
         private void Start()
         {
             var player = GameObject.FindGameObjectWithTag(Tags.Player);
@@ -44,6 +47,7 @@ namespace Source.UI
                     playerComp.AddMenuEnterEventListener(Dismiss);
                 }
             }
+
         }
 
         private void Dismiss()
@@ -57,13 +61,36 @@ namespace Source.UI
 
         private void OnEnable()
         {
-            var current = Stats.Current;
-            baseScoreText.SetText("Base Score.......... " + current.FinalBaseScore.ToString());
-            timeBonusText.SetText("Time Bonus.......... " + current.TimeBonus.ToString());
-            accuracyBonusText.SetText("Accuracy Bonus.......... " + current.AccuracyBonus.ToString());
-            noDeathBonusText.SetText("No Death Bonus.......... " + current.NoDeathBonus.ToString());
-            comboBonusText.SetText("Combo Bonus.......... " + current.ComboBonus.ToString());
-            finalScoreText.SetText(current.FinalScore.ToString("n0"));
+                        
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker)?.GetComponent<StatsTracker>() 
+                            ?? throw new UnityException("No stats tracker in scene.");
+            
+            var stats = _statsTracker.Stats;
+
+            // time bonus
+            var timeSpent = stats.EndDt - stats.StartDt;
+            var timeBonus = StatsCalculator.CalculateTimeBonus(timeSpent);
+            
+            // accuracy bonus
+            var accuracy = StatsCalculator.CalculateShotAccuracy(stats.BulletsHit, stats.BulletsFired);
+            var accuracyBonus = StatsCalculator.CalculateAccuracyBonus(accuracy);
+            
+            // no deaths
+            var noDeathBonus = StatsCalculator.CalculateNoDeathBonus(stats.Deaths);
+            
+            // combonus
+            var comboBonus = StatsCalculator.CalculateComboBonus(stats.BestCombo);
+            
+            // final score, which literally does everything above again lol
+            var finalScore = StatsCalculator.CalculateFinalScore(stats);
+            
+            baseScoreText.SetText("Base Score.......... " + stats.BaseScore.ToString("N0"));
+            timeBonusText.SetText("Time Bonus.......... " + timeBonus.ToString("N0"));
+            accuracyBonusText.SetText("Accuracy Bonus.......... " + accuracyBonus.ToString("N0"));
+            noDeathBonusText.SetText("No Death Bonus.......... " + noDeathBonus.ToString("N0"));
+            comboBonusText.SetText("Combo Bonus.......... " + comboBonus.ToString("N0"));
+            
+            finalScoreText.SetText(finalScore.ToString("n0"));
         }
         
         

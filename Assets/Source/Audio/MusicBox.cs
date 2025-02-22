@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using Source.SaveData;
-using Unity.Collections;
+﻿using System.Collections;
+using Source.GameData;
 using UnityEngine;
 
 namespace Source.Audio
@@ -63,7 +61,7 @@ namespace Source.Audio
             if (loop.HasValue)
                 _audioSource.loop = loop.Value;
             
-            var musicVolume = GameDataManager.Data.MusicVolume;
+            var musicVolume = GlobalSaveDataManager.GlobalData.MusicVolume;
             _audioSource.volume = musicVolume;
             
             _audioSource.Play();
@@ -90,10 +88,10 @@ namespace Source.Audio
             {
                 _audioSource.volume += 0.015f;
                 yield return new WaitForSeconds(0.05f);
-            } while (_audioSource.volume < GameDataManager.Data.MusicVolume);
+            } while (_audioSource.volume < GlobalSaveDataManager.GlobalData.MusicVolume);
             
             // in case something wonky happens
-            _audioSource.volume = GameDataManager.Data.MusicVolume;
+            _audioSource.volume = GlobalSaveDataManager.GlobalData.MusicVolume;
         }
         
         /// <summary>
@@ -101,7 +99,7 @@ namespace Source.Audio
         /// </summary>
         public void FadeOut()
         {
-            _audioSource.volume = GameDataManager.Data.MusicVolume;
+            _audioSource.volume = GlobalSaveDataManager.GlobalData.MusicVolume;
             StartCoroutine(FadeOutAudioCoroutine());
         }
         

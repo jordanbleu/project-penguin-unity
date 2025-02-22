@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Source.Utilities;
 using UnityEngine;
@@ -36,9 +37,14 @@ namespace Source.Audio
         /// <param name="clip"></param>
         /// <param name="panX">Between -1 and 1, where the sound should play from </param>
         /// <param name="volume">Between 0 to 1, how loud should sound be </param>
+        /// <param name="enableRepeatLimiter">If false, sound can be played as many time as the method is called.  If false, will only let one instance of the sound play.</param>
         /// <returns></returns>
-        public SoundEffect Play(GameObject source, AudioClip clip, float panX = 0, float volume = 1f)
+        public SoundEffect Play(GameObject source, AudioClip clip, float panX = 0, float volume = 1f, bool enableRepeatLimiter = true)
         {
+            var existing = GetExistingClips(clip);
+            if (enableRepeatLimiter && existing)
+                return existing;
+            
             var name = BuildName(source, clip, panX, volume, false);
             
             var inst = Instantiate(soundEffectPrefab, transform);
@@ -53,6 +59,10 @@ namespace Source.Audio
 
         public SoundEffect PlayLooped(GameObject source, AudioClip clip, float panX = 0, float volume = 1f)
         {
+            var existing = GetExistingClips(clip);
+            if (existing)
+                return existing;
+            
             var name = BuildName(source, clip, panX, volume, true);
             
             var inst = Instantiate(soundEffectPrefab, transform);
@@ -70,8 +80,12 @@ namespace Source.Audio
         /// </summary>
         /// <param name="clip"></param>
         /// <returns></returns>
-        public SoundEffect Play(AudioClip clip)
+        public SoundEffect Play(AudioClip clip,bool enableRepeatLimiter = true)
         {
+            var existing = GetExistingClips(clip);
+            if (enableRepeatLimiter && existing)
+                return existing;
+            
             var name = BuildName(gameObject, clip, 0, 1, false);
             
             var inst = Instantiate(soundEffectPrefab, transform);
@@ -85,6 +99,10 @@ namespace Source.Audio
         
         public SoundEffect Play(GameObject source, AudioClip clip, SoundEffectSettings settings)
         {
+            var existing = GetExistingClips(clip);
+            if (existing)
+                return existing;
+            
             var name = BuildName(source, clip, settings.Pan, settings.Volume, settings.IsLooped);
             
             var inst = Instantiate(soundEffectPrefab, transform);
@@ -108,6 +126,12 @@ namespace Source.Audio
             }
             
             return snd;
+        }
+        
+        private SoundEffect GetExistingClips(AudioClip clip)
+        {
+            var soundEffects = GetComponentsInChildren<SoundEffect>();
+            return soundEffects.FirstOrDefault(s => s.Clip == clip);
         }
 
         private string BuildName(GameObject source, AudioClip clip, float panX, float volume, bool isLooped)

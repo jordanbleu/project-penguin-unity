@@ -36,35 +36,10 @@ namespace Source.Director
         
         private void Start()
         {
-            InitStats();
             var gameplayInstructionList = FindGampeplayInstructions();
             _gameInstructions = new Queue<GameInstruction>(gameplayInstructionList.Skip(startAtElement));
         }
-
-        private void InitStats()
-        {
-            Stats.Current = new();
-            Stats.Current.StartDt = System.DateTime.UtcNow;
-            Stats.Current.SceneName = SceneManager.GetActiveScene().name;
-            Stats.Current.LivesRemaining = GameplayConstants.TotalLives;
-        }
-
         
-        public void FinalizeStats()
-        {
-            Stats.Current.EndDt = System.DateTime.UtcNow;
-
-            var score = Stats.Current.Score;
-            Stats.Current.FinalBaseScore = Stats.Current.Score;
-            Stats.Current.TimeBonus = Stats.CalculateTimeBonus();
-            Stats.Current.AccuracyBonus = Stats.CalculateAccuracyBonus();
-            Stats.Current.NoDeathBonus = Stats.CalculateNoDeathBonus();
-            Stats.Current.ComboBonus = Stats.CalculateComboBonus();
-            Stats.Current.FinalScore = (score + Stats.Current.TimeBonus + Stats.Current.AccuracyBonus + Stats.Current.NoDeathBonus + Stats.Current.ComboBonus);
-            
-            // save stats to file
-        }
-
         private List<GameInstruction> FindGampeplayInstructions()
         {
             // Get all GameInstruction components in children

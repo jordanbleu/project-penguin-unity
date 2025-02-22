@@ -21,7 +21,7 @@ namespace Source.UI
         {
             _items = new GameObject[3];
             
-            for (var i = 0; i < Stats.Current.LivesRemaining; i++)
+            for (var i = 0; i < GameplayConstants.TotalLives; i++)
             {
                 var offset = i * PositionOffset;
                 
@@ -31,9 +31,9 @@ namespace Source.UI
             }
         }
 
-        public void Refresh()
+        public void UpdateLives(int livesLeft)
         {
-            var remainingLives = Stats.Current.LivesRemaining;
+            var remainingLives = livesLeft;
 
             // index is zero based so this actually works out
             var lifeToRemove = remainingLives;

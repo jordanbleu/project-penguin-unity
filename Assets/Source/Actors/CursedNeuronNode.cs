@@ -4,6 +4,7 @@ using Source.Audio;
 using Source.Constants;
 using Source.Data;
 using Source.Extensions;
+using Source.GameData;
 using Source.Interfaces;
 using Source.Timers;
 using Source.Weapons;
@@ -55,6 +56,8 @@ namespace Source.Actors
 
         private SoundEffectEmitter _soundEffectEmitter;
         
+        private StatsTracker _statsTracker;
+        
         private void Start()
         {
             _soundEffectEmitter = GameObject.FindWithTag(Tags.SoundEffectEmitter)?.GetComponent<SoundEffectEmitter>()
@@ -62,6 +65,8 @@ namespace Source.Actors
             
             _animator = GetComponent<Animator>();
             _player = GameObject.FindWithTag(Tags.Player);
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker)?.GetComponent<StatsTracker>()
+                            ?? throw new UnityException("No StatsTracker found in scene");
         }
 
         private void Update()
@@ -144,7 +149,8 @@ namespace Source.Actors
                 return;
             }
 
-            Stats.TrackBulletHit();
+            _statsTracker.Stats.BulletsHit++;
+            
             b.HitSomething();
 
             _hits--;

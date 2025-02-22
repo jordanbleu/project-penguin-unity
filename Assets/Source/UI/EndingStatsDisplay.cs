@@ -2,6 +2,7 @@ using System;
 using Source.Actors;
 using Source.Constants;
 using Source.Data;
+using Source.GameData;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -39,23 +40,28 @@ namespace Source.UI
         
         private Animator _animator;
         
+        private StatsTracker _statsTracker;
+        
         private void Start()
         {
-            _animator = GetComponent<Animator>();    
+            _animator = GetComponent<Animator>();
         }
 
         private void OnEnable()
         {
-            var currentStats = Stats.Current;
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker)?.GetComponent<StatsTracker>() 
+                ?? throw new UnityException("No stats tracker in scene.");
+            
+            var currentStats = _statsTracker.Stats;
             
             shotsFiredStat.SetText("Shots\nFired:\n" + currentStats.BulletsFired);
-            accuracyStat.SetText("Accuracy:\n" + FormatAccuracy(Stats.CalculateShotAccuracy()));
-            biggestComboStat.SetText("Biggest\nCombo:\n" + currentStats.BiggestCombo);
+            accuracyStat.SetText("Accuracy:\n" + FormatAccuracy(StatsCalculator.CalculateShotAccuracy(currentStats.BulletsHit, currentStats.BulletsFired)));
+            biggestComboStat.SetText("Biggest\nCombo:\n" + currentStats.BestCombo);
             damageTakenStat.SetText("Damage\nTaken:\n" + currentStats.DamageTaken);
             damageDealtStat.SetText("Damage\nDealt:\n" + currentStats.DamageDealt);
             playTimeStat.SetText("Play Time:\n" + FormatPlayTime(currentStats.EndDt - currentStats.StartDt));
             deathsStat.SetText("Deaths:\n" + currentStats.Deaths);
-            rankStat.SetText("Rank:\n" + RankCalculator.CalculateRank(currentStats.Deaths, currentStats.BulletsFired, currentStats.BulletsHit, currentStats.DamageTaken).ToDisplayString());
+            rankStat.SetText("Rank:\n" + StatsCalculator.CalculateRank(currentStats.Deaths, currentStats.BulletsFired, currentStats.BulletsHit, currentStats.DamageTaken).ToDisplayString());
             
             var player = GameObject.FindGameObjectWithTag(Tags.Player);
 

@@ -1,6 +1,10 @@
 using System;
+using Source.Actors;
+using Source.Constants;
 using Source.Data;
+using Source.GameData;
 using Source.Interfaces;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +19,8 @@ namespace Source.Behaviors
         private const float MultiplierTimer = 10f;
         
         private bool _triggeredDeathEvent = false;
+        
+
         [SerializeField]
         private int health = 10;
 
@@ -30,12 +36,20 @@ namespace Source.Behaviors
 
         private float _multiplierTimer = MultiplierTimer;
 
+        private StatsTracker _statsTracker;
+        private Player _player;
         public float ScoreMultiplier { get; private set; } = 0f;
 
         private void Start()
         {
             _maxHealth = health;
             _responder = GetComponent<IAttackResponder>();
+
+            _player = GameObject.FindWithTag(Tags.Player).GetComponent<Player>()
+                            ?? throw new UnityException("Missing player in scene");
+            
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker).GetComponent<StatsTracker>()
+                ?? throw new UnityException("Missing StatsTracker in scene");
         }
 
         private void Update()
@@ -44,13 +58,16 @@ namespace Source.Behaviors
                 _multiplierTimer -= Time.deltaTime;
         }
 
-        public bool IsAlive() => health > 0;
+        public bool IsAlive() => isActiveAndEnabled && health > 0;
 
         public void Damage(int baseDamage)
         {
+            if (!isActiveAndEnabled)
+                return;
+            
             health -= baseDamage;
 
-            Stats.TrackDamageDealt(baseDamage);
+            _statsTracker.Stats.DamageDealt+=baseDamage;
             
             if (!_triggeredDeathEvent && health <= 0)
             {
@@ -66,7 +83,7 @@ namespace Source.Behaviors
         private void AddScore()
         {
             var total = (baseScoreValue * ScoreMultiplier);
-            Stats.AddToScore((int)total);
+            _statsTracker.Stats.BaseScore+=(int)total;
         }
 
         /// <summary>
@@ -99,8 +116,8 @@ namespace Source.Behaviors
             }
             
             // add combo multiplier, adds a max of 2 to the multiplier
-            var currentCombo = Stats.Current?.BulletsFiredCombo ?? 0;
-            multiplier += Math.Min(2, (float)currentCombo / 100);
+            var currentCombo = _player.CurrentCombo;
+            multiplier += (2 * StatsCalculator.CalculateComboMultiplier(currentCombo));
             
             return multiplier;
         }
