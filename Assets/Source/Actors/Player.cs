@@ -597,6 +597,7 @@ namespace Source.Actors
 
         private void OnLaser(InputValue inputValue)
         {
+            return; // disabled for demo
             if (_isWeaponsLocked)
                 return;
             
@@ -632,6 +633,7 @@ namespace Source.Actors
 
         private void OnShield(InputValue inputValue)
         {
+            return; // disabled for demo
             if (_isWeaponsLocked)
                 return;
             
@@ -650,6 +652,8 @@ namespace Source.Actors
 
         private void OnMissile(InputValue inputValue)
         {
+            return; // disabled for demo
+            
             if (_isWeaponsLocked)
                 return;
             
@@ -664,6 +668,8 @@ namespace Source.Actors
 
         private void OnMine(InputValue inputValue)
         {
+            return; // disabled for demo
+            
             if (_isWeaponsLocked)
                 return;
             
@@ -697,6 +703,7 @@ namespace Source.Actors
 
         private void OnForcefield(InputValue inputValue)
         {
+            return; // disabled for demo
             if (_isWeaponsLocked)
                 return;
             

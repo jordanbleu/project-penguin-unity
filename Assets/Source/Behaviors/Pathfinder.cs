@@ -71,6 +71,7 @@ namespace Source.Behaviors
 
         private void OnDrawGizmos()
         {
+            #if UNITY_EDITOR
             if (!waypoints.Any())
                 return;
             
@@ -91,10 +92,12 @@ namespace Source.Behaviors
                 // Draw the label indicating the index of the waypoint
                 UnityEditor.Handles.Label(waypoint.position + Vector2.up * 0.2f, i.ToString());
             }
+            #endif
         }
         
         private void OnDrawGizmosSelected()
         {
+            #if UNITY_EDITOR
             if (!waypoints.Any())
                 return;
             
@@ -115,6 +118,7 @@ namespace Source.Behaviors
                 // Draw the label indicating the index of the waypoint
                 UnityEditor.Handles.Label(waypoint.position + Vector2.up * 0.2f, i.ToString());
             }
+            #endif
         }
     }
 }

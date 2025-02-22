@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Editor;
 using Source.Constants;
 using UnityEngine;
 
@@ -21,63 +18,48 @@ namespace Source.GameData
         private SaveDataManager _saveDataManager;
         
         [SerializeField]
-        [ReadOnlyField]
         private int baseScore = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int bulletsFired = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int bulletsHit = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int damageTaken = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private string startDt;
 
         [SerializeField]
-        [ReadOnlyField]
         private string endDt;
 
         [SerializeField]
-        [ReadOnlyField]
         private int damageDealt = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int deaths = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int bestCombo = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int dashes = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int lasers = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int mines = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int missiles = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int shields = 0;
 
         [SerializeField]
-        [ReadOnlyField]
         private int forceFields = 0;
 
         public bool IsCurrentlySaving {get;set;} = false;

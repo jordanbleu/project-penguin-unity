@@ -93,9 +93,12 @@ namespace Source.GameData
                 return false;
             
             // Can't end the level before you even started (this would break stuff)
-            if (EndDt < StartDt)
-                return false;
-           
+            
+            // THIS IS DISABLED FOR NOW due to a bug, we are not tracking the start date of the level.
+            
+            // if (EndDt < StartDt)
+            //     return false;
+            //
             return true;
         }
     }

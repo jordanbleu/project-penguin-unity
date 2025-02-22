@@ -1,6 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Source.Data;
-using Unity.Plastic.Newtonsoft.Json;
 
 namespace Source.GameData
 {

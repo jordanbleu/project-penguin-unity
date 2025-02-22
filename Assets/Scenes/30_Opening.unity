@@ -107266,11 +107266,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.043794237
+      value: 0.04380364
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4902401
+      value: 1.4902301
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.z
@@ -110986,7 +110986,19 @@ MonoBehaviour:
           m_StringArgument: DONE
           m_BoolArgument: 0
         m_CallState: 2
-  startAtElement: 125
+      - m_Target: {fileID: 1302766127}
+        m_TargetAssemblyTypeName: Source.Optimizations.SceneLoader, Penguin
+        m_MethodName: BeginFadingToScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: XX_DemoEndScreen
+          m_BoolArgument: 0
+        m_CallState: 2
+  startAtElement: 0
 --- !u!1 &6415154532018689981
 GameObject:
   m_ObjectHideFlags: 0
