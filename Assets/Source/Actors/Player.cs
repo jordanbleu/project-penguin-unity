@@ -168,6 +168,9 @@ namespace Source.Actors
         private static readonly int DieAnimatorParam = Animator.StringToHash("die");
         private static readonly int HasMoreLivesAnimatorParam = Animator.StringToHash("hasMoreLives");
 
+        // This is needed because unity doesn't expose a way to count event listeners added during runtime
+        private int _onUserInputListenerCount = 0;
+        
         /// <summary>
         /// Triggers when the player presses the Menu Enter button.
         ///
@@ -175,14 +178,20 @@ namespace Source.Actors
         /// </summary>
         /// <param name="action"></param>
         public void AddMenuEnterEventListener(UnityAction action)
-            => onUserInputEnter.AddListener(action);
+        {
+            _onUserInputListenerCount++;
+            onUserInputEnter.AddListener(action);
+        }
         
         /// <summary>
         /// Cleans up a registered event listener
         /// </summary>
         /// <param name="action"></param>
         public void RemoveMenuEnterEventListener(UnityAction action)
-            => onUserInputEnter.RemoveListener(action);
+        {
+            _onUserInputListenerCount--;
+            onUserInputEnter.RemoveListener(action);
+        }    
 
         private SoundEffectEmitter _soundEmitter;
 
@@ -527,6 +536,10 @@ namespace Source.Actors
         {
             if (_isWeaponsLocked)
                 return;
+            
+            // cannot shoot while something is waiting for you to press enter
+            if (_onUserInputListenerCount > 0)
+                return;
 
             // Player tried to shoot during a reload
             if (_reloadTimeRemaining > 0)
@@ -711,6 +724,8 @@ namespace Source.Actors
             
             onUserInputEnter?.Invoke();
             return; // temporary hack
+            
+            // update: do i need this? lol
             
             // the logic below should maybe one day be consolidated into the event handling pattern
             // i will probably never do that.

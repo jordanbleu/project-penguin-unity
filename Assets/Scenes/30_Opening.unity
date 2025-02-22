@@ -11428,7 +11428,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 2
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -37483,6 +37483,7 @@ GameObject:
   - component: {fileID: 883686644}
   - component: {fileID: 883686646}
   - component: {fileID: 883686645}
+  - component: {fileID: 883686647}
   m_Layer: 5
   m_Name: text
   m_TagString: Untagged
@@ -37529,11 +37530,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press the R key to reload.
+  m_text: '{reload}: Reload
 
 
-    When the reload bar hits the center,
-    press the shoot button to finish reloading instantly.'
+    When the reload bar hits the center, press the
+    shoot button to finish reloading instantly.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -37566,7 +37567,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 2
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -37610,6 +37611,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883686643}
   m_CullTransparentMesh: 1
+--- !u!114 &883686647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883686643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83887f763bd44d71ac4e71d448d24f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 883686645}
 --- !u!1 &885384715
 GameObject:
   m_ObjectHideFlags: 0
@@ -48761,6 +48775,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnabled: 1
   seconds: 4
+--- !u!1 &1191160244 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6105373961122447708, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
+  m_PrefabInstance: {fileID: 351601685506526490}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1191160246 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8569981846140709178, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
+  m_PrefabInstance: {fileID: 351601685506526490}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191160244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1191160248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191160244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83887f763bd44d71ac4e71d448d24f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1191160246}
 --- !u!1 &1193232711
 GameObject:
   m_ObjectHideFlags: 0
@@ -56931,50 +56974,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1888926356827521555, guid: 4cd7630263a3046b2ae5a09123c8d966, type: 3}
   m_PrefabInstance: {fileID: 1259346993}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1264623253
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1264623255}
-  - component: {fileID: 1264623254}
-  m_Layer: 0
-  m_Name: GameStatsDebugObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1264623254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264623253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd16cf84b8274171975c94a33701b4f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1264623255
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264623253}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9550009, y: 28.688303, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1268610367
 GameObject:
   m_ObjectHideFlags: 0
@@ -59902,6 +59901,8 @@ GameObject:
   - component: {fileID: 1384369395}
   - component: {fileID: 1384369397}
   - component: {fileID: 1384369396}
+  - component: {fileID: 1384369399}
+  - component: {fileID: 1384369398}
   m_Layer: 5
   m_Name: text
   m_TagString: Untagged
@@ -59948,8 +59949,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Press left-shift to dash. \n\nDash through projectiles to avoid taking
-    damage."
+  m_text: '{dash}: Dash
+
+
+    Dash through projectiles to avoid taking damage.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -59982,7 +59985,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 2
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -60026,6 +60029,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384369394}
   m_CullTransparentMesh: 1
+--- !u!114 &1384369398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384369394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83887f763bd44d71ac4e71d448d24f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1384369396}
+--- !u!114 &1384369399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384369394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83887f763bd44d71ac4e71d448d24f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1384369396}
 --- !u!1 &1385374376
 GameObject:
   m_ObjectHideFlags: 0
@@ -77110,6 +77139,7 @@ GameObject:
   - component: {fileID: 1595199006}
   - component: {fileID: 1595199008}
   - component: {fileID: 1595199007}
+  - component: {fileID: 1595199009}
   m_Layer: 5
   m_Name: text
   m_TagString: Untagged
@@ -77156,8 +77186,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dialogue boxes with the smaller arrow icon in the bottom right can be dismissed
-    / skipped by pressing F.
+  m_text: '{menu-enter}: Dismiss Dialogue Boxes
+
+
+    Dialogue boxes with the smaller
+    arrow icon in the bottom right can be dismissed / skipped..'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -77234,6 +77267,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595199005}
   m_CullTransparentMesh: 1
+--- !u!114 &1595199009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595199005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83887f763bd44d71ac4e71d448d24f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1595199007}
 --- !u!1 &1598188731 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4948620577116684149, guid: 72da1c3b0e64646e983a24e0099b2656, type: 3}
@@ -77664,11 +77710,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You start each run with three lives.
+  m_text: 'You start each chapter with three lives.
 
 
-    If you run out of lives you
-    will have to start the level over.'
+    If you run out of lives
+    you will have to start the level over.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -77701,7 +77747,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 2
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -107216,7 +107262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.043751445
+      value: 0.043803748
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.y
@@ -108424,6 +108470,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 460719251}
     m_Modifications:
     - target: {fileID: 2777779399955202852, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
+      propertyPath: displaySeconds
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777779399955202852, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
       propertyPath: onToastComplete.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -108541,14 +108591,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8569981846140709178, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
       propertyPath: m_text
-      value: 'Press W,A,S,D to move.
+      value: '{move}: Move
 
 
-        Press Left Mouse Button to shoot.'
+        {shoot}: Shoot'
       objectReference: {fileID: 0}
     - target: {fileID: 8569981846140709178, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
       propertyPath: m_fontSize
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8569981846140709178, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8569981846140709178, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
       propertyPath: m_lineSpacing
@@ -108561,7 +108615,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6105373961122447708, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1191160248}
   m_SourcePrefab: {fileID: 100100000, guid: 3fd819ad108b44fe1ab393ba8463dcee, type: 3}
 --- !u!1 &356207703774907479
 GameObject:
@@ -111664,6 +111721,5 @@ SceneRoots:
   - {fileID: 1691687471}
   - {fileID: 1909473094}
   - {fileID: 1088242600}
-  - {fileID: 1264623255}
   - {fileID: 720611871}
   - {fileID: 5621122115492481098}

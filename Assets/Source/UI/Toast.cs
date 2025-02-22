@@ -107,7 +107,8 @@ namespace Source.UI
             {
                 if (player.TryGetComponent<Player>(out _player))
                 {
-                    _player.AddMenuEnterEventListener(Dismiss);
+                    if (presentationMode is PresentationMode.Skippable or PresentationMode.Wait)
+                        _player.AddMenuEnterEventListener(Dismiss);
                 }
             }
 
@@ -252,7 +253,7 @@ namespace Source.UI
 
         private void OnAnimateOutComplete()
         {
-            if (_player != null)
+            if (_player != null && (presentationMode is PresentationMode.Skippable or PresentationMode.Wait))
             {
                 _player.RemoveMenuEnterEventListener(Dismiss);
             }

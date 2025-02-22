@@ -8142,6 +8142,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: colorFIlterMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 9096422739927170295, guid: 1396a53cd841848228ce31e980dbb6ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13755,6 +13759,7 @@ GameObject:
   - component: {fileID: 696224989}
   - component: {fileID: 696224991}
   - component: {fileID: 696224990}
+  - component: {fileID: 696224992}
   m_Layer: 5
   m_Name: press-enter-txt
   m_TagString: Untagged
@@ -13801,7 +13806,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press (F) to continue
+  m_text: Press {menu-enter}to continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -13878,6 +13883,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696224988}
   m_CullTransparentMesh: 1
+--- !u!114 &696224992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696224988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83887f763bd44d71ac4e71d448d24f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 696224990}
 --- !u!1001 &732328341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15226,6 +15244,7 @@ GameObject:
   - component: {fileID: 1004503758}
   - component: {fileID: 1004503760}
   - component: {fileID: 1004503759}
+  - component: {fileID: 1004503761}
   m_Layer: 0
   m_Name: text
   m_TagString: Untagged
@@ -15272,7 +15291,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press any key to begin
+  m_text: Press {anyKey} to begin
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
   m_sharedMaterial: {fileID: 6757960331685344280, guid: c280c1844907b4724b6fd1161742b61b, type: 2}
@@ -15349,6 +15368,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1004503757}
   m_CullTransparentMesh: 1
+--- !u!114 &1004503761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004503757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83887f763bd44d71ac4e71d448d24f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1004503759}
 --- !u!1 &1009863371
 GameObject:
   m_ObjectHideFlags: 0
