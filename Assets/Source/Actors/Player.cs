@@ -620,7 +620,7 @@ namespace Source.Actors
             if (!TryReduceEnergy(requiredEnergy))
                 return;
 
-            _soundEmitter.Play(gameObject, RandomUtils.Choose(dashSounds));
+            _soundEmitter.Play(gameObject, RandomUtils.Choose(dashSounds), enableRepeatLimiter:false);
             
             _statsTracker.Stats.Dashes++;
             

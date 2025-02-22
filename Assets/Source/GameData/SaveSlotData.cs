@@ -41,6 +41,9 @@ namespace Source.GameData
         
         public bool IsValid()
         {
+            if (IsEmpty)
+                return true;
+            
             if (GameName.Length > 16)
                 return false;
             

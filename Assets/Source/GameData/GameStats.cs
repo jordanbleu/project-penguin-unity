@@ -31,12 +31,12 @@ namespace Source.GameData
         /// </summary>
         public int DamageBlockedByShield{get;set;} =0;
         
-        public DateTimeOffset StartDt {get;set;} = DateTimeOffset.UtcNow;
+        public DateTimeOffset StartDt {get;set;}
         
         /// <summary>
         /// The time the player finished the level.
         /// </summary>
-        public DateTimeOffset EndDt {get;set;}
+        public DateTimeOffset EndDt {get;set;} 
         
         /// <summary>
         /// How much damage was dealt to enemies.
@@ -87,16 +87,13 @@ namespace Source.GameData
 
         public bool IsValid()
         {
+            
             // You hit more enemies than you even shot bullets? Nice try hacker.
             if (BulletsHit > BulletsFired)
                 return false;
             
             // Can't end the level before you even started (this would break stuff)
             if (EndDt < StartDt)
-                return false;
-            
-            // no levels can be beaten without KILLING
-            if (DamageDealt <=0)
                 return false;
            
             return true;

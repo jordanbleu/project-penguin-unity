@@ -58392,6 +58392,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 738240987}
     m_Modifications:
+    - target: {fileID: 124929795875586974, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
+      propertyPath: bulletDropIntervalSeconds
+      value: 4.1
+      objectReference: {fileID: 0}
     - target: {fileID: 608593437903202699, guid: ea05520d27de84f428aa85ef44c2b0b9, type: 3}
       propertyPath: m_Name
       value: Centipede (1)
@@ -107262,7 +107266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.043803748
+      value: 0.043794237
       objectReference: {fileID: 0}
     - target: {fileID: 4771937142334543334, guid: 0f0ccf7176a2548219562f022bcfad62, type: 3}
       propertyPath: m_LocalPosition.y
@@ -110982,7 +110986,7 @@ MonoBehaviour:
           m_StringArgument: DONE
           m_BoolArgument: 0
         m_CallState: 2
-  startAtElement: 0
+  startAtElement: 125
 --- !u!1 &6415154532018689981
 GameObject:
   m_ObjectHideFlags: 0

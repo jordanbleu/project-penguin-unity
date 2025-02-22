@@ -99,6 +99,10 @@ namespace Source.GameData
         /// <param name="onComplete"></param>
         public void BeginSaving(int slot, GameStats stats, GameScene currentScene, bool sceneIsCompleted = false, Action onComplete = null)
         {
+            if (stats.StartDt == default)
+            {
+                stats.StartDt = DateTimeOffset.UtcNow;
+            }
             StartCoroutine(SaveStatsCoroutine(slot, stats, currentScene, sceneIsCompleted, onComplete));
         }
         
@@ -153,7 +157,7 @@ namespace Source.GameData
             if (sceneIsCompleted)
             {
                 var finalScore = StatsCalculator.CalculateFinalScore(stats);
-
+                sceneData.FinalStats.EndDt = DateTimeOffset.UtcNow;
                 if (finalScore > sceneData.HighestScore)
                     sceneData.HighestScore = finalScore;
 

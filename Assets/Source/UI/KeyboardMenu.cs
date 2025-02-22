@@ -85,6 +85,7 @@ namespace Source.UI
                 OnItemSelected = new()
             };
             backspaceItem.OnItemSelected.AddListener(OnBackspaceEntered);
+            backspaceItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
             menuItems.Add(backspaceItem);
 
             // Add enter character
@@ -96,6 +97,7 @@ namespace Source.UI
                 OnItemSelected = new()
             };
             enterItem.OnItemSelected.AddListener(OnEnterEntered);
+            enterItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
             menuItems.Add(enterItem);
             
             
@@ -107,6 +109,7 @@ namespace Source.UI
                 IsEnabled = true,
                 OnItemSelected = new()
             };
+            shiftItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
             shiftItem.OnItemSelected.AddListener(OnShiftEntered);
             menuItems.Add(shiftItem);
             
@@ -118,6 +121,7 @@ namespace Source.UI
                 IsEnabled = true,
                 OnItemSelected = new()
             };
+            spaceItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
             spaceItem.OnItemSelected.AddListener(OnSpaceEntered);
             menuItems.Add(spaceItem);
             
@@ -136,6 +140,7 @@ namespace Source.UI
                 };
                 
                 mItem.OnItemSelected.AddListener(OnCharacterEntered);
+                mItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
 
                 menuItems.Add(mItem);
             }

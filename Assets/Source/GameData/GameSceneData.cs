@@ -31,9 +31,9 @@ namespace Source.GameData
         {
             // try to detect very sus data
             
-            if (TotalTimeSpent.TotalSeconds < 60)
+            if (TotalTimeSpent.TotalSeconds < 1)
             {
-                // No level can be beaten in 60 seconds :) 
+                // No level can be beaten in 1 second :) 
                 if (FinalStats is not null)
                     return false;
             }

@@ -151,6 +151,14 @@ namespace Source.UI
         {
             var selectedItem = _menu.GetHighlightedItem();
             var saveSlotIndex = selectedItem.index;
+            
+            if (_saveSlotData[saveSlotIndex].IsEmpty)
+            {
+                // nothing to delete
+                _menu.PlayErrorSound();
+                return;
+            }
+            
             GlobalSaveDataManager.GlobalData.SelectedSaveSlot = saveSlotIndex;
             deleteConfirmationMenu.gameObject.SetActive(true);
             _menu.DismissMenu();

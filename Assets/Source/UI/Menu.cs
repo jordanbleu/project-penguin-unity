@@ -85,8 +85,11 @@ namespace Source.UI
         
         private int GetPageSize() => Math.Min(pageSize, menuItemData.Length);
         
+        private float _selectorScaleY = 0f;
+        
         private void Start()
         {
+            _selectorScaleY = selector.transform.localScale.y;
             var soundEmitterObj = GameObject.FindWithTag(Tags.SoundEffectEmitter);
             
             if (!soundEmitterObj)
@@ -105,7 +108,7 @@ namespace Source.UI
         
         public void PlayErrorSound()
         {
-            _soundEmitter.Play(menuErrorSound);
+            _soundEmitter.Play(menuErrorSound, enableRepeatLimiter: false);
         }
         
         public void CreateMenu(MenuItemData[] items)
@@ -228,7 +231,7 @@ namespace Source.UI
             if (!context.started)
                 return;
             
-            _soundEmitter.Play(menuChangeSound);
+            _soundEmitter.Play(menuChangeSound, enableRepeatLimiter: false);
             
             if (_selectorPosition > 0)
             {
@@ -282,7 +285,7 @@ namespace Source.UI
             if (!context.started)
                 return;
             
-            _soundEmitter.Play(menuChangeSound);
+            _soundEmitter.Play(menuChangeSound, enableRepeatLimiter: false);
 
             if (_selectorPosition < pageSize-1)
             {
@@ -311,10 +314,10 @@ namespace Source.UI
             if (!context.started)
                 return;
             
-            _soundEmitter.Play(menuOkSound);
+            _soundEmitter.Play(menuOkSound, enableRepeatLimiter: false);
 
             // selector does the squeeze animation 
-            var oldScaleY = selector.transform.localScale.y;
+            var oldScaleY = _selectorScaleY;
             LeanTween.scaleY(selector, 0.8f, 0.1f).setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
             
             menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected?.Invoke();
@@ -331,10 +334,10 @@ namespace Source.UI
             if (!context.started)
                 return;
             
-            _soundEmitter.Play(menuOkSound);
+            _soundEmitter.Play(menuOkSound, enableRepeatLimiter: false);
             
             // selector does a reverse squeeze animation 
-            var oldScaleY = selector.transform.localScale.y;
+            var oldScaleY = _selectorScaleY;
             LeanTween.scaleY(selector, 1.8f, 0.1f)
                 .setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
 
@@ -364,7 +367,7 @@ namespace Source.UI
             if (!_ready)
                 return;
             
-            _soundEmitter.Play(menuCancelSound);
+            _soundEmitter.Play(menuCancelSound, enableRepeatLimiter: false);
             
             onGoBack.Invoke();
             DismissMenu();
@@ -384,14 +387,14 @@ namespace Source.UI
             public string Text;
 
             [SerializeField]
-            public UnityEvent OnItemSelected;
+            public UnityEvent OnItemSelected = new();
 
             [SerializeField]
-            public UnityEvent onItemHighlighted;
+            public UnityEvent onItemHighlighted = new();
 
             [SerializeField]
             [Tooltip("Alt select is when user presses X on controller or R on keyboard.")]
-            public UnityEvent OnItemAltSelected;
+            public UnityEvent OnItemAltSelected = new();
         }
     }
 
