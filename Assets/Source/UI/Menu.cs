@@ -70,6 +70,9 @@ namespace Source.UI
         [SerializeField]
         private AudioClip menuCancelSound;
         
+        [SerializeField]
+        private AudioClip menuErrorSound;
+        
         // this is the selectors position on screen, so would be anywhere from 0 to pageSize
         private int _selectorPosition = 0;
         
@@ -82,8 +85,11 @@ namespace Source.UI
         
         private int GetPageSize() => Math.Min(pageSize, menuItemData.Length);
         
+        private float _selectorScaleY = 0f;
+        
         private void Start()
         {
+            _selectorScaleY = selector.transform.localScale.y;
             var soundEmitterObj = GameObject.FindWithTag(Tags.SoundEffectEmitter);
             
             if (!soundEmitterObj)
@@ -96,6 +102,13 @@ namespace Source.UI
             
             // be careful, the menu component isn't available if you use this 
             afterMenuStart?.Invoke();
+            
+            menuItemData[_currentPageOffset + _selectorPosition].onItemHighlighted?.Invoke();
+        }
+        
+        public void PlayErrorSound()
+        {
+            _soundEmitter.Play(menuErrorSound, enableRepeatLimiter: false);
         }
         
         public void CreateMenu(MenuItemData[] items)
@@ -188,6 +201,10 @@ namespace Source.UI
         // refreshes what each item is displaying
         private void RefreshPage()
         {
+            // text meshes aren't ready yet 
+            if (_textMeshes == null)
+                return;
+            
             var pageSize = GetPageSize();
 
             for (var i = 0; i < pageSize; i++)
@@ -214,7 +231,7 @@ namespace Source.UI
             if (!context.started)
                 return;
             
-            _soundEmitter.Play(menuChangeSound);
+            _soundEmitter.Play(menuChangeSound, enableRepeatLimiter: false);
             
             if (_selectorPosition > 0)
             {
@@ -249,7 +266,7 @@ namespace Source.UI
             
             if (item != null)
             {
-                item.Text = menuText;
+                item.Text = menuText.Truncate(15, true);
                 RefreshPage();
             }
         
@@ -268,7 +285,7 @@ namespace Source.UI
             if (!context.started)
                 return;
             
-            _soundEmitter.Play(menuChangeSound);
+            _soundEmitter.Play(menuChangeSound, enableRepeatLimiter: false);
 
             if (_selectorPosition < pageSize-1)
             {
@@ -297,14 +314,43 @@ namespace Source.UI
             if (!context.started)
                 return;
             
-            _soundEmitter.Play(menuOkSound);
+            _soundEmitter.Play(menuOkSound, enableRepeatLimiter: false);
 
             // selector does the squeeze animation 
-            var oldScaleY = selector.transform.localScale.y;
+            var oldScaleY = _selectorScaleY;
             LeanTween.scaleY(selector, 0.8f, 0.1f).setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
             
             menuItemData[_currentPageOffset + _selectorPosition].OnItemSelected?.Invoke();
             onAnyMenuItemSelected?.Invoke();    
+        }
+        
+        // Remember to bind these in the input handler
+        public void MenuAlt(InputAction.CallbackContext context)
+        {
+            if (!_ready)
+                return;
+            
+            // if the button is pressed.
+            if (!context.started)
+                return;
+            
+            _soundEmitter.Play(menuOkSound, enableRepeatLimiter: false);
+            
+            // selector does a reverse squeeze animation 
+            var oldScaleY = _selectorScaleY;
+            LeanTween.scaleY(selector, 1.8f, 0.1f)
+                .setOnComplete(()=>LeanTween.scaleY(selector, oldScaleY, 0.1f));
+
+            menuItemData[_currentPageOffset + _selectorPosition].OnItemAltSelected?.Invoke();
+        }
+        
+        /// <summary>
+        /// Marks the menu as no longer 'ready', preventing all further interactions until the menu
+        /// is re-opened.
+        /// </summary>
+        public void Unready()
+        {
+            _ready = false;
         }
 
         public void DismissMenu()
@@ -321,7 +367,7 @@ namespace Source.UI
             if (!_ready)
                 return;
             
-            _soundEmitter.Play(menuCancelSound);
+            _soundEmitter.Play(menuCancelSound, enableRepeatLimiter: false);
             
             onGoBack.Invoke();
             DismissMenu();
@@ -332,19 +378,23 @@ namespace Source.UI
         public class MenuItemData
         {
             [SerializeField]
+            public bool IsEnabled = true;
+            
+            [SerializeField]
             public string Id;
 
             [SerializeField]
             public string Text;
 
             [SerializeField]
-            public UnityEvent OnItemSelected;
+            public UnityEvent OnItemSelected = new();
 
             [SerializeField]
-            public UnityEvent onItemHighlighted;
+            public UnityEvent onItemHighlighted = new();
 
             [SerializeField]
-            public bool IsEnabled = true;
+            [Tooltip("Alt select is when user presses X on controller or R on keyboard.")]
+            public UnityEvent OnItemAltSelected = new();
         }
     }
 

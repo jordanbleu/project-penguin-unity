@@ -89,6 +89,7 @@ namespace Source.Optimizations
 
         private void OnDrawGizmosSelected()
         {
+            #if UNITY_EDITOR
             Gizmos.color = Color.blue;
             // top line
             Gizmos.DrawLine(new Vector2(boundaryPosition.x, boundaryPosition.y),
@@ -109,7 +110,9 @@ namespace Source.Optimizations
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(new Vector2(boundaryPosition.x, boundaryPosition.y-boundarySize.y),
                 new Vector2(boundaryPosition.x+boundarySize.x, boundaryPosition.y-boundarySize.y));
+            #endif
         }
+        
     }
     
     

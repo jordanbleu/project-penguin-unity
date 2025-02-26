@@ -4,7 +4,6 @@ using Source.Audio;
 using Source.Constants;
 using Source.Interfaces;
 using Source.Weapons;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace Source.Behaviors

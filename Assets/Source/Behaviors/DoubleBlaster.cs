@@ -2,7 +2,6 @@ using System;
 using Source.Audio;
 using Source.Constants;
 using Source.Extensions;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace Source.Behaviors
@@ -36,12 +35,12 @@ namespace Source.Behaviors
 
             if (_isLeftBlaster)
             {
-                _soundEmitter.Play(gameObject, shootSound, -0.25f); 
+                _soundEmitter.Play(gameObject, shootSound, -0.25f, enableRepeatLimiter:false); 
                 Instantiate(bulletPrefab).At(position.x - spread, position.y+0.5f);
             }
             else
             {
-                _soundEmitter.Play(gameObject, shootSound, 0.25f);
+                _soundEmitter.Play(gameObject, shootSound, 0.25f, enableRepeatLimiter:false);
                 Instantiate(bulletPrefab).At(position.x + spread, position.y+0.5f);
             }
 

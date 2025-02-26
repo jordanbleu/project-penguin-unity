@@ -1,4 +1,6 @@
 using System;
+using Source.Actors;
+using Source.Constants;
 using Source.Data;
 using Source.Interfaces;
 using Source.Physics;
@@ -17,6 +19,14 @@ namespace Source.Weapons
         
         private static readonly int DestroyTrigger = Animator.StringToHash("destroy");
 
+        private Player _player;
+
+        private void Start()
+        {
+            _player = GameObject.FindWithTag(Tags.Player)?.GetComponent<Player>()
+                      ?? throw new UnityException("No player object found in scene");
+        }
+
         public void Ricochet()
         {
             // if you add a static rotation component to the bullet it will enable when the bullet ricochets   
@@ -32,11 +42,12 @@ namespace Source.Weapons
             staticVelocity.Velocity =  new Vector2(randomXVel, -(absYVel*1));
             rigidBody.velocity =  new Vector2(randomXVel, -(absYVel*1));
             attachedCollider.enabled = false;
+            
         }
 
         public void ResetPlayerBulletCombo()
         {
-            Stats.ResetBulletsFiredCombo();
+            _player.ResetCombo();
         }
 
         public void HitSomething()

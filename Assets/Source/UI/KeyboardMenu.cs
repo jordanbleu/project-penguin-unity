@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Source.GameData;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -28,6 +29,13 @@ namespace Source.UI
         
         [SerializeField]
         private UnityEvent onEnterEntered = new();
+        
+        [SerializeField]
+        private SaveDataManager saveDataManager;
+        
+        [SerializeField]
+        [Tooltip("Use director to wait until this is called so you don't swap scenes before the data is saved.")]
+        private UnityEvent onSaveDataFinished;
         
         private bool _caps = true;
         
@@ -77,6 +85,7 @@ namespace Source.UI
                 OnItemSelected = new()
             };
             backspaceItem.OnItemSelected.AddListener(OnBackspaceEntered);
+            backspaceItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
             menuItems.Add(backspaceItem);
 
             // Add enter character
@@ -88,6 +97,7 @@ namespace Source.UI
                 OnItemSelected = new()
             };
             enterItem.OnItemSelected.AddListener(OnEnterEntered);
+            enterItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
             menuItems.Add(enterItem);
             
             
@@ -99,6 +109,7 @@ namespace Source.UI
                 IsEnabled = true,
                 OnItemSelected = new()
             };
+            shiftItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
             shiftItem.OnItemSelected.AddListener(OnShiftEntered);
             menuItems.Add(shiftItem);
             
@@ -110,6 +121,7 @@ namespace Source.UI
                 IsEnabled = true,
                 OnItemSelected = new()
             };
+            spaceItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
             spaceItem.OnItemSelected.AddListener(OnSpaceEntered);
             menuItems.Add(spaceItem);
             
@@ -128,6 +140,7 @@ namespace Source.UI
                 };
                 
                 mItem.OnItemSelected.AddListener(OnCharacterEntered);
+                mItem.OnItemAltSelected.AddListener(OnBackspaceEntered);
 
                 menuItems.Add(mItem);
             }
@@ -161,9 +174,19 @@ namespace Source.UI
                 return;
             }
             
+            var gameData = new SaveSlotData()
+            {
+                GameName = _currentText,
+                IsEmpty = false,
+                LastUpdateDt = DateTimeOffset.UtcNow,
+                CreateDt = DateTimeOffset.UtcNow
+            };
+            
+            // begin saving the new data, then invoke the on saving complete
+            saveDataManager.BeginSaving(GlobalSaveDataManager.GlobalData.SelectedSaveSlot, gameData, ()=>onSaveDataFinished.Invoke());
+            
             _menu.DismissMenu();
             onEnterEntered?.Invoke();
-
         }
 
         private void OnBackspaceEntered()

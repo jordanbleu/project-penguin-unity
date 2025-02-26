@@ -11,10 +11,14 @@ namespace Source.Audio
     public class SoundEffect : MonoBehaviour
     {
         private AudioSource _audioSource;
+        
+        public AudioClip Clip => _clip;
         private AudioClip _clip;
         private GameObject _sourceGameObject;
         private string _sourceObjectName;
         private bool _isLooped = false;
+        
+        
         
         /// <summary>
         /// This NEEDS to be called before any other method here is called.  There are no assertions that check this,

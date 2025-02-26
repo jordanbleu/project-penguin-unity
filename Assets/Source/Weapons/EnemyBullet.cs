@@ -1,5 +1,8 @@
+using System;
 using Source.Actors;
+using Source.Constants;
 using Source.Data;
+using Source.GameData;
 using Source.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,6 +23,15 @@ namespace Source.Weapons
         
         [SerializeField]
         private Bullet bullet;
+        
+        private StatsTracker _statsTracker;
+
+        private void Start()
+        {
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker).GetComponent<StatsTracker>()
+                            ?? throw new UnityException("Missing StatsTracker in scene");
+        }
+
         public void HitPlayer(Player playerComponent)
         {
             playerComponent.TakeDamage(damage);
@@ -38,7 +50,8 @@ namespace Source.Weapons
         {
             onCollideWithPlayerBullet?.Invoke();
             bullet.HitSomething();
-            Stats.TrackBulletHit();
+            _statsTracker.Stats.BulletsHit++;
+            
             attackingBullet.GetComponent<Bullet>().HitSomething();
         }
 

@@ -5,6 +5,7 @@ using Source.Behaviors;
 using Source.Constants;
 using Source.Data;
 using Source.Extensions;
+using Source.GameData;
 using Source.Interfaces;
 using Source.Mathematics;
 using Source.UI;
@@ -132,6 +133,8 @@ namespace Source.Actors
         
         private MusicBox _musicBox;
         
+        private StatsTracker _statsTracker;
+        
         private Player _player;
         private void Start()
         {
@@ -144,6 +147,9 @@ namespace Source.Actors
             _attackable = GetComponent<Attackable>();
             _animator = GetComponent<Animator>();
             _player = GameObject.FindWithTag(Tags.Player).GetComponent<Player>();
+            
+            _statsTracker = GameObject.FindWithTag(Tags.StatsTracker)?.GetComponent<StatsTracker>()
+                            ?? throw new UnityException("No StatsTracker found in scene");
         }
 
         private float _noAttackSeconds = 3f;
@@ -291,6 +297,7 @@ namespace Source.Actors
             {
                 _soundEffectEmitter.PlayRandom(gameObject, shieldHitSounds);
                 bulletComp.Ricochet();
+                _player.ResetCombo();
                 return;
             }
 
@@ -317,8 +324,8 @@ namespace Source.Actors
                 wound3.SetActive(true);
             if (hp < 30)
                 wound4.SetActive(true);
-
-            Stats.TrackBulletHit();
+            
+            _statsTracker.Stats.BulletsHit++;
             UpdateState();
         }
 
